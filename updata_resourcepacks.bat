@@ -1,0 +1,1 @@
+python ".\updata_resourcepacks.py"

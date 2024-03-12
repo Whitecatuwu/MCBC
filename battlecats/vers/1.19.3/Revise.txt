@@ -1,0 +1,1 @@
+\assets\minecraft\textures\gui\container\creative_inventory\tabs.png
