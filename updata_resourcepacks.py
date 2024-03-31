@@ -93,7 +93,7 @@ def updata(pre_ver,ver):
         else: 
             continue  
 
-vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2"]
+vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_24w13a"]
 #copytree(f"{current}\\battlecats\\assets", f"{current}\\battlecats_{vers[0]}\\assets", ignore=ignorepath([], f"{current}\\battlecats\\assets", f"{current}\\battlecats_{vers[0]}\\assets", purge=False), dirs_exist_ok=True, copy_function=filtercopy(old=True))
 
 for i in range(1,len(vers),1): 
