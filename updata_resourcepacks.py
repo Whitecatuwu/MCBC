@@ -85,7 +85,7 @@ def updata(pre_ver,ver):
         d = R.replace("battlecats"+pre_ver,"battlecats"+ver)
         if path.isdir(s):
             if path.exists(path.dirname(d)): 
-                copytree(s,d,dirs_exist_ok=True,ignore=ignorepath([],s,d,purge=True),copy_function=filtercopy(old=True))
+                copytree(s,d,dirs_exist_ok=True,ignore=ignorepath([],s,d,purge=False),copy_function=filtercopy(old=True))
             else: 
                 print(Red(f"Updata failed: {d} \nBecause: \"{path.dirname(d)}\" does not exist"))
         elif path.isfile(s): 
@@ -94,7 +94,7 @@ def updata(pre_ver,ver):
             continue  
 
 vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_24w13a"]
-#copytree(f"{current}\\battlecats\\assets", f"{current}\\battlecats_{vers[0]}\\assets", ignore=ignorepath([], f"{current}\\battlecats\\assets", f"{current}\\battlecats_{vers[0]}\\assets", purge=False), dirs_exist_ok=True, copy_function=filtercopy(old=True))
+#rescorce_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.2":19,"1.20.5":31}
 
 for i in range(1,len(vers),1): 
     updata(vers[i-1],vers[i])
