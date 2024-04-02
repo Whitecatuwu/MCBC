@@ -9,6 +9,7 @@ def Purple(skk): return "\033[95m{}\033[00m".format(skk)
 def Green(skk): return "\033[92m{}\033[00m".format(skk)
 def Red(skk): return "\033[91m{}\033[00m".format(skk)
 def Cyan(skk): return "\033[96m{}\033[00m".format(skk)
+def Yellow(skk): return "\033[93m{}\033[00m".format(skk)
 
 def filtercopy(old=True):
     def filter_(src, dst):
@@ -38,8 +39,12 @@ def ignorepath(ignore_paths,src,dst,purge=False):
                         except Exception as e: 
                             print(Red(f"Delete failed: {d.path} \nBecause: {e}"))
                         else: 
-                            print(Purple(f"Delete: {d.path}"))        
-        return [x for x in names if x in ignore_paths or path.join(path_src,x) in ignore_paths]    
+                            print(Purple(f"Delete: {d.path}"))
+
+        ignore_list = [x for x in names if x in ignore_paths or path.join(path_src,x) in ignore_paths]
+        for ign in ignore_list:
+            print(Cyan(f"Skip: {path.join(path_src,ign)}"))
+        return ignore_list   
     return ignore_
 
 def updata(pre_ver,ver):
@@ -48,30 +53,27 @@ def updata(pre_ver,ver):
     #Get paths of files that are reivsed.
     Revise_path = current + "\\battlecats\\vers\\" + ver[1:]
     try:
+        Revise_pathlist = []
         with open(Revise_path + "\\Revise.txt","r") as r:
             Revise_pathlist = [src + i.replace("\n","") for i in r.readlines()]
     except FileNotFoundError as e: 
-        print(Red(f"\"Revise.txt\" in {ver[1:]} does not exist"))
-        return
+        print(Yellow(f"Warning : \"Revise.txt\" in {ver[1:]} does not exist"))
     except Exception as e:
         print(Red(f"Error: {e}"))
-        return
     
     #Get paths of files that are ignored.
     try:
+        ignore_pathlist = []
         with open(Revise_path + "\\ignore.txt","r") as r:
-            ignore_pathlist = []
             for i in r.readlines():
                 if '*' not in i:
                     ignore_pathlist.append(src + i.replace("\n",""))
                 else:
                     ignore_pathlist.append(i.replace('*','').replace("\n",""))
     except FileNotFoundError as e: 
-        print(Red(f"\"ignore.txt\" in {ver[1:]} does not exist"))
-        return
+        print(Yellow(f"Warning : \"ignore.txt\" in {ver[1:]} does not exist"))
     except Exception as e:
         print(Red(f"Error: {e}"))
-        return
     
     #Copy files that not in ignore list and revise list.
     copytree(src+"\\assets", dst+"\\assets", dirs_exist_ok=True, ignore=ignorepath(Revise_pathlist+ignore_pathlist,src,dst,purge=True), copy_function=filtercopy(old=True))
@@ -80,12 +82,12 @@ def updata(pre_ver,ver):
     for R in Revise_pathlist:
         s = path.join(Revise_path, path.basename(R))
         if path.exists(s) == False: 
-            print(Cyan(f"Skip: {R}"))
+            print(Red(f"{R} is not exist."))
             continue
         d = R.replace("battlecats"+pre_ver,"battlecats"+ver)
         if path.isdir(s):
             if path.exists(path.dirname(d)): 
-                copytree(s,d,dirs_exist_ok=True,ignore=ignorepath([],s,d,purge=False),copy_function=filtercopy(old=True))
+                copytree(s,d,dirs_exist_ok=True,ignore=ignorepath(ignore_pathlist,s,d,purge=False),copy_function=filtercopy(old=True))
             else: 
                 print(Red(f"Updata failed: {d} \nBecause: \"{path.dirname(d)}\" does not exist"))
         elif path.isfile(s): 
@@ -93,12 +95,16 @@ def updata(pre_ver,ver):
         else: 
             continue  
 
-vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_24w13a"]
-#rescorce_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.2":19,"1.20.5":31}
+vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_1.20.4","_24w13a"]
+#rescorce_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.4":22,"1.20.5":31}
 
-for i in range(1,len(vers),1): 
-    updata(vers[i-1],vers[i])
-    print('-'*50)
+try:
+    for i in range(1,len(vers),1): 
+        print('-'*25 + vers[i].replace('_','') + '-'*25)
+        updata(vers[i-1],vers[i])
+except Exception as e:
+    print(Red(f"Error: {e}"))
+
 print("Finish.")
 print("runtime: %s seconds" % (currenttime() - start_time))
 input("Press Enter to continue...")
