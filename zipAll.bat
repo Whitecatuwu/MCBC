@@ -1,7 +1,7 @@
-cd ".\battlecats_music"
-tar.exe -a -c -f battlecats_music.zip assets pack.mcmeta pack.png
+cd ".\battlecats_sound"
+tar.exe -a -c -f battlecats_sound.zip assets pack.mcmeta pack.png
 cd ..
-robocopy ".\battlecats_music" "." battlecats_music.zip /MOV
+robocopy ".\battlecats_sound" "." battlecats_sound.zip /MOV
 
 
 cd ".\battlecats_1.8.9"
