@@ -58,7 +58,7 @@ git commit -m "auto-push"
 git push
 cd ..
 
-cd ".\battlecats_24w13a"
+cd ".\battlecats_1.20.5"
 git add .
 git commit -m "auto-push"
 git push
