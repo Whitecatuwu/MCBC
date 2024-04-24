@@ -12,6 +12,7 @@ def Cyan(skk): return "\033[96m{}\033[00m".format(skk)
 def Yellow(skk): return "\033[93m{}\033[00m".format(skk)
 
 def filtercopy(old=True):
+    #filter old file.
     def filter_(src, dst):
         if old == False or path.exists(dst) == False or path.getmtime(src) > path.getmtime(dst): 
             try: 
@@ -95,8 +96,8 @@ def updata(pre_ver,ver):
         else: 
             continue  
 
-vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_1.20.4","_24w13a"]
-#rescorce_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.4":22,"1.20.5":31}
+vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_1.20.4","_1.20.5"]
+#rescorce_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.4":22,"1.20.5":32}
 
 try:
     for i in range(1,len(vers),1): 
