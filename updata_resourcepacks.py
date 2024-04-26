@@ -18,7 +18,7 @@ def White(skk): return "\033[97m{}\033[00m".format(skk)
 
 def filtercopy(old=True):
     #filter old file.
-    def filter_(src, dst):
+    def _filter(src, dst):
         if old == False or path.exists(dst) == False or path.getmtime(src) > path.getmtime(dst): 
             try: 
                 copy2(src, dst)
@@ -28,7 +28,7 @@ def filtercopy(old=True):
                 print(Red(f"Update failed: {dst} \nBecause: {e}"))
             else: 
                 print(Green(f"Update: {dst}"))
-    return filter_
+    return _filter
 
 def ignorepath(pathlist:dict,src,dst,purge=False):
     def _ignore(path_src,names):
@@ -73,6 +73,7 @@ def updata(pre_ver,ver):
     #Get paths of files that are reivsed.
     Revise_path = current + "\\battlecats\\vers\\" + ver[1:]
     pathlist = {'R':[],'M':[],'D':[]}
+    #R:rename, #M:modify, D:delete
     try:
         with open(Revise_path + "\\Revise.txt","r") as r:
             pathlist["M"] = [i.strip() for i in r.readlines()]
@@ -95,15 +96,14 @@ def updata(pre_ver,ver):
     
     #Reivse files.
     for R in pathlist["M"]:
-        R = src + R
         s = path.join(Revise_path, path.basename(R))
         if path.exists(s) == False: 
             print(Red(f"{src + R} is not exist."))
             continue
-        d = R.replace("battlecats"+pre_ver,"battlecats"+ver)
+        d = dst + R
         if path.isdir(s):
             if path.exists(path.dirname(d)): 
-                copytree(s,d,dirs_exist_ok=True,ignore=ignorepath(pathlist,s,d,purge=False),copy_function=filtercopy(old=True))
+                copytree(s,d,dirs_exist_ok=True,copy_function=filtercopy(old=True))
             else: 
                 print(Red(f"Updata failed: {d} \nBecause: \"{path.dirname(d)}\" does not exist"))
         elif path.isfile(s): 
