@@ -83,7 +83,7 @@ def updata(pre_ver:str,ver:str) -> None:
     #R:rename, #M:modify, D:delete
     try:
         with open(Revise_path + "\\Revise.txt","r") as r:
-            pathlist["M"] = [i.strip() for i in r.readlines()]
+            pathlist["M"] = [path:=i.strip() for i in r.readlines() if is_valid_pathname(path)]
     except FileNotFoundError as e: 
         print(Yellow(f"Warning : \"Revise.txt\" in {ver[1:]} does not exist"))
     except Exception as e:
@@ -92,7 +92,7 @@ def updata(pre_ver:str,ver:str) -> None:
     #Get paths of files that are ignored.
     try:
         with open(Revise_path + "\\ignore.txt","r") as r:
-            pathlist["D"] = [i.strip() for i in r.readlines()]
+            pathlist["D"] = [path:=i.strip() for i in r.readlines() if is_valid_pathname(path)]
     except FileNotFoundError as e: 
         print(Yellow(f"Warning : \"ignore.txt\" in {ver[1:]} does not exist"))
     except Exception as e:
@@ -118,10 +118,11 @@ def updata(pre_ver:str,ver:str) -> None:
         else: 
             continue  
 
-vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_1.20.4","_1.20.5"]
-#resource_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.4":22,"1.20.5":32}
+vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_1.20.4","_1.20.6"]
+#resource_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.4":22,"1.20.6":32}
 
-try:
+
+"""try:
     for i in range(1,len(vers),1): 
         print('-'*25 + vers[i].replace('_','') + '-'*25)
         updata(vers[i-1],vers[i])
@@ -130,4 +131,6 @@ except Exception as e:
 
 print("Finish.")
 print("runtime: %s seconds" % (currenttime() - start_time))
-input("Press Enter to continue...")
+input("Press Enter to continue...")"""
+
+print(is_valid_pathname("*.tmp"))
