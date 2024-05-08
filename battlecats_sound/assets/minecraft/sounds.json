@@ -175,6 +175,16 @@
     "replace":true
   },
 
+  "music.credits": {
+    "sounds": [
+      {
+        "name": "music/game/end/credits",
+        "stream": true
+      }
+    ],
+    "replace":true
+  },
+
   "music.dragon": {
     "sounds": [
       {
