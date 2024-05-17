@@ -39,23 +39,25 @@ def ignorepath(pathlist:dict,src,dst,purge=False) -> callable:
     def _ignore(path_src,names) -> set:
         from fnmatch import filter as fn_filter
         #fn_filter(names, pattern)
-        delete_list = [x for x in names if path.join(path_src,x) in [src+p for p in pathlist["D"]]]
-        for fi in filter(lambda x:not path.isabs(x),pathlist["D"]):
-            delete_list.extend(fn_filter(names, fi))
-        delete_list = set(delete_list)
+        delete_set:set = set() #= [x for x in names if path.join(path_src,x) in [src+p for p in pathlist["D"]]]
+        for path_D in pathlist["D"]:
+            dirname,filename = path.split(path_D)
+            if path_src == src + dirname or dirname == "":
+                delete_set.update(set(fn_filter(names, filename)))
 
-        modify_list = [x for x in names if path.join(path_src,x) in [src+p for p in pathlist["M"]]]
-        for fi in filter(lambda x:not path.isabs(x),pathlist["M"]):
-            modify_list.extend(fn_filter(names, fi))
-        modify_list = set(modify_list)
+        modify_set:set = set() #= [x for x in names if path.join(path_src,x) in [src+p for p in pathlist["M"]]]
+        for path_M in pathlist["M"]:
+            dirname,filename = path.split(path_M)
+            if path_src == src + dirname or dirname == "":
+                modify_set.update(set(fn_filter(names, filename)))
 
-        ignore_list = delete_list | modify_list
+        ignore_set:set = delete_set.union(modify_set)
     
         if purge:
             path_dst = path_src.replace(src,dst)
             if path.exists(path_dst):
                 for d in list(scandir(path_dst)):
-                    can_delete:bool = (d.name in delete_list) or ( (d.name not in names) and (path.join(path_dst,d.name) not in [dst+p for p in pathlist["M"]]) )
+                    can_delete:bool = (d.name in delete_set) or ( (d.name not in names) and (path.join(path_dst,d.name) not in [dst+p for p in pathlist["M"]]) )
                     if  can_delete:
                         try:
                             if path.isdir(d.path): 
@@ -67,11 +69,11 @@ def ignorepath(pathlist:dict,src,dst,purge=False) -> callable:
                         else: 
                             print(Purple(f"Delete: {d.path}"))
 
-        for ign in delete_list:
+        for ign in delete_set:
             print(Grey(f"Ignore: {path.join(path_src,ign)}"))
-        for mod in modify_list:
+        for mod in modify_set:
             print(Cyan(f"Skip: {path.join(path_src,mod)}"))
-        return ignore_list
+        return ignore_set
     return _ignore
 
 def updata(pre_ver:str,ver:str) -> None:
@@ -130,4 +132,4 @@ except Exception as e:
 
 print("Finish.")
 print("runtime: %s seconds" % (currenttime() - start_time))
-input("Press Enter to continue...")
+#input("Press Enter to continue...")
