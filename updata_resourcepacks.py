@@ -9,13 +9,13 @@ def Grey(skk): return "\033[90m{}\033[00m".format(skk) #ignore
 def Red(skk): return "\033[91m{}\033[00m".format(skk) #error
 def Green(skk): return "\033[92m{}\033[00m".format(skk) #update
 def Yellow(skk): return "\033[93m{}\033[00m".format(skk) #warning
-def Blue(skk): return "\033[94m{}\033[00m".format(skk) 
+def Blue(skk): return "\033[94m{}\033[00m".format(skk) #keep
 def Purple(skk): return "\033[95m{}\033[00m".format(skk) #delete
 def Cyan(skk): return "\033[96m{}\033[00m".format(skk) #skip
 def White(skk): return "\033[97m{}\033[00m".format(skk) 
 
 
-def is_valid_pathname(path):
+def is_valid_pathname(path) -> bool:
     from re import match
     pattern = r'^[a-zA-Z]:\\(?:[a-zA-Z0-9-_ ]+\\)*[a-zA-Z0-9-_ ]+\.\w+$'
     return match(pattern, path) is not None
@@ -35,30 +35,34 @@ def filtercopy(old=True) -> callable:
                 print(Green(f"Update: {dst}"))
     return _filter
 
-def ignorepath(pathlist:dict,src,dst,purge=False) -> callable:
-    def _ignore(path_src,names) -> set:
+def ignorepath(pathlists:dict, namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
+    def _ignore(path_src:str, names:list) -> set:
         from fnmatch import filter as fn_filter
         #fn_filter(names, pattern)
-        delete_set:set = set() #= [x for x in names if path.join(path_src,x) in [src+p for p in pathlist["D"]]]
-        for path_D in pathlist["D"]:
+
+        delete_set:set = set()
+        for path_D in pathlists["D"]:
             dirname,filename = path.split(path_D)
-            if path_src == src + dirname or dirname == "":
+            if path_src == namespace_src + dirname or dirname == "":
                 delete_set.update(set(fn_filter(names, filename)))
 
-        modify_set:set = set() #= [x for x in names if path.join(path_src,x) in [src+p for p in pathlist["M"]]]
-        for path_M in pathlist["M"]:
+        modify_set:set = set()
+        add_set:set = set()
+        for path_M in pathlists["M"]:
             dirname,filename = path.split(path_M)
-            if path_src == src + dirname or dirname == "":
+            if path_src == namespace_src + dirname or dirname == "":
                 modify_set.update(set(fn_filter(names, filename)))
+                if filename not in names:
+                    add_set.add(filename)
 
         ignore_set:set = delete_set.union(modify_set)
     
         if purge:
-            path_dst = path_src.replace(src,dst)
+            path_dst = path_src.replace(namespace_src,namespace_dst)
             if path.exists(path_dst):
                 for d in list(scandir(path_dst)):
-                    can_delete:bool = (d.name in delete_set) or ( (d.name not in names) and (path.join(path_dst,d.name) not in [dst+p for p in pathlist["M"]]) )
-                    if  can_delete:
+                    can_delete:bool = (d.name in delete_set) or (d.name not in (set(names) | modify_set | add_set) )
+                    if can_delete:
                         try:
                             if path.isdir(d.path): 
                                 rmtree(d.path)
@@ -69,43 +73,46 @@ def ignorepath(pathlist:dict,src,dst,purge=False) -> callable:
                         else: 
                             print(Purple(f"Delete: {d.path}"))
 
-        for ign in delete_set:
-            print(Grey(f"Ignore: {path.join(path_src,ign)}"))
+        for dele in delete_set:
+            print(Grey(f"Ignore: {path.join(path_src,dele)}"))
         for mod in modify_set:
             print(Cyan(f"Skip: {path.join(path_src,mod)}"))
+        for add in add_set:
+            print(Blue(f"Keep: {path.join(path_src,add)}"))
+
         return ignore_set
     return _ignore
 
 def updata(pre_ver:str,ver:str) -> None:
     src = current + "\\battlecats" + pre_ver
     dst = current + "\\battlecats" + ver 
-    #Get paths of files that are reivsed.
-    Revise_path = current + "\\battlecats\\vers\\" + ver[1:]
-    pathlist = {'R':[],'M':[],'D':[]}
+    #Get paths of files that are revised.
+    modify_path = current + "\\battlecats\\vers\\" + ver[1:]
+    pathlists = {'R':[],'M':[],'D':[]}
     #R:rename, #M:modify, D:delete
     try:
-        with open(Revise_path + "\\Revise.txt","r") as r:
-            pathlist["M"] = [i.strip() for i in r.readlines()]
+        with open(modify_path + "\\Modify.txt","r") as r:
+            pathlists["M"] = [i.strip() for i in r.readlines()]
     except FileNotFoundError as e: 
-        print(Yellow(f"Warning : \"Revise.txt\" in {ver[1:]} does not exist"))
+        print(Yellow(f"Warning : \"Modify.txt\" in {ver[1:]} does not exist"))
     except Exception as e:
         print(Red(f"Error: {e}"))
     
     #Get paths of files that are ignored.
     try:
-        with open(Revise_path + "\\ignore.txt","r") as r:
-            pathlist["D"] = [i.strip() for i in r.readlines()]
+        with open(modify_path + "\\ignore.txt","r") as r:
+            pathlists["D"] = [i.strip() for i in r.readlines()]
     except FileNotFoundError as e: 
         print(Yellow(f"Warning : \"ignore.txt\" in {ver[1:]} does not exist"))
     except Exception as e:
         print(Red(f"Error: {e}"))
     
     #Copy files that not in ignore list and revise list.
-    copytree(src+"\\assets", dst+"\\assets", dirs_exist_ok=True, ignore=ignorepath(pathlist,src,dst,purge=True), copy_function=filtercopy(old=True))
+    copytree(src+"\\assets", dst+"\\assets", dirs_exist_ok=True, ignore=ignorepath(pathlists,src,dst,purge=True), copy_function=filtercopy(old=True))
     
     #Reivse files.
-    for R in pathlist["M"]:
-        s = path.join(Revise_path, path.basename(R))
+    for R in pathlists["M"]:
+        s = path.join(modify_path, path.basename(R))
         if path.exists(s) == False: 
             print(Red(f"{src + R} is not exist."))
             continue
@@ -124,6 +131,7 @@ vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2"
 #resource_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.4":22,"1.20.6":32}
 
 try:
+    #for i in range(1,2,1): 
     for i in range(1,len(vers),1): 
         print('-'*25 + vers[i].replace('_','') + '-'*25)
         updata(vers[i-1],vers[i])
