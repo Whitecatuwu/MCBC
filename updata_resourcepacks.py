@@ -1,5 +1,5 @@
 from shutil import copy2,copytree,rmtree
-from os import scandir,remove,path
+from os import scandir,remove,path,rename
 from time import time as currenttime
 
 start_time = currenttime()
@@ -12,7 +12,8 @@ def Yellow(skk): return "\033[93m{}\033[00m".format(skk) #warning
 def Blue(skk): return "\033[94m{}\033[00m".format(skk) #keep
 def Purple(skk): return "\033[95m{}\033[00m".format(skk) #delete
 def Cyan(skk): return "\033[96m{}\033[00m".format(skk) #skip
-def White(skk): return "\033[97m{}\033[00m".format(skk) 
+def White(skk): return "\033[97m{}\033[00m".format(skk)
+def Orange(skk): return "\033[38;5;214m{}\033[00m".format(skk) #rename
 
 
 def is_valid_pathname(path) -> bool:
@@ -43,12 +44,15 @@ def delete(pathname:str) -> None:
     else: 
         print(Purple(f"Delete: {pathname}"))
 
-def ignorepath(pathlists:dict, namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
-    def _ignore(path_src:str, names:list) -> set:
-        delete_set:set = set()
-        modify_set:set = set()
-        add_set:set = set()
-        ignore_set:set = set()
+def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
+    def _ignore(current_dirname:str, src_filenames:list) -> set:
+        delete_set:set[str] = set()
+        modify_set:set[str] = set()
+        add_set:set[str] = set()
+        rename_set:set[tuple] = set()
+
+        ignore_set:set[str] = set()
+        keep_set:set[str] = set()
 
         if pathlists == {} or pathlists is None:
             pass
@@ -57,62 +61,72 @@ def ignorepath(pathlists:dict, namespace_src:str, namespace_dst:str, purge:bool 
             #fn_filter(names, pattern)
             
             for path_D in pathlists["D"]:
-                dirname,filename = path.split(path_D)
-                if path_src == namespace_src + dirname or dirname == "":
-                    delete_set.update(set(fn_filter(names, filename)))
+                dirname,filename = path.split(*path_D)
+                if current_dirname == namespace_src + dirname or dirname == "":
+                    delete_set.update(set(fn_filter(src_filenames, filename)))
 
             for path_M in pathlists["M"]:
-                dirname,filename = path.split(path_M)
-                if path_src == namespace_src + dirname or dirname == "":
-                    modify_set.update(set(fn_filter(names, filename)))
-                    add_set.add(filename) if filename not in names else None        
+                dirname,filename = path.split(*path_M)
+                if current_dirname == namespace_src + dirname or dirname == "":
+                    modify_set.update(set(fn_filter(src_filenames, filename)))
+                    add_set.add(filename) if filename not in src_filenames else None
+            
+            for path_R in pathlists["R"]:
+                rename_src, rename_dst = path_R
+                rename_src = namespace_src + rename_src
+                rename_dst = namespace_dst + rename_dst
+                if current_dirname == path.dirname(rename_src):
+                    rename(rename_src, rename_dst) if not path.exists(rename_dst) else None
+                    rename_set.add(tuple(rename_src,rename_dst))
+                    ignore_set.add(path.basename(rename_src))
+                elif current_dirname == path.dirname(rename_dst):
+                    keep_set.add(path.basename(rename_dst))
+            
+            ignore_set = ignore_set | delete_set | modify_set
 
-            ignore_set = delete_set.union(modify_set)
-    
-        if (purge == True) and path.exists(path_dst := path_src.replace(namespace_src,namespace_dst)):
+        if (purge == True) and path.exists(path_dst := current_dirname.replace(namespace_src,namespace_dst)):
+            keep_set = keep_set | set(src_filenames) | modify_set | add_set
             for d in list(scandir(path_dst)):
-                can_delete:bool = (d.name in delete_set) or (d.name not in (set(names) | modify_set | add_set) )
+                can_delete:bool = (d.name in delete_set) or (d.name not in keep_set)
                 delete(d.path) if can_delete else None
-
+        
         for dele in delete_set:
-            print(Grey(f"Ignore src: {path.join(path_src,dele)}"))
+            print(Grey(f"Ignore src: {path.join(current_dirname,dele)}"))
         for mod in modify_set:
-            print(Cyan(f"Skip src: {path.join(path_src,mod)}"))
+            print(Cyan(f"Skip src: {path.join(current_dirname,mod)}"))
         for add in add_set:
             print(Blue(f"Keep: {path.join(path_dst,add)}"))
+        for ren in rename_set:
+            print(Orange("Renamed: {} to {}".format(*ren)))
 
         return ignore_set
     return _ignore
 
-def updata(pre_ver:str,ver:str) -> None:
+def update(pre_ver:str,ver:str) -> None:
     src:str = current + "\\battlecats" + pre_ver
     dst:str = current + "\\battlecats" + ver 
-    #Get paths of files that are revised.
-    modify_path:str = current + "\\battlecats\\vers\\" + ver[1:]
-    pathlists:dict = {'R':[],'M':[],'D':[]}
-    #R:rename, #M:modify, D:delete
-    try:
-        with open(modify_path + "\\Modify.txt","r") as r:
-            pathlists["M"] = [i.strip() for i in r.readlines()]
-    except FileNotFoundError as e: 
-        print(Yellow(f"Warning : \"Modify.txt\" in {ver[1:]} does not exist"))
-    except Exception as e:
-        print(Red(f"Error: {e}"))
     
-    #Get paths of files that are ignored.
-    try:
-        with open(modify_path + "\\ignore.txt","r") as r:
-            pathlists["D"] = [i.strip() for i in r.readlines()]
-    except FileNotFoundError as e: 
-        print(Yellow(f"Warning : \"ignore.txt\" in {ver[1:]} does not exist"))
-    except Exception as e:
-        print(Red(f"Error: {e}"))
+    modify_path:str = current + "\\battlecats\\vers\\" + ver[1:]
+    pathlists:dict[str, list] = {'R':[],'M':[],'D':[]}
+    #R:rename, #M:modify, D:delete
+
+    #Obtaining the paths of files will be modified.
+    if path.exists(Modify_txt_path := modify_path + "\\Modify.txt"):
+        with open(Modify_txt_path,"r") as r:
+            for i in r.readlines():
+                if i.startswith('#'): continue
+                i = i.strip().split(':')
+                pathlists[i[0]].append(tuple(i[1].split(',')))
+    else:
+        print(Yellow(f"Warning : \"Modify.txt\" in {ver[1:]} does not exist"))
     
     #Copy files that not in ignore list and not in modify list.
+    #print(pathlists)
     copytree(src+"\\assets", dst+"\\assets", dirs_exist_ok=True, ignore=ignorepath(pathlists,src,dst,purge=True), copy_function=filtercopy(ignore_old=True))
     
-    #Copy files from path "battlecats/vers/{ver}".
+    #Copy files from the path "battlecats/vers/{ver}".
     for R in pathlists["M"]:
+        R = R[0]
         s:str = path.join(modify_path, path.basename(R))
         if path.exists(s) == False: 
             #print(Red(f"{src + R} does not exist."))
@@ -137,7 +151,7 @@ try:
     #for i in range(1,2,1): 
     for i in range(1,len(vers),1): 
         print('-'*25 + vers[i].replace('_','') + '-'*25)
-        updata(vers[i-1],vers[i])
+        update(vers[i-1],vers[i])
 except Exception as e:
     print(Red(f"Error: {e}"))
 

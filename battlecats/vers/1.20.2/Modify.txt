@@ -1,1 +1,3 @@
-\assets\minecraft\textures\gui
+M:\assets\minecraft\textures\gui
+D:\assets\minecraft\optifine
+D:\assets\realms
