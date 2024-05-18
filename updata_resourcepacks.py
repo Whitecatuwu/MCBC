@@ -72,14 +72,15 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                     add_set.add(filename) if filename not in src_filenames else None
             
             for path_R in pathlists["R"]:
-                rename_src, rename_dst = path_R
+                rename_src:str = path_R[0]
+                rename_dst:str = path_R[1]
                 rename_src = namespace_src + rename_src
                 rename_dst = namespace_dst + rename_dst
                 if current_dirname == path.dirname(rename_src):
-                    rename(rename_src, rename_dst) if not path.exists(rename_dst) else None
+                    rename(namespace_src + rename_src, namespace_dst + rename_dst) if not path.exists(rename_dst) else None
                     rename_set.add(tuple(rename_src,rename_dst))
                     ignore_set.add(path.basename(rename_src))
-                elif current_dirname == path.dirname(rename_dst):
+                elif current_dirname == path.dirname(rename_dst.replace(namespace_dst,namespace_src)):
                     keep_set.add(path.basename(rename_dst))
             
             ignore_set = ignore_set | delete_set | modify_set
