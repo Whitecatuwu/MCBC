@@ -20,11 +20,11 @@ def is_valid_pathname(path) -> bool:
     pattern = r'^[a-zA-Z]:\\(?:[a-zA-Z0-9-_ ]+\\)*[a-zA-Z0-9-_ ]+\.\w+$'
     return match(pattern, path) is not None
 
-def filtercopy(old=True) -> callable:
+def filtercopy(ignore_old=True) -> callable:
     #ignore old file when old == True.
     def _filter(src, dst) -> None:
-        cancopy:bool = (old == False) or (path.exists(dst) == False) or (path.getmtime(src) > path.getmtime(dst))
-        if cancopy: 
+        dst_is_older:bool = (path.exists(dst) == False) or (path.getmtime(src) > path.getmtime(dst))
+        if (ignore_old == False) or dst_is_older: 
             try: 
                 copy2(src, dst)
             except FileNotFoundError as e: 
@@ -37,25 +37,30 @@ def filtercopy(old=True) -> callable:
 
 def ignorepath(pathlists:dict, namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
     def _ignore(path_src:str, names:list) -> set:
-        from fnmatch import filter as fn_filter
-        #fn_filter(names, pattern)
-
         delete_set:set = set()
-        for path_D in pathlists["D"]:
-            dirname,filename = path.split(path_D)
-            if path_src == namespace_src + dirname or dirname == "":
-                delete_set.update(set(fn_filter(names, filename)))
-
         modify_set:set = set()
         add_set:set = set()
-        for path_M in pathlists["M"]:
-            dirname,filename = path.split(path_M)
-            if path_src == namespace_src + dirname or dirname == "":
-                modify_set.update(set(fn_filter(names, filename)))
-                if filename not in names:
-                    add_set.add(filename)
+        ignore_set:set = set()
 
-        ignore_set:set = delete_set.union(modify_set)
+        if pathlists == {} or pathlists is None:
+            pass
+        else:
+            from fnmatch import filter as fn_filter
+            #fn_filter(names, pattern)
+            
+            for path_D in pathlists["D"]:
+                dirname,filename = path.split(path_D)
+                if path_src == namespace_src + dirname or dirname == "":
+                    delete_set.update(set(fn_filter(names, filename)))
+
+            for path_M in pathlists["M"]:
+                dirname,filename = path.split(path_M)
+                if path_src == namespace_src + dirname or dirname == "":
+                    modify_set.update(set(fn_filter(names, filename)))
+                    if filename not in names:
+                        add_set.add(filename)
+
+            ignore_set = delete_set.union(modify_set)
     
         if purge:
             path_dst = path_src.replace(namespace_src,namespace_dst)
@@ -74,11 +79,11 @@ def ignorepath(pathlists:dict, namespace_src:str, namespace_dst:str, purge:bool 
                             print(Purple(f"Delete: {d.path}"))
 
         for dele in delete_set:
-            print(Grey(f"Ignore: {path.join(path_src,dele)}"))
+            print(Grey(f"Ignore src: {path.join(path_src,dele)}"))
         for mod in modify_set:
-            print(Cyan(f"Skip: {path.join(path_src,mod)}"))
+            print(Cyan(f"Skip src: {path.join(path_src,mod)}"))
         for add in add_set:
-            print(Blue(f"Keep: {path.join(path_src,add)}"))
+            print(Blue(f"Keep: {path.join(path_dst,add)}"))
 
         return ignore_set
     return _ignore
@@ -108,24 +113,26 @@ def updata(pre_ver:str,ver:str) -> None:
         print(Red(f"Error: {e}"))
     
     #Copy files that not in ignore list and revise list.
-    copytree(src+"\\assets", dst+"\\assets", dirs_exist_ok=True, ignore=ignorepath(pathlists,src,dst,purge=True), copy_function=filtercopy(old=True))
+    copytree(src+"\\assets", dst+"\\assets", dirs_exist_ok=True, ignore=ignorepath(pathlists,src,dst,purge=True), copy_function=filtercopy(ignore_old=True))
     
-    #Reivse files.
+    #Modify files.
     for R in pathlists["M"]:
         s = path.join(modify_path, path.basename(R))
         if path.exists(s) == False: 
-            print(Red(f"{src + R} is not exist."))
+            #print(Red(f"{src + R} does not exist."))
+            print(Red(f"{s} does not exist."))
             continue
         d = dst + R
-        if path.isdir(s):
-            if path.exists(path.dirname(d)): 
-                copytree(s,d,dirs_exist_ok=True,copy_function=filtercopy(old=True))
-            else: 
-                print(Red(f"Updata failed: {d} \nBecause: \"{path.dirname(d)}\" does not exist"))
-        elif path.isfile(s): 
-            filtercopy(old=True)(s,d)
+
+        if not path.exists(path.dirname(d)):
+            print(Red(f"Updata failed: {d} \nBecause: \"{path.dirname(d)}\" does not exist"))
         else: 
-            continue  
+            if path.isdir(s):
+                copytree(s,d,dirs_exist_ok=True,ignore=ignorepath(None,s,d,purge=True),copy_function=filtercopy(ignore_old=True))
+            elif path.isfile(s): 
+                filtercopy(ignore_old=True)(s,d)
+            else: 
+                print(Red(f"Updata failed: {d} \nBecause: \"{s}\" is not a valid path.")) 
 
 vers = ["","_1.17.1","_1.18.2","_1.19.2","_1.19.3","_1.19.4","_1.20.1","_1.20.2","_1.20.4","_1.20.6"]
 #resource_ver = {"1.17.1":7,"1.18.2":8,"1.19.2":9,"1.19.3":12,"1.19.4":13,"1.20.1":15,"1.20.2":18,"1.20.4":22,"1.20.6":32}
@@ -138,6 +145,6 @@ try:
 except Exception as e:
     print(Red(f"Error: {e}"))
 
-print("Finish.")
+print("\nFinish.")
 print("runtime: %s seconds" % (currenttime() - start_time))
 #input("Press Enter to continue...")
