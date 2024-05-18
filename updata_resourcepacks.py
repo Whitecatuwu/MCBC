@@ -22,7 +22,7 @@ def is_valid_pathname(path) -> bool:
     return match(pattern, path) is not None
 
 def filtercopy(ignore_old=True) -> callable:
-    #ignore old file when old == True.
+    #Ignore older files when old == True.
     def _filter(src, dst) -> None:
         dst_is_older:bool = (path.exists(dst) == False) or (path.getmtime(src) > path.getmtime(dst))
         if (not ignore_old) or dst_is_older: 
@@ -43,6 +43,25 @@ def delete(pathname:str) -> None:
         print(Red(f"Delete failed: {pathname} \nBecause: {e}"))
     else: 
         print(Purple(f"Delete: {pathname}"))
+
+def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:str=None, namespace_dst:str=None, purge:bool=False, ignore_old=True) -> None:
+    if not path.exists(path.dirname(dst)):
+        print(Red(f"Updata failed: {dst} \nBecause: \"{path.dirname(dst)}\" does not exist"))
+        return
+    
+    if not path.exists(path.exists(src)):
+        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" does not exist."))
+        return
+    
+    if path.isdir(src):
+        namespace_src = src if namespace_src == None else namespace_src
+        namespace_dst = dst if namespace_dst == None else namespace_dst
+        copytree(src,dst,dirs_exist_ok=True,ignore=ignorepath(ignorelists,namespace_src, namespace_dst, purge=purge),copy_function=filtercopy(ignore_old=ignore_old))
+    elif path.isfile(src):
+        filtercopy(ignore_old=ignore_old)(src,dst)
+    else: 
+        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a valid path.")) 
+
 
 def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
     def _ignore(current_dirname:str, src_filenames:list) -> set:
@@ -74,13 +93,13 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
             for path_R in pathlists["R"]:
                 rename_src:str = path_R[0]
                 rename_dst:str = path_R[1]
-                rename_src = namespace_src + rename_src
-                rename_dst = namespace_dst + rename_dst
+                rename_src_path = namespace_src + rename_src
+                rename_dst_path = namespace_dst + rename_dst
                 if current_dirname == path.dirname(rename_src):
-                    rename(namespace_src + rename_src, namespace_dst + rename_dst) if not path.exists(rename_dst) else None
-                    rename_set.add(tuple(rename_src,rename_dst))
+                    copydata(rename_src_path, rename_dst_path, purge=True)
+                    rename_set.add(tuple(rename_src_path, rename_dst_path))
                     ignore_set.add(path.basename(rename_src))
-                elif current_dirname == path.dirname(rename_dst.replace(namespace_dst,namespace_src)):
+                elif current_dirname == path.dirname(namespace_src + rename_dst):
                     keep_set.add(path.basename(rename_dst))
             
             ignore_set = ignore_set | delete_set | modify_set
@@ -122,28 +141,13 @@ def update(pre_ver:str,ver:str) -> None:
         print(Yellow(f"Warning : \"Modify.txt\" in {ver[1:]} does not exist"))
     
     #Copy files that not in ignore list and not in modify list.
-    #print(pathlists)
-    copytree(src+"\\assets", dst+"\\assets", dirs_exist_ok=True, ignore=ignorepath(pathlists,src,dst,purge=True), copy_function=filtercopy(ignore_old=True))
+    copydata(src+"\\assets", dst+"\\assets", ignorelists=pathlists, namespace_src=src, namespace_dst=dst, purge=True)
     
     #Copy files from the path "battlecats/vers/{ver}".
-    for R in pathlists["M"]:
-        R = R[0]
-        s:str = path.join(modify_path, path.basename(R))
-        if path.exists(s) == False: 
-            #print(Red(f"{src + R} does not exist."))
-            print(Red(f"{s} does not exist."))
-            continue
-        d:str = dst + R
-
-        if not path.exists(path.dirname(d)):
-            print(Red(f"Updata failed: {d} \nBecause: \"{path.dirname(d)}\" does not exist"))
-        else: 
-            if path.isdir(s):
-                copytree(s,d,dirs_exist_ok=True,ignore=ignorepath(None,s,d,purge=True),copy_function=filtercopy(ignore_old=True))
-            elif path.isfile(s): 
-                filtercopy(ignore_old=True)(s,d)
-            else: 
-                print(Red(f"Updata failed: {d} \nBecause: \"{s}\" is not a valid path.")) 
+    for M in pathlists["M"]:
+        s:str = path.join(modify_path, path.basename(M[0]))
+        d:str = dst + M[0]
+        copydata(s,d,purge=True)
 
 vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]
 #resource_ver = {"1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32}
