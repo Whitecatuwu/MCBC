@@ -46,11 +46,11 @@ def delete(pathname:str) -> None:
 
 def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:str=None, namespace_dst:str=None, purge:bool=False, ignore_old=True) -> None:
     if not path.exists(path.dirname(dst)):
-        print(Red(f"Updata failed: {dst} \nBecause: \"{path.dirname(dst)}\" does not exist"))
+        print(Red(f"Updata failed: {dst} \nBecause: \"{path.dirname(dst)}\" is not a valid path."))
         return
     
     if not path.exists(path.exists(src)):
-        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" does not exist."))
+        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a valid path."))
         return
     
     if path.isdir(src):
@@ -60,7 +60,7 @@ def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:st
     elif path.isfile(src):
         filtercopy(ignore_old=ignore_old)(src,dst)
     else: 
-        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a valid path.")) 
+        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" does not exist.")) 
 
 
 def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
@@ -95,9 +95,9 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                 rename_dst:str = path_R[1]
                 rename_src_path = namespace_src + rename_src
                 rename_dst_path = namespace_dst + rename_dst
-                if current_dirname == path.dirname(rename_src):
+                if current_dirname == path.dirname(rename_src_path):
                     copydata(rename_src_path, rename_dst_path, purge=True)
-                    rename_set.add(tuple(rename_src_path, rename_dst_path))
+                    rename_set.add((rename_src_path, rename_dst_path))
                     ignore_set.add(path.basename(rename_src))
                 elif current_dirname == path.dirname(namespace_src + rename_dst):
                     keep_set.add(path.basename(rename_dst))
