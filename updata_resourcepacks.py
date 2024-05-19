@@ -1,9 +1,10 @@
 from shutil import copy2,copytree,rmtree
-from os import scandir,remove,path
+from os import chdir,scandir,remove,path
 from time import time as currenttime
 
 start_time = currenttime()
 current = path.dirname(path.abspath(__file__))
+chdir(current)
 
 def Grey(skk): return "\033[90m{}\033[00m".format(skk) #ignore
 def Red(skk): return "\033[91m{}\033[00m".format(skk) #error
@@ -15,10 +16,23 @@ def Cyan(skk): return "\033[96m{}\033[00m".format(skk) #skip
 def White(skk): return "\033[97m{}\033[00m".format(skk)
 def Orange(skk): return "\033[38;5;214m{}\033[00m".format(skk) #rename
 
-def is_valid_pathname(path) -> bool:
+"""def is_valid_pathname(path) -> bool:
     from re import match
     pattern = r'^[a-zA-Z]:\\(?:[a-zA-Z0-9-_ ]+\\)*[a-zA-Z0-9-_ ]+\.\w+$'
-    return match(pattern, path) is not None
+    return match(pattern, path) is not None"""
+
+def isparent_dir(path_parent:str, path_child:str) -> bool:
+    commonpath = path.commonpath((path_parent,path_child))
+    return (commonpath == path_parent) 
+
+def get_top_dirname(thepath:str) -> bool:
+    while True:
+        thepath, tail = path.split(thepath)
+        if thepath == '\\' or thepath == '/':
+            return tail
+        
+def issamepath(path_a:str, path_b:str) -> bool:
+    return path_a.lower() == path_b.lower()
 
 def filtercopy(ignore_old=True) -> callable:
     #Ignore older files when ignore_old is True.
@@ -41,20 +55,22 @@ def delete(pathname:str) -> None:
     else: 
         print(Purple(f"Delete: {pathname}"))
 
-def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:str=None, namespace_dst:str=None, purge:bool=False, ignore_old=True) -> None:
+def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:str=None, namespace_dst:str=None, purge:bool=False, ignore_old=True) -> bool:
     if not path.exists(src):
         print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" does not exist."))
-        return
+        return False
     
     if path.isdir(src):
         namespace_src = src if namespace_src == None else namespace_src
         namespace_dst = dst if namespace_dst == None else namespace_dst
         copytree(src,dst,dirs_exist_ok=True,ignore=ignorepath(ignorelists,namespace_src, namespace_dst, purge=purge),copy_function=filtercopy(ignore_old=ignore_old))
+        return True
     elif path.isfile(src):
         filtercopy(ignore_old=ignore_old)(src,dst)
+        return True
     else: 
-        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a directory or a file.")) 
-
+        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a directory or a file."))
+        return False
 
 def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
     def _ignore(current_dirname:str, src_filenames:list) -> set:
@@ -74,15 +90,29 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
             filename:str
             
             for path_D in pathlists["D"]:
-                dirname,filename = path.split(*path_D)
-                if current_dirname.lower() == namespace_src.lower() + dirname.lower() or dirname == "":
-                    delete_set.update(set(fn_filter(src_filenames, filename)))
+                path_D = path_D[0]
+                dirname, filename = path.split(path_D)
+                dirname = namespace_src + dirname
+                if issamepath(current_dirname, dirname) or dirname == namespace_src:
+                    names_set:set = set(fn_filter(src_filenames, filename))
+                    delete_set.update(names_set)
+                    if not names_set and (not dirname == namespace_src): print(Yellow(f"Warning : There were no results found for {filename} in \"{dirname}\"."))
 
             for path_M in pathlists["M"]:
-                dirname,filename = path.split(*path_M)
-                if current_dirname.lower() == namespace_src.lower() + dirname.lower() or dirname == "":
-                    modify_set.update(set(fn_filter(src_filenames, filename)))
-                    add_set.add(filename) if filename not in src_filenames else None
+                path_M = path_M[0]
+                dirname, filename = path.split(path_M)
+                dirname = namespace_src + dirname
+                if issamepath(current_dirname, dirname) or dirname == namespace_src:
+                    names_set:set = set(fn_filter(src_filenames, filename))
+                    modify_set.update(names_set)
+                    if not names_set and (not dirname == namespace_src): print(Yellow(f"Warning : There were no results found for {filename} in \"{dirname}\"."))
+
+            for path_A in pathlists["A"]:
+                path_A = path_A[0]
+                add_path:str = namespace_src + path_A
+                if isparent_dir(current_dirname, add_path):
+                    filename = get_top_dirname(add_path.replace(current_dirname,""))
+                    if filename not in src_filenames : add_set.add(filename)
             
             for path_R in pathlists["R"]:
                 rename_src:str = path_R[0]
@@ -90,25 +120,22 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                 rename_src_path = namespace_src + rename_src
                 rename_dst_path = namespace_dst + rename_dst
                   
-                if current_dirname.lower() == path.dirname(rename_src_path).lower():
+                if issamepath(current_dirname, path.dirname(rename_src_path)):
                     ignore_set.add(path.basename(rename_src))
-                    copydata(rename_src_path, rename_dst_path, purge=True)
-                    print(Orange("Renamed: \"{}\" to \"{}\"".format(rename_src_path,rename_dst_path)))
+                    if copydata(rename_src_path, rename_dst_path, purge=True): print(Orange("Renamed: \"{}\" to \"{}\"".format(rename_src_path,rename_dst_path)))
 
-                x = namespace_src.lower() + rename_dst.lower()
-                for _ in range(len(x.split('\\'))):
-                    if(current_dirname.lower() == (p_dir := path.dirname(x))):
-                        keep_set.add(path.basename(x))
-                    else:
-                        x = p_dir
+                keep_renamed_path = namespace_src + rename_dst
+                if isparent_dir(current_dirname, keep_renamed_path):
+                    filename = get_top_dirname(keep_renamed_path.replace(current_dirname,""))
+                    keep_set.add(filename)
             
         ignore_set = ignore_set | delete_set | modify_set
         keep_set = keep_set | set(src_filenames) | modify_set | add_set
 
         if (purge == True) and path.exists(path_dst := current_dirname.replace(namespace_src,namespace_dst)):
-            for d in list(scandir(path_dst)):
-                can_delete:bool = ((d.name in delete_set) or (d.name not in keep_set))
-                delete(d.path) if can_delete else None
+            for d in scandir(path_dst):
+                can_delete:bool = (d.name in delete_set) or (d.name not in keep_set)
+                if can_delete : delete(d.path)
         
         for dele in delete_set:
             print(Grey(f"Ignore src: {path.join(current_dirname,dele)}"))
@@ -125,8 +152,8 @@ def update(pre_ver:str,ver:str) -> None:
     dst:str = current + "\\battlecats" + ver 
     
     modify_path:str = current + "\\battlecats\\vers\\" + ver[1:]
-    pathlists:dict[str, list] = {'R':[],'M':[],'D':[]}
-    #R:rename, #M:modify, D:delete
+    #R:rename, #M:modify, D:delete, A:add
+    pathlists:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}
 
     #Obtaining the paths of files will be modified.
     if path.exists(Modify_txt_path := modify_path + "\\Modify.txt"):
@@ -134,29 +161,27 @@ def update(pre_ver:str,ver:str) -> None:
             for i in r.readlines():
                 if i.startswith('#'): continue
                 i = i.strip().split(':')
-                pathlists[i[0]].append(tuple(i[1].split(','))) if i[0] in {'R','M','D'} else None
+                if i[0] in pathlists.keys(): pathlists[i[0]].append(tuple(i[1].split(',')))
     else:
-        print(Yellow(f"Warning : \"Modify.txt\" in {ver[1:]} does not exist"))
+        print(Yellow(f"Warning: \"Modify.txt\" in {ver[1:]} does not exist, it will be added."))
+        with open(Modify_txt_path,"w"): pass
     
     #Copy files that not in ignore list and not in modify list.
     copydata(src+"\\assets", dst+"\\assets", ignorelists=pathlists, namespace_src=src, namespace_dst=dst, purge=True)
     
     #Copy files from the path "battlecats/vers/{ver}".
-    for M in pathlists["M"]:
-        s:str = path.join(modify_path, path.basename(M[0]))
-        d:str = dst + M[0]
+    for MA in pathlists["M"] + pathlists["A"]:
+        s:str = path.join(modify_path, path.basename(MA[0]))
+        d:str = dst + MA[0]
         copydata(s,d,purge=True)
 
 vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]
 #resource_ver = {"1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32}
 
-try:
-    #for i in range(1,2,1): 
-    for i in range(1,len(vers),1): 
-        print('-'*25 + vers[i].replace('_','') + '-'*25)
-        update(vers[i-1],vers[i])
-except Exception as e:
-    print(Red(f"Error: {e}"))
+#for i in range(1,3,1): 
+for i in range(1,len(vers),1): 
+    print('-'*25 + vers[i].replace('_','') + '-'*25)
+    update(vers[i-1],vers[i])
 
 print("\nFinish.")
 print("runtime: %s seconds" % (currenttime() - start_time))
