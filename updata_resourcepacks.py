@@ -14,6 +14,7 @@ def Purple(skk): return "\033[95m{}\033[00m".format(skk) #delete
 def Cyan(skk): return "\033[96m{}\033[00m".format(skk) #skip
 def White(skk): return "\033[97m{}\033[00m".format(skk)
 def Orange(skk): return "\033[38;5;214m{}\033[00m".format(skk) #rename
+def Strong(skk): return "\033[1m{}\033[0m".format(skk)
 
 def is_valid_pathname(path) -> bool:
     from re import match
@@ -114,17 +115,19 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                     if filename not in src_filenames : add_set.add(filename)
             
             for path_R in pathlists["R"]:
-                rename_src:str = path_R[0]
-                rename_dst:str = path_R[1]
-                rename_src_path = namespace_src + rename_src
-                rename_dst_path = namespace_dst + rename_dst
+                rename_src_dir, rename_src_file = path.split(path_R[0])
+                rename_dst_dir, rename_dst_file = path.split(path_R[1])
+                rename_src_path = namespace_src + path_R[0]
+                rename_dst_path = namespace_dst + path_R[1]
                   
-                if issamepath(current_dirname, path.dirname(rename_src_path)):
-                    ignore_set.add(path.basename(rename_src))
-                    if copydata(rename_src_path, rename_dst_path, purge=True): print(Orange("Renamed: \"{}\" to \"{}\"".format(rename_src_path,rename_dst_path)))
+                if issamepath(current_dirname, namespace_src + rename_src_dir):
+                    ignore_set.add(rename_src_file)
+                    if copydata(rename_src_path, rename_dst_path, purge=True): print(Orange("Rename: \"{}\" to \"{}\"".format(rename_src_path,rename_dst_path)))
 
-                keep_renamed_path = namespace_src + rename_dst
-                if isparent_dir(current_dirname, keep_renamed_path):
+                keep_renamed_path = namespace_src + rename_dst_dir
+                if issamepath(current_dirname, keep_renamed_path):
+                    keep_set.add(rename_dst_file)
+                elif isparent_dir(current_dirname, keep_renamed_path):
                     filename = get_top_dirname(keep_renamed_path.replace(current_dirname,""))
                     keep_set.add(filename)
             
@@ -182,12 +185,12 @@ def main():
     
     #for i in range(1,2,1): 
     for i in range(1,len(older_vers),1):
-        print('-'*25 + older_vers[i].replace('_','') + '-'*25)
+        print(Strong('-'*25 + older_vers[i].replace('_','') + '-'*25))
         update(older_vers[i-1],older_vers[i])
 
     #for i in range(1,2,1): 
     for i in range(1,len(vers),1): 
-        print('-'*25 + vers[i].replace('_','') + '-'*25)
+        print(Strong('-'*25 + vers[i].replace('_','') + '-'*25))
         update(vers[i-1],vers[i])
 
 if __name__ == '__main__':
