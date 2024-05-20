@@ -1,8 +1,7 @@
 from shutil import copy2,copytree,rmtree
-from os import chdir,scandir,remove,path
+from os import chdir,scandir,remove,path,makedirs
 from time import time as currenttime
 
-start_time = currenttime()
 current = path.dirname(path.abspath(__file__))
 chdir(current)
 
@@ -16,10 +15,10 @@ def Cyan(skk): return "\033[96m{}\033[00m".format(skk) #skip
 def White(skk): return "\033[97m{}\033[00m".format(skk)
 def Orange(skk): return "\033[38;5;214m{}\033[00m".format(skk) #rename
 
-"""def is_valid_pathname(path) -> bool:
+def is_valid_pathname(path) -> bool:
     from re import match
     pattern = r'^[a-zA-Z]:\\(?:[a-zA-Z0-9-_ ]+\\)*[a-zA-Z0-9-_ ]+\.\w+$'
-    return match(pattern, path) is not None"""
+    return match(pattern, path) is not None
 
 def isparent_dir(path_parent:str, path_child:str) -> bool:
     commonpath = path.commonpath((path_parent,path_child))
@@ -164,8 +163,9 @@ def update(pre_ver:str,ver:str) -> None:
                 if i[0] in pathlists.keys(): pathlists[i[0]].append(tuple(i[1].split(',')))
     else:
         print(Yellow(f"Warning: \"Modify.txt\" in {ver[1:]} does not exist, it will be added."))
+        if not path.exists(path.dirname(Modify_txt_path)): makedirs(path.dirname(Modify_txt_path))
         with open(Modify_txt_path,"w"): pass
-    
+
     #Copy files that not in ignore list and not in modify list.
     copydata(src+"\\assets", dst+"\\assets", ignorelists=pathlists, namespace_src=src, namespace_dst=dst, purge=True)
     
@@ -175,14 +175,24 @@ def update(pre_ver:str,ver:str) -> None:
         d:str = dst + MA[0]
         copydata(s,d,purge=True)
 
-vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]
-#resource_ver = {"1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32}
+def main():
+    vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]
+    older_vers = ["", "_1.16.5", "_1.16.1", "_1.14.4", "_1.12.2", "_1.10.2", "_1.8.9"]
+    #resource_ver = {"1.8.9":1, "1.10.2":2, "1.12.2":3, "1.14.4":4, "1.16.1":5, "1.16.5":6, "1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32}
+    
+    #for i in range(1,2,1): 
+    for i in range(1,len(older_vers),1):
+        print('-'*25 + older_vers[i].replace('_','') + '-'*25)
+        update(older_vers[i-1],older_vers[i])
 
-#for i in range(1,3,1): 
-for i in range(1,len(vers),1): 
-    print('-'*25 + vers[i].replace('_','') + '-'*25)
-    update(vers[i-1],vers[i])
+    #for i in range(1,2,1): 
+    for i in range(1,len(vers),1): 
+        print('-'*25 + vers[i].replace('_','') + '-'*25)
+        update(vers[i-1],vers[i])
 
-print("\nFinish.")
-print("runtime: %s seconds" % (currenttime() - start_time))
-#input("Press Enter to continue...")
+if __name__ == '__main__':
+    start_time = currenttime()
+    main()
+    print("\nFinish.")
+    print("runtime: %s seconds" % (currenttime() - start_time))
+    #input("Press Enter to continue...")
