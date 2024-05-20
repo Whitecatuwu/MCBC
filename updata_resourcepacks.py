@@ -79,7 +79,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
         add_set:set[str] = set()
 
         ignore_set:set[str] = set()
-        keep_set:set[str] = set()
+        keep_set:set[str] = set(src_filenames)
 
         if pathlists == {} or pathlists is None:
             pass
@@ -122,6 +122,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                   
                 if issamepath(current_dirname, namespace_src + rename_src_dir):
                     ignore_set.add(rename_src_file)
+                    keep_set.discard(rename_src_file)
                     if copydata(rename_src_path, rename_dst_path, purge=True): print(Orange("Rename: \"{}\" to \"{}\"".format(rename_src_path,rename_dst_path)))
 
                 keep_renamed_path = namespace_src + rename_dst_dir
@@ -132,12 +133,12 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                     keep_set.add(filename)
             
         ignore_set = ignore_set | delete_set | modify_set
-        keep_set = keep_set | set(src_filenames) | modify_set | add_set
+        keep_set = keep_set | modify_set | add_set
+        keep_set.difference_update(delete_set)
 
         if (purge == True) and path.exists(path_dst := current_dirname.replace(namespace_src,namespace_dst)):
             for d in scandir(path_dst):
-                can_delete:bool = (d.name in delete_set) or (d.name not in keep_set)
-                if can_delete : delete(d.path)
+                if d.name not in keep_set : delete(d.path)
         
         for dele in delete_set:
             print(Grey(f"Ignore src: {path.join(current_dirname,dele)}"))
