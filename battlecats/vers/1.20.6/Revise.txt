@@ -1,2 +1,0 @@
-\assets\minecraft\shaders\core\battlecat_anime_lines.vsh
-\assets\minecraft\font\default.json

@@ -1,2 +1,0 @@
-\assets\minecraft\optifine
-\assets\realms

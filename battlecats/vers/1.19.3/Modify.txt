@@ -1,0 +1,2 @@
+M:\assets\minecraft\textures\gui\container\creative_inventory\tabs.png
+M:\assets\minecraft\textures\item\spawneggs\vex_spawn_egg.png

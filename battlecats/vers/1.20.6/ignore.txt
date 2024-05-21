@@ -1,2 +1,0 @@
-\assets\minecraft\textures\gui\light_dirt_background.png
-\assets\minecraft\textures\gui\options_background.png

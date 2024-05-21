@@ -1,4 +1,0 @@
-\assets\minecraft\shaders
-\assets\minecraft\textures\gui\container\creative_inventory\tabs.png
-\assets\minecraft\textures\gui\title\minecraft.png
-\assets\minecraft\textures\gui\container\smithing.png

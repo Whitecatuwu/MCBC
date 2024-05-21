@@ -1,0 +1,3 @@
+M:\assets\minecraft\textures\gui\title\minecraft.png
+M:\assets\minecraft\textures\gui\container\smithing.png
+M:\assets\minecraft\shaders

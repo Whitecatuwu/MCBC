@@ -1,0 +1,3 @@
+R:\assets\minecraft\models\item,\assets\minecraft\models\items
+R:\assets\minecraft\textures\item,\assets\minecraft\textures\items
+R:\assets\minecraft\textures\block,\assets\minecraft\textures\blocks
