@@ -1,3 +1,4 @@
+
 cd ".\battlecats_sound"
 tar.exe -a -c -f battlecats_sound.zip assets pack.mcmeta pack.png
 cd ..
