@@ -10,6 +10,36 @@ git commit -m "auto-push"
 git push
 cd ..
 
+cd ".\battlecats_1.10.2"
+git add .
+git commit -m "auto-push"
+git push
+cd ..
+
+cd ".\battlecats_1.12.2"
+git add .
+git commit -m "auto-push"
+git push
+cd ..
+
+cd ".\battlecats_1.14.4"
+git add .
+git commit -m "auto-push"
+git push
+cd ..
+
+cd ".\battlecats_1.16.1"
+git add .
+git commit -m "auto-push"
+git push
+cd ..
+
+cd ".\battlecats_1.16.5"
+git add .
+git commit -m "auto-push"
+git push
+cd ..
+
 cd ".\battlecats_1.17.1"
 git add .
 git commit -m "auto-push"
