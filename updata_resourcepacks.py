@@ -48,6 +48,8 @@ def filtercopy(ignore_old=True) -> callable:
     return _filter
 
 def delete(pathname:str) -> None:
+    if not path.exists(pathname):
+        return
     try:
         rmtree(pathname) if path.isdir(pathname) else remove(pathname)
     except Exception as e: 
@@ -123,8 +125,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                 if issamepath(current_dirname, namespace_src + rename_src_dir):
                     ignore_set.add(rename_src_file)
                     keep_set.discard(rename_src_file)
-                    #if path.exists():
-                        #delete()
+                    delete(namespace_dst + path.join(rename_dst_dir, rename_src_file))
                     if copydata(rename_src_path, rename_dst_path,ignorelists=pathlists, purge=True,namespace_src=namespace_src,namespace_dst=namespace_dst): 
                         print(Orange("Rename: \"{}\" to\n \"{}\"\n".format(rename_src_path,rename_dst_path)))
 
