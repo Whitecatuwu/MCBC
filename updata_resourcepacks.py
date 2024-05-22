@@ -42,7 +42,7 @@ def filtercopy(ignore_old=True) -> callable:
             try: 
                 copy2(src, dst)
             except Exception as e: 
-                print(Red(f"Update failed: {dst} \nBecause: {e}"))
+                print(Red(f"Update failed: {dst} \nBecause: {e}\n"))
             else: 
                 print(Green(f"Update: {dst}"))
     return _filter
@@ -51,13 +51,13 @@ def delete(pathname:str) -> None:
     try:
         rmtree(pathname) if path.isdir(pathname) else remove(pathname)
     except Exception as e: 
-        print(Red(f"Delete failed: {pathname} \nBecause: {e}"))
+        print(Red(f"Delete failed: {pathname} \nBecause: {e}\n"))
     else: 
         print(Purple(f"Delete: {pathname}"))
 
 def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:str=None, namespace_dst:str=None, purge:bool=False, ignore_old=True) -> bool:
     if not path.exists(src):
-        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" does not exist."))
+        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" does not exist.\n"))
         return False
     
     if path.isdir(src):
@@ -69,7 +69,7 @@ def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:st
         filtercopy(ignore_old=ignore_old)(src,dst)
         return True
     else: 
-        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a directory or a file."))
+        print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a directory or a file.\n"))
         return False
 
 def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
@@ -123,9 +123,12 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                 if issamepath(current_dirname, namespace_src + rename_src_dir):
                     ignore_set.add(rename_src_file)
                     keep_set.discard(rename_src_file)
-                    if copydata(rename_src_path, rename_dst_path, purge=True): print(Orange("Rename: \"{}\" to \"{}\"".format(rename_src_path,rename_dst_path)))
+                    #if path.exists():
+                        #delete()
+                    if copydata(rename_src_path, rename_dst_path,ignorelists=pathlists, purge=True,namespace_src=namespace_src,namespace_dst=namespace_dst): 
+                        print(Orange("Rename: \"{}\" to\n \"{}\"\n".format(rename_src_path,rename_dst_path)))
 
-                keep_renamed_path = namespace_src + rename_dst_dir
+                keep_renamed_path:str = namespace_src + rename_dst_dir
                 if issamepath(current_dirname, keep_renamed_path):
                     keep_set.add(rename_dst_file)
                 elif isparent_dir(current_dirname, keep_renamed_path):
@@ -177,7 +180,7 @@ def update(pre_ver:str,ver:str) -> None:
     for MA in pathlists["M"] + pathlists["A"]:
         s:str = path.join(modify_path, path.basename(MA[0]))
         d:str = dst + MA[0]
-        copydata(s,d,purge=True)
+        copydata(s,d,ignorelists=pathlists, purge=True,namespace_src=src,namespace_dst=dst)
 
 def main():
     vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]
