@@ -22,7 +22,10 @@ def is_valid_pathname(path) -> bool:
     return match(pattern, path) is not None
 
 def isparent_dir(path_parent:str, path_child:str) -> bool:
-    commonpath = path.commonpath((path_parent,path_child))
+    try:
+        commonpath = path.commonpath((path_parent,path_child))
+    except:
+        return False
     return (commonpath == path_parent) 
 
 def get_top_dirname(thepath:str) -> bool:
@@ -121,8 +124,15 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                 rename_dst_dir, rename_dst_file = path.split(path_R[1])
                 rename_src_path = namespace_src + path_R[0]
                 rename_dst_path = namespace_dst + path_R[1]
-                  
                 if issamepath(current_dirname, namespace_src + rename_src_dir):
+                    #pathlists_for_rename:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}
+                    #pathlists_for_rename['R'] = [x for x in pathlists['R'] if    ]
+
+                    #{x:y for x,y in pathlists.items()}
+                    #for key in pathlists_for_rename.keys():
+                        #for pathlists_for_rename[key]:
+                            
+                    #print(pathlists_for_rename)
                     ignore_set.add(rename_src_file)
                     keep_set.discard(rename_src_file)
                     delete(namespace_dst + path.join(rename_dst_dir, rename_src_file))
