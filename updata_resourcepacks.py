@@ -97,7 +97,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
             for path_D in pathlists["D"]:
                 path_D = path_D[0]
                 dirname, filename = path.split(path_D)
-                dirname = namespace_src + dirname
+                dirname = namespace_src if dirname == '\\' else namespace_src + dirname
                 if issamepath(current_dirname, dirname) or dirname == namespace_src:
                     names_set:set = set(fn_filter(src_filenames, filename))
                     delete_set.update(names_set)
@@ -106,7 +106,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
             for path_M in pathlists["M"]:
                 path_M = path_M[0]
                 dirname, filename = path.split(path_M)
-                dirname = namespace_src + dirname
+                dirname = namespace_src if dirname == '\\' else namespace_src + dirname
                 if issamepath(current_dirname, dirname) or dirname == namespace_src:
                     names_set:set = set(fn_filter(src_filenames, filename))
                     modify_set.update(names_set)
@@ -122,21 +122,28 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
             for path_R in pathlists["R"]:
                 rename_src_dir, rename_src_file = path.split(path_R[0])
                 rename_dst_dir, rename_dst_file = path.split(path_R[1])
+                if rename_src_dir == '\\' : rename_src_dir = '' 
+                if rename_dst_dir == '\\' : rename_dst_dir = '' 
                 rename_src_path = namespace_src + path_R[0]
                 rename_dst_path = namespace_dst + path_R[1]
                 if issamepath(current_dirname, namespace_src + rename_src_dir):
-                    #pathlists_for_rename:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}
-                    #pathlists_for_rename['R'] = [x for x in pathlists['R'] if    ]
+                    pathlists_for_rename:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}           
+                    pathlists_for_rename['R'] = [(x.replace(path_R[0],"") if isparent_dir(path_R[0],x) else '',y.replace(path_R[1],"") if isparent_dir(path_R[1],y) else '') for (x,y) in pathlists['R']]
+                    pathlists_for_rename['R'] = [x for x in pathlists_for_rename['R'] if x != ('','')]
+                    
+                    pathlists_for_rename['M'] = [tuple([x[0].replace(path_R[1],"")]) if isparent_dir(path_R[1],x[0]) else '' for x in pathlists['M']]
+                    pathlists_for_rename['M'] = [x for x in pathlists_for_rename['M'] if x != ('')]
 
-                    #{x:y for x,y in pathlists.items()}
-                    #for key in pathlists_for_rename.keys():
-                        #for pathlists_for_rename[key]:
-                            
-                    #print(pathlists_for_rename)
+                    pathlists_for_rename['D'] = [tuple([x[0].replace(path_R[0],"")]) if isparent_dir(path_R[0],x[0]) else '' for x in pathlists['D']]
+                    pathlists_for_rename['D'] = [x for x in pathlists_for_rename['D'] if x != ('')]
+
+                    pathlists_for_rename['A'] = [tuple([x[0].replace(path_R[1],"")]) if isparent_dir(path_R[1],x[0]) else '' for x in pathlists['A']]
+                    pathlists_for_rename['A'] = [x for x in pathlists_for_rename['A'] if x != ('')]
+
                     ignore_set.add(rename_src_file)
                     keep_set.discard(rename_src_file)
                     delete(namespace_dst + path.join(rename_dst_dir, rename_src_file))
-                    if copydata(rename_src_path, rename_dst_path,ignorelists=pathlists, purge=True,namespace_src=namespace_src,namespace_dst=namespace_dst): 
+                    if copydata(rename_src_path, rename_dst_path,ignorelists=pathlists_for_rename, purge=True,namespace_src=rename_src_path,namespace_dst=rename_dst_path): 
                         print(Orange("Rename: \"{}\" to\n \"{}\"\n".format(rename_src_path,rename_dst_path)))
 
                 keep_renamed_path:str = namespace_src + rename_dst_dir
@@ -192,6 +199,8 @@ def update(pre_ver:str,ver:str) -> None:
         s:str = path.join(modify_path, path.basename(MA[0]))
         d:str = dst + MA[0]
         copydata(s,d,ignorelists=pathlists, purge=True,namespace_src=src,namespace_dst=dst)
+    for D in pathlists['D']:
+        delete(dst + D[0])
 
 def main():
     vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]

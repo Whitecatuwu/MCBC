@@ -5,9 +5,11 @@ A:\assets\minecraft\lang\zh_TW.lang
 D:\assets\minecraft\lang\zh_tw.json
 
 #A:\assets\minecraft\models\items\lit_pumpkin.json
+D:\assets\minecraft\models\items\jack_o_lantern.json
 D:\assets\minecraft\models\item\jack_o_lantern.json
 
 #A:\assets\minecraft\models\items\pumpkin.json
+D:\assets\minecraft\models\items\carved_pumpkin.json
 D:\assets\minecraft\models\item\carved_pumpkin.json
 
 R:\assets\minecraft\textures\block,\assets\minecraft\textures\blocks
