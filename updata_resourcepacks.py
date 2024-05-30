@@ -3,6 +3,7 @@ from os import chdir,scandir,remove,path,makedirs
 from time import time as currenttime
 from re import match
 from fnmatch import filter as fn_filter
+#import threading
 
 current = path.dirname(path.abspath(__file__))
 chdir(current)
@@ -104,7 +105,6 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
 
             for path_M in pathlists["M"]:
                 path_M = path_M[0]
-
                 dirname, filename = path.split(path_M)
                 dirname = namespace_src if dirname == '\\' else namespace_src + dirname
                 if fn_filter([current_dirname], dirname) or dirname == namespace_src:
@@ -214,16 +214,23 @@ def main():
     vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]
     older_vers = ["", "_1.16.5", "_1.16.1", "_1.14.4", "_1.12.2", "_1.10.2", "_1.8.9"]
     #resource_ver = {"1.8.9":1, "1.10.2":2, "1.12.2":3, "1.14.4":4, "1.16.1":5, "1.16.5":6, "1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32}
-    
-    #for i in range(1,2,1): 
-    for i in range(1,len(older_vers),1):
-        print(Strong('-'*25 + older_vers[i].replace('_','') + '-'*25))
-        update(older_vers[i-1],older_vers[i])
+    def update_older() -> None:
+        #for i in range(1,2,1): 
+        for i in range(1,len(older_vers),1):
+            print(Strong('-'*25 + older_vers[i].replace('_','') + '-'*25))
+            update(older_vers[i-1],older_vers[i])
 
-    #for i in range(1,2,1): 
-    for i in range(1,len(vers),1): 
-        print(Strong('-'*25 + vers[i].replace('_','') + '-'*25))
-        update(vers[i-1],vers[i])
+    def update_newer() -> None:
+        #for i in range(1,2,1): 
+        for i in range(1,len(vers),1): 
+            print(Strong('-'*25 + vers[i].replace('_','') + '-'*25))
+            update(vers[i-1],vers[i])
+
+    #older = threading.Thread(target=update_older)
+    #older.start()
+
+    update_older()
+    update_newer()
 
 if __name__ == '__main__':
     start_time = currenttime()
