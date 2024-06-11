@@ -19,30 +19,26 @@ def White(skk): return "\033[97m{}\033[00m".format(skk)
 def Orange(skk): return "\033[38;5;214m{}\033[00m".format(skk) #rename
 def Strong(skk): return "\033[1m{}\033[0m".format(skk)
 
-def is_valid_pathname(path) -> bool:
+def is_valid_pathname(pathname:str) -> bool:
+    pathname = pathname.replace('/','\\')
     pattern = r'(([a-zA-Z]:\\)|\.{0,2}\\)?(\w+\\)*(\w+(\.\w+)*)$'
-    pattern2 = r'(([a-zA-Z]:/)|\.{0,2}/)?(\w+/)*(\w+(\.\w+)*)$'
-    return (match(pattern, path) is not None) or (match(pattern2, path) is not None)
+    return (match(pattern, pathname) is not None)
 
 def isparent_dir(path_parent:str, path_child:str) -> bool:
     if len(path_child) < len(path_parent): return False
 
-    path_parent = path_parent.replace('\\','/')
-    path_child = path_child.replace('\\','/')
-    spilt_parent = path_parent.split('/')
-    spilt_child = path_child.split('/')
+    path_parent = path_parent.replace('/','\\')
+    path_child = path_child.replace('/','\\')
+    spilt_parent = path_parent.split('\\')
+    spilt_child = path_child.split('\\')
 
     for p,c in zip(spilt_parent,spilt_child):
         if not fn_filter([c],p) : return False
     return True
 
 def get_top_dirname(thepath:str) -> bool:
-    thepath = thepath.replace("/","\\")
-    return thepath.strip("\\").split('\\')[0]
-    #while True:
-        #thepath, tail = path.split(thepath)
-        #if thepath == '\\' or thepath == '/' or thepath == '':
-            #return tail
+    thepath = thepath.replace("/","\\").strip("\\")
+    return thepath.split('\\')[0]
 
 def filtercopy(ignore_old=True,_:list=[False]) -> callable:
     #Ignore older files when ignore_old is True.
@@ -101,7 +97,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
             filename:str
             
             for path_D in pathlists["D"]:
-                path_D:str = path_D[0].strip('\\')
+                path_D:str = path_D[0]
                 path_D = path.join(namespace_src,path_D)
                 dirname, filename = path.split(path_D)
                 if fn_filter([current_dirname], dirname) or dirname == namespace_src:
@@ -110,7 +106,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                     if not names_set and (not dirname == namespace_src): print(Yellow(f"Warning : There were no results found for {filename} in \"{dirname}\"."))
 
             for path_M in pathlists["M"]:
-                path_M:str = path_M[0].strip('\\')
+                path_M:str = path_M[0]
                 path_M = path.join(namespace_src,path_M)
                 dirname, filename = path.split(path_M)
                 if fn_filter([current_dirname], dirname) or dirname == namespace_src:
@@ -133,21 +129,20 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                 
                 if fn_filter([current_dirname], path.dirname(rename_src_path)):
                     pathlists_for_rename:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}           
-                    pathlists_for_rename['R'] = [(x.replace(path_R[0],"") if isparent_dir(path_R[0],x) else '',y.replace(path_R[1],"") if isparent_dir(path_R[1],y) else '') for (x,y) in pathlists['R']]
+                    pathlists_for_rename['R'] = [(x.replace(path_R[0],"").strip('\\') if isparent_dir(path_R[0],x) else '', y.replace(path_R[1],"").strip('\\') if isparent_dir(path_R[1],y) else '') for (x,y) in pathlists['R']]
                     pathlists_for_rename['R'] = [x for x in pathlists_for_rename['R'] if x != ('','')]
                     
-                    pathlists_for_rename['M'] = [tuple([x[0].replace(path_R[1],"")]) if isparent_dir(path_R[1],x[0]) else '' for x in pathlists['M']]
+                    pathlists_for_rename['M'] = [tuple([x[0].replace(path_R[1],"").strip('\\')]) if isparent_dir(path_R[1],x[0]) else '' for x in pathlists['M']]
                     pathlists_for_rename['M'] = [x for x in pathlists_for_rename['M'] if x != ('')]
 
-                    pathlists_for_rename['D'] = [tuple([x[0].replace(path_R[0],"")]) if isparent_dir(path_R[0],x[0]) else '' for x in pathlists['D']]
+                    pathlists_for_rename['D'] = [tuple([x[0].replace(path_R[1],"").strip('\\')]) if isparent_dir(path_R[1],x[0]) else '' for x in pathlists['D']]
                     pathlists_for_rename['D'] = [x for x in pathlists_for_rename['D'] if x != ('')]
 
-                    pathlists_for_rename['A'] = [tuple([x[0].replace(path_R[1],"")]) if isparent_dir(path_R[1],x[0]) else '' for x in pathlists['A']]
+                    pathlists_for_rename['A'] = [tuple([x[0].replace(path_R[1],"").strip('\\')]) if isparent_dir(path_R[1],x[0]) else '' for x in pathlists['A']]
                     pathlists_for_rename['A'] = [x for x in pathlists_for_rename['A'] if x != ('')]
 
                     ignore_set.add(rename_src_file)
                     keep_set.discard(rename_src_file)
-                    delete(path.join(path.dirname(rename_dst_path), rename_src_file))
                     copydata(rename_src_path, rename_dst_path,ignorelists=pathlists_for_rename, purge=True,namespace_src=rename_src_path,namespace_dst=rename_dst_path)
                     print(Orange("Rename: \"{}\" to\n \"{}\"\n".format(rename_src_path,rename_dst_path)))
 
@@ -177,15 +172,15 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
     return _ignore
 
 def update(pre_ver:str,ver:str) -> None:
-    src:str = current + "\\battlecats" + pre_ver
-    dst:str = current + "\\battlecats" + ver 
+    src:str = path.join(current, "battlecats" + pre_ver)
+    dst:str = path.join(current, "battlecats" + ver )
     
-    modify_path:str = current + "\\battlecats\\vers\\" + ver[1:]
+    modify_path:str = path.join(current, r"battlecats\vers", ver[1:])
     #R:rename, #M:modify, D:delete, A:add
     pathlists:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}
 
     #Obtaining the paths of files will be modified.
-    if path.exists(Modify_txt_path := modify_path + "\\Modify.txt"):
+    if path.exists(Modify_txt_path := path.join(modify_path, "Modify.txt")):
         with open(Modify_txt_path,"r") as r:
             for i in r.readlines():
                 if i.startswith('#'): continue
@@ -194,7 +189,7 @@ def update(pre_ver:str,ver:str) -> None:
                 if (i[0] == 'A' or i[0] == 'M') and not is_valid_pathname(i[1]): 
                     print(Yellow(f"Warning : \"{i[1]}\" is not a vaild path name."))
                 else: 
-                    pathlists[i[0]].append(tuple(i[1].split(',')))
+                    pathlists[i[0]].append(tuple(map(lambda x:x.strip('\\'), i[1].split(','))))
     else:
         print(Yellow(f"Warning: \"Modify.txt\" in {ver[1:]} does not exist, it will be added."))
         if not path.exists(path.dirname(Modify_txt_path)): 
@@ -207,10 +202,10 @@ def update(pre_ver:str,ver:str) -> None:
     #Copy files from the path "battlecats/vers/{ver}".
     for MA in pathlists["M"] + pathlists["A"]:
         s:str = path.join(modify_path, path.basename(MA[0]))
-        d:str = dst + MA[0]
+        d:str = path.join(dst,MA[0])
         copydata(s,d,ignorelists=pathlists, purge=True,namespace_src=src,namespace_dst=dst)
     for D in pathlists['D']:
-        delete(dst + D[0])
+        delete(path.join(dst, D[0]))
 
 def main():
     vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]
