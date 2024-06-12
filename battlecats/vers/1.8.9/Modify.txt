@@ -33,6 +33,7 @@ R:\assets\minecraft\textures\item\black_dye.png,\assets\minecraft\textures\items
 R:\assets\minecraft\textures\item\cyan_dye.png,\assets\minecraft\textures\items\dye_powder_cyan.png
 R:\assets\minecraft\textures\item\gray_dye.png,\assets\minecraft\textures\items\dye_powder_gray.png
 R:\assets\minecraft\textures\item\green_dye.png,\assets\minecraft\textures\items\dye_powder_green.png
+R:\assets\minecraft\textures\item\lapis_lazuli.png,\assets\minecraft\textures\items\dye_powder_blue.png
 R:\assets\minecraft\textures\item\light_blue_dye.png,\assets\minecraft\textures\items\dye_powder_light_blue.png
 R:\assets\minecraft\textures\item\lime_dye.png,\assets\minecraft\textures\items\dye_powder_lime.png
 R:\assets\minecraft\textures\item\magenta_dye.png,\assets\minecraft\textures\items\dye_powder_magenta.png
@@ -57,3 +58,5 @@ R:\assets\minecraft\textures\item\wooden_hoe.png,\assets\minecraft\textures\item
 R:\assets\minecraft\textures\item\wooden_pickaxe.png,\assets\minecraft\textures\items\wood_pickaxe.png
 R:\assets\minecraft\textures\item\wooden_shovel.png,\assets\minecraft\textures\items\wood_shovel.png
 R:\assets\minecraft\textures\item\wooden_sword.png,\assets\minecraft\textures\items\wood_sword.png
+R:\assets\minecraft\textures\item\wooden_sword.png,\assets\minecraft\textures\items\wood_sword.png
+
