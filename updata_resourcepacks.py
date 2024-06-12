@@ -36,7 +36,7 @@ def isparent_dir(path_parent:str, path_child:str) -> bool:
         if not fn_filter([c],p) : return False
     return True
 
-def get_top_dirname(thepath:str) -> bool:
+def get_top_dirname(thepath:str) -> str:
     thepath = thepath.replace("/","\\").strip("\\")
     return thepath.split('\\')[0]
 
@@ -74,7 +74,7 @@ def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:st
         copytree(src,dst,dirs_exist_ok=True,ignore=ignorepath(ignorelists,namespace_src, namespace_dst, purge=purge),copy_function=filtercopy(ignore_old=ignore_old,_=_))
         return _[0]
     elif path.isfile(src):
-        filtercopy(ignore_old=ignore_old)(src,dst)
+        filtercopy(ignore_old=ignore_old,_=_)(src,dst)
         return _[0]
     else: 
         print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a directory or a file.\n"))
@@ -172,39 +172,51 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
     return _ignore
 
 def update(pre_ver:str,ver:str) -> None:
+    def set_modify_list(modify_path:str) -> dict[str, list]:
+        #R:rename, #M:modify, D:delete, A:add
+        output:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}
+
+        #Obtaining the paths of files will be modified.
+        if not path.exists(modify_txt := path.join(modify_path, "Modify.txt")):
+            print(Yellow(f"Warning: \"Modify.txt\" in {ver[1:]} does not exist, it will be added."))
+            if not path.exists(path.dirname(modify_txt)): 
+                makedirs(path.dirname(modify_txt))
+            with open(modify_txt,"w"): 
+                return None
+
+        with open(modify_txt,"r") as r:
+            key:str
+            paths:str
+            for i in r.readlines():
+                if i.startswith('#'): 
+                    continue
+                i = i.strip().replace("/","\\").split(':')
+                if (key:=i[0]) not in output.keys(): 
+                    continue
+                paths = i[1]
+                if key in ('A','M') and not is_valid_pathname(paths): 
+                    print(Yellow(f"Warning : \"{paths}\" is not a vaild path name."))
+                    continue
+                output[key].append(tuple(map(lambda x:x.strip('\\'), paths.split(','))))
+        return output
+
     src:str = path.join(current, "battlecats" + pre_ver)
     dst:str = path.join(current, "battlecats" + ver )
     
     modify_path:str = path.join(current, r"battlecats\vers", ver[1:])
-    #R:rename, #M:modify, D:delete, A:add
-    pathlists:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}
-
-    #Obtaining the paths of files will be modified.
-    if path.exists(Modify_txt_path := path.join(modify_path, "Modify.txt")):
-        with open(Modify_txt_path,"r") as r:
-            for i in r.readlines():
-                if i.startswith('#'): continue
-                i = i.strip().replace("/","\\").split(':')
-                if i[0] not in pathlists.keys(): continue
-                if (i[0] == 'A' or i[0] == 'M') and not is_valid_pathname(i[1]): 
-                    print(Yellow(f"Warning : \"{i[1]}\" is not a vaild path name."))
-                else: 
-                    pathlists[i[0]].append(tuple(map(lambda x:x.strip('\\'), i[1].split(','))))
-    else:
-        print(Yellow(f"Warning: \"Modify.txt\" in {ver[1:]} does not exist, it will be added."))
-        if not path.exists(path.dirname(Modify_txt_path)): 
-            makedirs(path.dirname(Modify_txt_path))
-        with open(Modify_txt_path,"w"): pass
+    modify_list:dict[str, list] = set_modify_list(modify_path)
 
     #Copy files that not in ignore list and not in modify list.
-    copydata(src+"\\assets", dst+"\\assets", ignorelists=pathlists, namespace_src=src, namespace_dst=dst, purge=True)
+    copydata(src+"\\assets", dst+"\\assets", ignorelists=modify_list, namespace_src=src, namespace_dst=dst, purge=True)
     
     #Copy files from the path "battlecats/vers/{ver}".
-    for MA in pathlists["M"] + pathlists["A"]:
+    if modify_list is None or modify_list == {}:
+        return
+    for MA in modify_list["M"] + modify_list["A"]:
         s:str = path.join(modify_path, path.basename(MA[0]))
         d:str = path.join(dst,MA[0])
-        copydata(s,d,ignorelists=pathlists, purge=True,namespace_src=src,namespace_dst=dst)
-    for D in pathlists['D']:
+        copydata(s,d,ignorelists=modify_list, purge=True,namespace_src=src,namespace_dst=dst)
+    for D in modify_list['D']:
         delete(path.join(dst, D[0]))
 
 def main():
