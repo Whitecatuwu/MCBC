@@ -7,11 +7,11 @@ D:\assets\minecraft\lang\*.json
 
 #A:\assets\minecraft\models\items\lit_pumpkin.json
 D:\assets\minecraft\models\items\jack_o_lantern.json
-D:\assets\minecraft\models\item\jack_o_lantern.json
+#D:\assets\minecraft\models\item\jack_o_lantern.json
 
 #A:\assets\minecraft\models\items\pumpkin.json
 D:\assets\minecraft\models\items\carved_pumpkin.json
-D:\assets\minecraft\models\item\carved_pumpkin.json
+#D:\assets\minecraft\models\item\carved_pumpkin.json
 
 R:\assets\minecraft\textures\block,\assets\minecraft\textures\blocks
 R:\assets\minecraft\textures\block\carved_pumpkin.png,\assets\minecraft\textures\blocks\pumpkin_face_off.png
