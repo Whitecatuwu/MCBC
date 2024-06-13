@@ -20,8 +20,11 @@ def Orange(skk): return "\033[38;5;214m{}\033[00m".format(skk) #rename
 def Strong(skk): return "\033[1m{}\033[0m".format(skk)
 
 def is_valid_pathname(pathname:str) -> bool:
+    ###"""invalid: {\, /, *, ?, :, ", <, >, |}"""
+    #assert isinstance(pathname,str)
     pathname = pathname.replace('/','\\')
-    pattern = r'(([a-zA-Z]:\\)|\.{0,2}\\)?(\w+\\)*(\w+(\.\w+)*)$'
+    pattern = r'(([a-zA-Z]:\\)|\.{0,2}\\)?([^\\/:*?"<>|]+\\)*([^\\/*?:"<>|]+(\.[^\\/*?:"<>|]+)*)$'
+    #pattern = r'(([a-zA-Z]:\\)|\.{0,2}\\)?(\w+\\)*(\w+(\.\w+)*)$'
     return (match(pattern, pathname) is not None)
 
 def isparent_dir(path_parent:str, path_child:str) -> bool:
@@ -37,11 +40,12 @@ def isparent_dir(path_parent:str, path_child:str) -> bool:
     return True
 
 def get_top_dirname(thepath:str) -> str:
+    assert is_valid_pathname(thepath)
     thepath = thepath.replace("/","\\").strip("\\")
     return thepath.split('\\')[0]
 
 def filtercopy(ignore_old=True,_:list=[False]) -> callable:
-    #Ignore older files when ignore_old is True.
+    ##Ignore older files when ignore_old is True.
     def _filter(src, dst) -> None:
         dst_is_older:bool = (not path.exists(dst)) or (path.getmtime(src) > path.getmtime(dst))
         if (not ignore_old) or dst_is_older: 
@@ -71,7 +75,7 @@ def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:st
     if path.isdir(src):
         namespace_src = src if namespace_src == None else namespace_src
         namespace_dst = dst if namespace_dst == None else namespace_dst
-        copytree(src,dst,dirs_exist_ok=True,ignore=ignorepath(ignorelists,namespace_src, namespace_dst, purge=purge),copy_function=filtercopy(ignore_old=ignore_old,_=_))
+        copytree(src,dst,dirs_exist_ok=True,ignore=_ignorepath(ignorelists,namespace_src, namespace_dst, purge=purge),copy_function=filtercopy(ignore_old=ignore_old,_=_))
         return _[0]
     elif path.isfile(src):
         filtercopy(ignore_old=ignore_old,_=_)(src,dst)
@@ -80,18 +84,17 @@ def copydata(src:str, dst:str, ignorelists:dict[str,list]=None, namespace_src:st
         print(Red(f"Updata failed: {dst} \nBecause: \"{src}\" is not a directory or a file.\n"))
         return False
 
-def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
+def _ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, purge:bool = False) -> callable:
     def _ignore(current_dirname:str, src_filenames:list) -> set:
-        delete_set:set[str] = set()
-        modify_set:set[str] = set()
-        add_set:set[str] = set()
-
-        ignore_set:set[str] = set()
         keep_set:set[str] = set(src_filenames)
-
         if pathlists == {} or pathlists is None:
             pass
         else:
+            delete_set:set[str] = set()
+            modify_set:set[str] = set()
+            add_set:set[str] = set()
+            ignore_set:set[str] = set()
+            
             #fn_filter(names, pattern)
             dirname:str
             filename:str
@@ -106,8 +109,9 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                     if not names_set and (not dirname == namespace_src): print(Yellow(f"Warning : There were no results found for {filename} in \"{dirname}\"."))
 
             for path_M in pathlists["M"]:
-                path_M:str = path_M[0]
+                path_M:str = path_M[0]    
                 path_M = path.join(namespace_src,path_M)
+                #assert is_valid_pathname(path_M)
                 dirname, filename = path.split(path_M)
                 if fn_filter([current_dirname], dirname) or dirname == namespace_src:
                     names_set:set = set(fn_filter(src_filenames, filename))
@@ -117,6 +121,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
             for path_A in pathlists["A"]:
                 path_A:str = path_A[0].strip('\\')
                 add_path:str = path.join(namespace_src ,path_A)
+                #assert is_valid_pathname(add_path)
                 if isparent_dir(current_dirname, add_path):
                     filename = get_top_dirname(add_path.replace(current_dirname,""))
                     if filename not in src_filenames : add_set.add(filename)
@@ -126,6 +131,7 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                 rename_dst_dir, rename_dst_file = path.split(path_R[1].strip('\\'))
                 rename_src_path = path.join(namespace_src, path_R[0].strip('\\'))
                 rename_dst_path = path.join(namespace_dst, path_R[1].strip('\\'))
+                #assert is_valid_pathname(rename_src_path) and is_valid_pathname(rename_dst_path)
                 
                 if fn_filter([current_dirname], path.dirname(rename_src_path)):
                     pathlists_for_rename:dict[str, list] = {'R':[],'M':[],'D':[],'A':[]}           
@@ -153,9 +159,9 @@ def ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str, 
                     filename = get_top_dirname(keep_renamed_path.replace(current_dirname,""))
                     keep_set.add(filename)
             
-        ignore_set = ignore_set | delete_set | modify_set
-        keep_set = keep_set | modify_set | add_set
-        keep_set.difference_update(delete_set)
+            ignore_set = ignore_set | delete_set | modify_set
+            keep_set = keep_set | modify_set | add_set
+            keep_set.difference_update(delete_set)
 
         if (purge == True) and path.exists(path_dst := current_dirname.replace(namespace_src,namespace_dst)):
             for d in scandir(path_dst):
@@ -193,11 +199,11 @@ def update(pre_ver:str,ver:str) -> None:
                 i = i.strip().replace("/","\\").split(':')
                 if (key:=i[0]) not in output.keys(): 
                     continue
-                paths = i[1]
-                if key in ('A','M') and not is_valid_pathname(paths): 
+                paths = i[1].split(',')
+                if key in ('A','R','M') and not all(map(is_valid_pathname,paths)): 
                     print(Yellow(f"Warning : \"{paths}\" is not a vaild path name."))
                     continue
-                output[key].append(tuple(map(lambda x:x.strip('\\'), paths.split(','))))
+                output[key].append(tuple(map(lambda x:x.strip('\\'), paths)))
         return output
 
     src:str = path.join(current, "battlecats" + pre_ver)
@@ -220,9 +226,11 @@ def update(pre_ver:str,ver:str) -> None:
         delete(path.join(dst, D[0]))
 
 def main():
-    vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6"]
+    vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6","_1.21"]
     older_vers = ["", "_1.16.5", "_1.16.1", "_1.14.4", "_1.12.2", "_1.10.2", "_1.8.9"]
-    #resource_ver = {"1.8.9":1, "1.10.2":2, "1.12.2":3, "1.14.4":4, "1.16.1":5, "1.16.5":6, "1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32}
+    #resource_ver = {"1.8.9":1, "1.10.2":2, "1.12.2":3, "1.14.4":4, "1.16.1":5, "1.16.5":6, "1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32, "1.21":34}
+    #locks = threading.Lock()
+
     def update_older() -> None:
         #for i in range(1,2,1): 
         for i in range(1,len(older_vers),1):
