@@ -1,1 +1,5 @@
 M:\assets\minecraft\textures\mob_effect\bad_omen.png
+A:\assets\minecraft\textures\gui\container\crafter.png
+A:\assets\minecraft\textures\gui\sprites\container\crafter\disabled_slot.png
+A:\assets\minecraft\textures\gui\sprites\container\crafter\unpowered_redstone.png
+D:\assets\minecraft\shaders\core\rendertype_crumbling.json
