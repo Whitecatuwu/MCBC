@@ -150,7 +150,7 @@ def _ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str,
                     ignore_set.add(rename_src_file)
                     keep_set.discard(rename_src_file)
                     copydata(rename_src_path, rename_dst_path,ignorelists=pathlists_for_rename, purge=True,namespace_src=rename_src_path,namespace_dst=rename_dst_path)
-                    print(Orange("Rename: \"{}\" to\n \"{}\"\n".format(rename_src_path,rename_dst_path)))
+                    print(Orange("Rename: \"{}\" \n -> \"{}\"\n".format(path.relpath(rename_src_path,current), path.relpath(rename_dst_path,current))))
 
                 keep_renamed_path:str = path.join(namespace_src, rename_dst_dir).strip('\\')
                 if fn_filter([current_dirname], keep_renamed_path):
@@ -168,11 +168,11 @@ def _ignorepath(pathlists:dict[str, list], namespace_src:str, namespace_dst:str,
                 if d.name not in keep_set : delete(d.path)
         
         for dele in delete_set:
-            print(Grey(f"Ignore src: {path.join(current_dirname,dele)}"))
+            print(Grey(f"Ignore src: {path.relpath(path.join(current_dirname,dele),current)}"))
         for mod in modify_set:
-            print(Cyan(f"Skip src: {path.join(current_dirname,mod)}"))
+            print(Cyan(f"Skip src: {path.relpath(path.join(current_dirname,mod),current)}"))
         for add in add_set:
-            print(Blue(f"Keep: {path.join(path_dst,add)}"))
+            print(Blue(f"Keep: {path.relpath(path.join(path_dst,add),current)}"))
 
         return ignore_set
     return _ignore
@@ -228,7 +228,7 @@ def update(pre_ver:str,ver:str) -> None:
 def main():
     vers = ["", "_1.17.1", "_1.18.2", "_1.19.2", "_1.19.3", "_1.19.4", "_1.20.1", "_1.20.2", "_1.20.4", "_1.20.6","_1.21.1","_1.21.2"]
     older_vers = ["", "_1.16.5", "_1.16.1", "_1.14.4", "_1.12.2", "_1.10.2", "_1.8.9"]
-    #resource_ver = {"1.8.9":1, "1.10.2":2, "1.12.2":3, "1.14.4":4, "1.16.1":5, "1.16.5":6, "1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32, "1.21":34}
+    #resource_ver = {"1.8.9":1, "1.10.2":2, "1.12.2":3, "1.14.4":4, "1.16.1":5, "1.16.5":6, "1.17.1":7, "1.18.2":8, "1.19.2":9, "1.19.3":12, "1.19.4":13, "1.20.1":15, "1.20.2":18, "1.20.4":22, "1.20.6":32, "1.21":34, "1.21.2":39}
     #locks = threading.Lock()
 
     def update_older() -> None:
