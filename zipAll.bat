@@ -94,4 +94,14 @@ tar.exe -a -c -f battlecats_1.20.6.zip assets pack.mcmeta pack.png
 cd ..
 robocopy ".\battlecats_1.20.6" "." battlecats_1.20.6.zip /MOV
 
+cd ".\battlecats_1.21.1"
+tar.exe -a -c -f battlecats_1.21.1.zip assets pack.mcmeta pack.png
+cd ..
+robocopy ".\battlecats_1.21.1" "." battlecats_1.21.1.zip /MOV
+
+cd ".\battlecats_1.21.2"
+tar.exe -a -c -f battlecats_1.21.2.zip assets pack.mcmeta pack.png
+cd ..
+robocopy ".\battlecats_1.21.2" "." battlecats_1.21.2.zip /MOV
+
 pause
