@@ -1,1 +1,9 @@
 A:\assets\minecraft\textures\item\echo_shard.png
+A:\assets\minecraft\textures\item\spawneggs\allay_spawn_egg.png
+A:\assets\minecraft\textures\item\spawneggs\warden_spawn_egg.png
+A:\assets\minecraft\textures\item\spawneggs\tadpole_spawn_egg.png
+A:\assets\minecraft\textures\item\spawneggs\frog_spawn_egg.png
+A:\assets\minecraft\models\item\allay_spawn_egg.json
+A:\assets\minecraft\models\item\warden_spawn_egg.json
+A:\assets\minecraft\models\item\tadpole_spawn_egg.json
+A:\assets\minecraft\models\item\frog_spawn_egg.json

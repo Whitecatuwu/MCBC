@@ -4,3 +4,7 @@ A:\assets\minecraft\textures\gui\sprites\container\crafter\disabled_slot.png
 A:\assets\minecraft\textures\gui\sprites\container\crafter\unpowered_redstone.png
 D:\assets\minecraft\shaders\core\rendertype_crumbling.json
 A:\assets\minecraft\textures\item\ominous_bottle.png
+A:\assets\minecraft\textures\item\spawneggs\breeze_spawn_egg.png
+A:\assets\minecraft\textures\item\spawneggs\bogged_spawn_egg.png
+A:\assets\minecraft\models\item\breeze_spawn_egg.json
+A:\assets\minecraft\models\item\bogged_spawn_egg.json
