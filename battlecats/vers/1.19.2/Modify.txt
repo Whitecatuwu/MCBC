@@ -7,3 +7,6 @@ A:\assets\minecraft\models\item\allay_spawn_egg.json
 A:\assets\minecraft\models\item\warden_spawn_egg.json
 A:\assets\minecraft\models\item\tadpole_spawn_egg.json
 A:\assets\minecraft\models\item\frog_spawn_egg.json
+A:\assets\minecraft\textures\entity\warden
+A:\assets\minecraft\textures\mob_effect\darkness.png
+A:\assets\minecraft\textures\mob_effect\darkness.png.mcmeta
