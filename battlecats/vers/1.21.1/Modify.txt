@@ -8,3 +8,10 @@ A:\assets\minecraft\textures\item\spawneggs\breeze_spawn_egg.png
 A:\assets\minecraft\textures\item\spawneggs\bogged_spawn_egg.png
 A:\assets\minecraft\models\item\breeze_spawn_egg.json
 A:\assets\minecraft\models\item\bogged_spawn_egg.json
+A:\assets\minecraft\textures\mob_effect\infested.png
+A:\assets\minecraft\textures\mob_effect\oozing.png
+A:\assets\minecraft\textures\mob_effect\raid_omen.png
+A:\assets\minecraft\textures\mob_effect\infested.png
+A:\assets\minecraft\textures\mob_effect\trial_omen.png
+A:\assets\minecraft\textures\mob_effect\weaving.png
+A:\assets\minecraft\textures\mob_effect\wind_charged.png
