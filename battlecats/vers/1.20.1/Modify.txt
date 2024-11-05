@@ -1,6 +1,7 @@
 M:\assets\minecraft\textures\gui\title\minecraft.png
 M:\assets\minecraft\textures\gui\container\smithing.png
 M:\assets\minecraft\shaders
+A:\assets\minecraft\textures\item\brush.png
 A:\assets\minecraft\textures\item\spawneggs\camel_spawn_egg.png
 A:\assets\minecraft\textures\item\spawneggs\sniffer_spawn_egg.png
 A:\assets\minecraft\models\item\camel_spawn_egg.json
