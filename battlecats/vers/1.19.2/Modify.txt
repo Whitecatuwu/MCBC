@@ -10,3 +10,4 @@ A:\assets\minecraft\models\item\frog_spawn_egg.json
 A:\assets\minecraft\textures\entity\warden
 A:\assets\minecraft\textures\mob_effect\darkness.png
 A:\assets\minecraft\textures\mob_effect\darkness.png.mcmeta
+A:\assets\minecraft\textures\item\tadpole_bucket.png
