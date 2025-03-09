@@ -17,3 +17,7 @@ R:\assets\minecraft\textures\item\empty_slot_ingot.png,\assets\minecraft\texture
 R:\assets\minecraft\textures\item\empty_slot_lapis_lazuli.png,\assets\minecraft\textures\gui\sprites\container\slot\lapis_lazuli.png
 R:\assets\minecraft\textures\item\empty_slot_quartz.png,\assets\minecraft\textures\gui\sprites\container\slot\quartz.png
 R:\assets\minecraft\textures\item\empty_slot_redstone_dust.png,\assets\minecraft\textures\gui\sprites\container\slot\redstone_dust.png
+
+A:\assets\minecraft\items
+A:\assets\minecraft\textures\item\spawneggs\creaking_spawn_egg.png
+M:\assets\minecraft\models\item
