@@ -86,14 +86,19 @@ def filtercopy(ignore_old=True, _: list = [False]) -> callable:
         dst_is_older: bool = (not path.exists(dst)) or (
             path.getmtime(src) > path.getmtime(dst)
         )
-        if (not ignore_old) or dst_is_older:
-            try:
-                copy2(src, dst)
-            except Exception as e:
-                print(Red(f"Update failed: {dst} \nBecause: {e}\n"))
-            else:
-                print(Green(f"Update: {dst}"))
-                _[0] = True
+        if ignore_old and (not dst_is_older):
+            return
+
+        dst_dir = path.dirname(dst)
+        if not path.exists(dst_dir):
+            makedirs(dst_dir)
+        try:
+            copy2(src, dst)
+        except Exception as e:
+            print(Red(f"Update failed: {dst} \nBecause: {e}\n"))
+        else:
+            print(Green(f"Update: {dst}"))
+            _[0] = True
 
     return _filter
 
