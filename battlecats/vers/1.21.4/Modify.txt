@@ -19,4 +19,5 @@ R:\assets\minecraft\textures\item\empty_slot_quartz.png,\assets\minecraft\textur
 R:\assets\minecraft\textures\item\empty_slot_redstone_dust.png,\assets\minecraft\textures\gui\sprites\container\slot\redstone_dust.png
 
 A:\assets\minecraft\items
+A:\assets\minecraft\textures\item\spawneggs\creaking_spawn_egg.png
 M:\assets\minecraft\models\item
