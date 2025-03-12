@@ -21,6 +21,3 @@ R:\assets\minecraft\textures\item\empty_slot_redstone_dust.png,\assets\minecraft
 A:\assets\minecraft\items
 A:\assets\minecraft\textures\item\spawneggs\creaking_spawn_egg.png
 M:\assets\minecraft\models\item
-
-A:\assets\minecraft\models\block\carved_pumpkin.json
-A:\assets\minecraft\models\block\jack_o_lantern.json
