@@ -158,14 +158,14 @@ def _ignorepath(
 ) -> callable:
     def _ignore(current_dirname: str, src_filenames: list) -> set:
         keep_set: set[str] = set(src_filenames)
+        delete_set: set[str] = set()
+        modify_set: set[str] = set()
+        add_set: set[str] = set()
+        ignore_set: set[str] = set()
+
         if pathlists == {} or pathlists is None:
             pass
         else:
-            delete_set: set[str] = set()
-            modify_set: set[str] = set()
-            add_set: set[str] = set()
-            ignore_set: set[str] = set()
-
             # fn_filter(names, pattern)
             dirname: str
             filename: str
@@ -403,10 +403,10 @@ def update(pre_ver: str, ver: str) -> None:
         copydata(
             s,
             d,
-            ignorelists=modify_list,
+            ignorelists={},
             purge=True,
-            namespace_src=src,
-            namespace_dst=dst,
+            namespace_src=s,
+            namespace_dst=d,
         )
     for D in modify_list["D"]:
         delete(path.join(dst, D[0]))
