@@ -1,0 +1,3 @@
+r:\assets\minecraft\shaders\core\battlecat_anime_lines.fsh \assets\minecraft\shaders\core\rendertype_lines.fsh
+r:\assets\minecraft\shaders\core\battlecat_anime_lines.vsh \assets\minecraft\shaders\core\rendertype_lines.vsh
+D:\assets\minecraft\shaders\core\rendertype_lines.json
