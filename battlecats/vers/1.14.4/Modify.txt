@@ -7,16 +7,10 @@ D:\assets\minecraft\textures\entity\hoglin\zoglin.png
 M:\assets\minecraft\textures\entity\shield
 M:\assets\minecraft\textures\gui\accessibility.png
 M:\assets\minecraft\textures\gui\advancements\window.png
-M:\assets\minecraft\textures\gui\container\beacon.png
-M:\assets\minecraft\textures\gui\container\creative_inventory\tabs.png
 D:\assets\minecraft\textures\gui\container\gamemode_switcher.png
-M:\assets\minecraft\textures\gui\container\horse.png
 D:\assets\minecraft\textures\gui\container\smithing.png
 M:\assets\minecraft\textures\gui\container\stonecutter.png
 M:\assets\minecraft\textures\gui\container\villager2.png
-M:\assets\minecraft\textures\gui\icons.png
-M:\assets\minecraft\textures\gui\title\background
-M:\assets\minecraft\textures\gui\widgets.png
 D:\assets\minecraft\textures\item\honey_bottle.png
 D:\assets\minecraft\textures\item\netherite_axe.png
 D:\assets\minecraft\textures\item\netherite_hoe.png

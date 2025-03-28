@@ -1,11 +1,8 @@
 M:\assets\minecraft\textures\gui\container\creative_inventory\tab_inventory.png
 M:\assets\minecraft\textures\gui\container\inventory.png
 
-D:\assets\minecraft\lang\*.json
-
 #A:\assets\minecraft\models\items\lit_pumpkin.json
 
 #A:\assets\minecraft\models\items\pumpkin.json
-
 
 R:\assets\minecraft\models\item,\assets\minecraft\models\items
