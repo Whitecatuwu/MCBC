@@ -287,14 +287,14 @@ def _ignorepath(
                         namespace_src=rename_src_path,
                         namespace_dst=rename_dst_path,
                     )
-                    print(
+                    """print(
                         Orange(
                             'Rename: "{}" \n -> "{}"\n'.format(
                                 path.relpath(rename_src_path, current),
                                 path.relpath(rename_dst_path, current),
                             )
                         )
-                    )
+                    )"""
 
                 keep_renamed_path: str = path.join(namespace_src, rename_dst_dir).strip(
                     "\\"
@@ -318,7 +318,7 @@ def _ignorepath(
                 if d.name not in keep_set:
                     delete(d.path)
 
-        for dele in delete_set:
+        """for dele in delete_set:
             print(
                 Grey(
                     f"Ignore src: {path.relpath(path.join(current_dirname,dele),current)}"
@@ -331,7 +331,7 @@ def _ignorepath(
                 )
             )
         for add in add_set:
-            print(Blue(f"Keep: {path.relpath(path.join(path_dst,add),current)}"))
+            print(Blue(f"Keep: {path.relpath(path.join(path_dst,add),current)}"))"""
 
         return ignore_set
 

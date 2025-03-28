@@ -5,8 +5,9 @@ A:\assets\minecraft\lang\en_US.lang
 
 D:\assets\minecraft\models\item\carved_pumpkin.json
 D:\assets\minecraft\models\item\*spawn_egg.json
-M:\assets\minecraft\models\item\stick.json
+D:\assets\minecraft\models\item\stick.json
 D:\assets\minecraft\models\item\jack_o_lantern.json
+D:\assets\minecraft\models\item\easteregg
 
 D:\assets\minecraft\particles\explosion.json
 
