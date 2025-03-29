@@ -121,7 +121,7 @@ def copydata(
     namespace_src: str = None,
     namespace_dst: str = None,
     purge: bool = False,
-    ignore_old=True,
+    ignore_old: bool = True,
     _: list = [False],
 ) -> bool:
     if not path.exists(src):
@@ -238,7 +238,9 @@ def _ignorepath(
                         for (x, y) in pathlists["R"]
                     ]
                     pathlists_for_rename["R"] = [
-                        x for x in pathlists_for_rename["R"] if x != ("", "")
+                        (x, y)
+                        for (x, y) in pathlists_for_rename["R"]
+                        if x != "" and y != ""
                     ]
 
                     pathlists_for_rename["M"] = [
