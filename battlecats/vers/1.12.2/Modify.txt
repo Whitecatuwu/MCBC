@@ -125,5 +125,6 @@ D:\assets\minecraft\textures\items\empty_slot_sword.png
 
 D:\assets\minecraft\textures\mob_effect
 M:\assets\minecraft\textures\painting
-D:\assets\minecraft\textures\particle\critical_hit.png
+D:\assets\minecraft\textures\particle
+D:\assets\minecraft\particles
 D:\assets\realms
