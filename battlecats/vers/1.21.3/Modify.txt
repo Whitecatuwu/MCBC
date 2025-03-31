@@ -24,3 +24,5 @@ A:\assets\minecraft\textures\item\purple_bundle.png
 A:\assets\minecraft\textures\item\red_bundle.png
 A:\assets\minecraft\textures\item\white_bundle.png
 A:\assets\minecraft\textures\item\yellow_bundle.png
+
+A:\assets\minecraft\textures\gui\sprites\hud\air_empty.png
