@@ -10,7 +10,6 @@ M:\assets\minecraft\textures\gui\container\inventory.png
 M:\assets\minecraft\textures\gui\container\shulker_box.png
 M:\assets\minecraft\textures\gui\container\smoker.png
 M:\assets\minecraft\textures\gui\container\stats_icons.png
-M:\assets\minecraft\textures\gui\icons.png
 M:\assets\minecraft\textures\gui\recipe_button.png
 M:\assets\minecraft\textures\gui\toasts.png
 
