@@ -6,3 +6,5 @@ M:\assets\minecraft\textures\gui\container\inventory.png
 #A:\assets\minecraft\models\items\pumpkin.json
 
 R:\assets\minecraft\models\item,\assets\minecraft\models\items
+
+D:\assets\minecraft\textures\items\beetroot.png
