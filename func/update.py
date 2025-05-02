@@ -1,14 +1,9 @@
 from shutil import copy2, copytree, rmtree
-from os import chdir, scandir, remove, path as os_path, makedirs
-from time import time as current_time
+from os import scandir, remove, makedirs, path as os_path
 from fnmatch import filter as fn_filter
 from func.ansi import *
 from func.pathutils import *
 from func.ResPack import ResPack
-
-# import threading
-
-CURRENT_DIR = os_path.dirname(os_path.abspath(__file__))
 
 
 def filtercopy(ignore_old=True) -> callable:
@@ -103,39 +98,40 @@ def _operations(
                 path_D: str = path_D[0]
                 path_D = os_path.join(root_src, path_D)
                 dirname, filename = os_path.split(path_D)
-                if fn_filter([current_dirname], dirname) or dirname == root_src:
-                    names_set: set = set(fn_filter(src_filenames, filename))
-                    delete_set.update(names_set)
-                    if not names_set and (not dirname == root_src):
-                        print(
-                            Yellow(
-                                f'Warning : There were no results found for {filename} in "{dirname}".'
-                            )
+                if not fn_filter([current_dirname], dirname) and dirname != root_src:
+                    continue
+                names_set: set = set(fn_filter(src_filenames, filename))
+                delete_set.update(names_set)
+                if not names_set and dirname != root_src:
+                    print(
+                        Yellow(
+                            f'Warning : There were no results found for {filename} in "{dirname}".'
                         )
+                    )
 
             for path_M in operations["M"]:
                 path_M: str = path_M[0]
                 path_M = os_path.join(root_src, path_M)
-                # assert is_valid_pathname(path_M)
                 dirname, filename = os_path.split(path_M)
-                if fn_filter([current_dirname], dirname) or dirname == root_src:
-                    names_set: set = set(fn_filter(src_filenames, filename))
-                    modify_set.update(names_set)
-                    if not names_set and (not dirname == root_src):
-                        print(
-                            Yellow(
-                                f'Warning : There were no results found for {filename} in "{dirname}".'
-                            )
+                if not fn_filter([current_dirname], dirname) and dirname != root_src:
+                    continue
+                names_set: set = set(fn_filter(src_filenames, filename))
+                modify_set.update(names_set)
+                if not names_set and (not dirname == root_src):
+                    print(
+                        Yellow(
+                            f'Warning : There were no results found for {filename} in "{dirname}".'
                         )
+                    )
 
             for path_A in operations["A"]:
                 path_A: str = path_A[0]
                 path_A = os_path.join(root_src, path_A)
-                # assert is_valid_pathname(path_A)
-                if is_parent_dir(current_dirname, path_A):
-                    filename = get_top_dirname(os_path.relpath(path_A, current_dirname))
-                    if filename not in src_filenames:
-                        add_set.add(filename)
+                if not is_parent_dir(current_dirname, path_A):
+                    continue
+                filename = get_top_dirname(os_path.relpath(path_A, current_dirname))
+                if filename not in src_filenames:
+                    add_set.add(filename)
 
             for path_R in operations["R"]:
                 path_R_src: str = path_R[0]
@@ -243,7 +239,7 @@ def _operations(
             keep_set = keep_set | modify_set | add_set
             keep_set.difference_update(delete_set)
 
-        if (purge == True) and os_path.exists(
+        if purge and os_path.exists(
             path_dst := os_path.normpath(
                 os_path.join(root_dst, os_path.relpath(current_dirname, root_src))
             )
@@ -309,82 +305,3 @@ def update(pre_ver: ResPack, ver: ResPack) -> None:
         )
     for D in operations["D"]:
         delete(os_path.join(dst, D[0]))
-
-
-def main():
-    older_vers = ["", "1.16.5", "1.16.1", "1.14.4", "1.12.2", "1.10.2", "1.8.9"]
-    vers = [
-        "",
-        "1.17.1",
-        "1.18.2",
-        "1.19.2",
-        "1.19.3",
-        "1.19.4",
-        "1.20.1",
-        "1.20.2",
-        "1.20.4",
-        "1.20.6",
-        "1.21.1",
-        "1.21.3",
-        "1.21.4",
-        "1.21.5",
-    ]
-
-    ver_res_packs = []
-    for ver in vers:
-        if ver == "":
-            pack = ResPack(os_path.join(CURRENT_DIR, "battlecats"), ver)
-        else:
-            pack = ResPack(
-                os_path.join(CURRENT_DIR, "battlecats_" + ver),
-                ver,
-                os_path.join(CURRENT_DIR, "battlecats", "vers", ver),
-            )
-        ver_res_packs.append(pack)
-
-    older_ver_res_packs = []
-    for old in older_vers:
-        if old == "":
-            pack = ResPack(os_path.join(CURRENT_DIR, "battlecats"), old)
-        else:
-            pack = ResPack(
-                os_path.join(CURRENT_DIR, "battlecats_" + old),
-                old,
-                os_path.join(CURRENT_DIR, "battlecats", "vers", old),
-            )
-        older_ver_res_packs.append(pack)
-
-    # locks = threading.Lock()
-
-    def update_older() -> None:
-        for i in range(1, len(older_ver_res_packs), 1):
-            print(Strong(f"{older_ver_res_packs[i].version():-^50}"))
-            update(older_ver_res_packs[i - 1], older_ver_res_packs[i])
-
-    def update_newer() -> None:
-        for i in range(1, len(ver_res_packs), 1):
-            print(Strong(f"{ver_res_packs[i].version():-^50}"))
-            update(ver_res_packs[i - 1], ver_res_packs[i])
-
-    # older = threading.Thread(target=update_older)
-    # older.start()
-
-    update_older()
-    update_newer()
-
-
-if __name__ == "__main__":
-    chdir(CURRENT_DIR)
-    while True:
-        try:
-            start_time = current_time()
-            main()
-            print("\nFinish.")
-            print("runtime: %s seconds" % (current_time() - start_time))
-            c = input("Press Enter to continue or -1 to exit...\n")
-            if c == "-1":
-                break
-        except Exception as e:
-            # print(Red(f"Error: {e}"))
-            raise e
-            break

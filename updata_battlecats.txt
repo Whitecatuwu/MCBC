@@ -1,1 +1,0 @@
-robocopy "C:\Users\User\AppData\Roaming\.minecraft\resourcepacks\battlecats\assets" ".\battlecats\assets" /E /XO /purge /XF
