@@ -82,8 +82,14 @@ class ResPack:
 
         if not os_path.exists(os_path.dirname(docs)):
             makedirs(os_path.dirname(docs))
-        with open(docs, "w"):
-            pass
+        with open(docs, "w") as w:
+            w.write("# R:rename, #M:modify, D:delete, A:add\n")
+            w.write("#\n")
+            w.write("# Example:\n")
+            w.write("# R:source_path,destination_path\n")
+            w.write("# M:path\n")
+            w.write("# D:path\n")
+            w.write("# A:path\n")
 
     def __set_path(self, path: str) -> None:
         p = os_path.normpath(os_path.abspath(path))
