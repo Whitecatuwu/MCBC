@@ -1,0 +1,10 @@
+M:assets\minecraft\textures\gui\container\creative_inventory\tabs.png
+M:assets\minecraft\textures\item\spawneggs\vex_spawn_egg.png
+A:assets\minecraft\textures\item\spawneggs\ender_dragon_spawn_egg.png
+A:assets\minecraft\textures\item\spawneggs\iron_golem_spawn_egg.png
+A:assets\minecraft\textures\item\spawneggs\snow_golem_spawn_egg.png
+A:assets\minecraft\textures\item\spawneggs\wither_spawn_egg.png
+A:assets\minecraft\models\item\ender_dragon_spawn_egg.json
+A:assets\minecraft\models\item\iron_golem_spawn_egg.json
+A:assets\minecraft\models\item\snow_golem_spawn_egg.json
+A:assets\minecraft\models\item\wither_spawn_egg.json

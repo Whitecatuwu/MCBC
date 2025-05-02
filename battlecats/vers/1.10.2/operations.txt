@@ -1,0 +1,12 @@
+# Specify the relative paths to resource pack contents.
+# Each line starts with a prefix indicating the action:
+#   R: Rename   (e.g., R:assets/minecraft/textures/item,assets/minecraft/item)
+#   M: Modify   (e.g., M:assets/minecraft/textures/item)
+#   D: Delete   (e.g., D:assets/minecraft/textures/item)
+#   A: Add      (e.g., A:assets/minecraft/textures/item)
+#
+# All paths must be *relative* to the root of the resource pack.
+# Do NOT provide full system paths like this:
+#   home/user/projects/my_resource_pack/assets/minecraft/textures/item
+# Instead, start from inside the resource pack, like:
+#   /assets/minecraft/textures/item

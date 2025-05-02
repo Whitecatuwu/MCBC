@@ -1,0 +1,6 @@
+M:assets\minecraft\shaders\core\battlecat_anime_lines.vsh
+M:assets\minecraft\font\default.json
+D:assets\minecraft\textures\gui\light_dirt_background.png
+D:assets\minecraft\textures\gui\options_background.png
+A:assets\minecraft\textures\item\spawneggs\armadillo_spawn_egg.png
+A:assets\minecraft\models\item\armadillo_spawn_egg.json

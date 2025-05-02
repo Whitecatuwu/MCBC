@@ -1,0 +1,4 @@
+M:assets\minecraft\font\default.json
+D:assets\minecraft\models\item\piglin_brute_spawn_egg.json
+D:assets\minecraft\textures\gui\social_interactions.png
+M:assets\minecraft\textures\gui\toasts.png
