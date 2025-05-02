@@ -32,10 +32,11 @@ VERS=("sound" "1.8.9" "1.10.2" "1.12.2" "1.14.4" "1.16.1" "1.16.5" "1.17.1" "1.1
 
 for V in "${VERS[@]}"; do
 	echo "----$V----"
-	cd ".\battlecats_$V"
+	cd ".\resource\battlecats_$V"
 	git add .
 	git commit -m "$MESSAGE"
 	git push
+	cd ..
 	cd ..
 	echo ""
 done

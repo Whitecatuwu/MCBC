@@ -5,6 +5,7 @@ from time import time as current_time
 from os import chdir, path as os_path
 
 CURRENT_DIR = os_path.dirname(os_path.abspath(__file__))
+RESOURCE = "resource"
 
 
 def main():
@@ -29,24 +30,24 @@ def main():
     ver_res_packs = []
     for ver in vers:
         if ver == "":
-            pack = ResPack(os_path.join(CURRENT_DIR, "battlecats"), ver)
+            pack = ResPack(os_path.join(CURRENT_DIR, RESOURCE, "battlecats"), ver)
         else:
             pack = ResPack(
-                os_path.join(CURRENT_DIR, "battlecats_" + ver),
+                os_path.join(CURRENT_DIR, RESOURCE, "battlecats_" + ver),
                 ver,
-                os_path.join(CURRENT_DIR, "battlecats", "vers", ver),
+                os_path.join(CURRENT_DIR, RESOURCE, "battlecats", "vers", ver),
             )
         ver_res_packs.append(pack)
 
     older_ver_res_packs = []
     for old in older_vers:
         if old == "":
-            pack = ResPack(os_path.join(CURRENT_DIR, "battlecats"), old)
+            pack = ResPack(os_path.join(CURRENT_DIR, RESOURCE, "battlecats"), old)
         else:
             pack = ResPack(
-                os_path.join(CURRENT_DIR, "battlecats_" + old),
+                os_path.join(CURRENT_DIR, RESOURCE, "battlecats_" + old),
                 old,
-                os_path.join(CURRENT_DIR, "battlecats", "vers", old),
+                os_path.join(CURRENT_DIR, RESOURCE, "battlecats", "vers", old),
             )
         older_ver_res_packs.append(pack)
 
