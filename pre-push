@@ -37,6 +37,7 @@ for V in "${VERS[@]}"; do
 	git commit -m "$MESSAGE"
 	git push
 	cd ..
+	cd ..
 	echo ""
 done
 
