@@ -90,12 +90,7 @@ def _operations(
         if operations is None or operations == {}:
             pass
         else:
-            # fn_filter(names, pattern)
-            dirname: str
-            filename: str
-
-            for path_D in operations["D"]:
-                path_D: str = path_D[0]
+            for (path_D,) in operations["D"]:
                 path_D = os_path.join(root_src, path_D)
                 dirname, filename = os_path.split(path_D)
                 if not fn_filter([current_dirname], dirname) and dirname != root_src:
@@ -109,23 +104,21 @@ def _operations(
                         )
                     )
 
-            for path_M in operations["M"]:
-                path_M: str = path_M[0]
+            for (path_M,) in operations["M"]:
                 path_M = os_path.join(root_src, path_M)
                 dirname, filename = os_path.split(path_M)
                 if not fn_filter([current_dirname], dirname) and dirname != root_src:
                     continue
                 names_set: set = set(fn_filter(src_filenames, filename))
                 modify_set.update(names_set)
-                if not names_set and (not dirname == root_src):
+                if not names_set and dirname != root_src:
                     print(
                         Yellow(
                             f'Warning : There were no results found for {filename} in "{dirname}".'
                         )
                     )
 
-            for path_A in operations["A"]:
-                path_A: str = path_A[0]
+            for (path_A,) in operations["A"]:
                 path_A = os_path.join(root_src, path_A)
                 if not is_parent_dir(current_dirname, path_A):
                     continue
@@ -133,14 +126,11 @@ def _operations(
                 if filename not in src_filenames:
                     add_set.add(filename)
 
-            for path_R in operations["R"]:
-                path_R_src: str = path_R[0]
-                path_R_dst: str = path_R[1]
+            for path_R_src, path_R_dst in operations["R"]:
                 rename_src_dir, rename_src_file = os_path.split(path_R_src)
                 rename_dst_dir, rename_dst_file = os_path.split(path_R_dst)
                 rename_src_path = os_path.join(root_src, path_R_src)
                 rename_dst_path = os_path.join(root_dst, path_R_dst)
-                # assert is_valid_pathname(rename_src_path) and is_valid_pathname(rename_dst_path)
 
                 if fn_filter([current_dirname], os_path.dirname(rename_src_path)):
                     operations_for_rename: dict[str, list] = {
@@ -149,61 +139,35 @@ def _operations(
                         "D": [],
                         "A": [],
                     }
+
                     operations_for_rename["R"] = [
-                        (
-                            (
-                                os_path.relpath(x, path_R[0])
-                                if is_parent_dir(path_R[0], x)
-                                else "."
-                            ),
-                            (
-                                os_path.relpath(y, path_R[1])
-                                if is_parent_dir(path_R[1], y)
-                                else "."
-                            ),
-                        )
+                        (rel_src, rel_dst)
                         for (x, y) in operations["R"]
-                    ]
-                    operations_for_rename["R"] = [
-                        (x, y)
-                        for (x, y) in operations_for_rename["R"]
-                        if x != "." and y != "."
+                        if is_parent_dir(path_R_src, x)
+                        and is_parent_dir(path_R_dst, y)
+                        and (rel_src := os_path.relpath(x, path_R_src)) != "."
+                        and (rel_dst := os_path.relpath(y, path_R_dst)) != "."
                     ]
 
                     operations_for_rename["M"] = [
-                        (
-                            tuple([os_path.relpath(x[0], path_R[1])])
-                            if is_parent_dir(path_R[1], x[0])
-                            else "."
-                        )
-                        for x in operations["M"]
-                    ]
-                    operations_for_rename["M"] = [
-                        x for x in operations_for_rename["M"] if x != (".")
+                        (rel,)
+                        for (x,) in operations["M"]
+                        if is_parent_dir(path_R_dst, x)
+                        and (rel := os_path.relpath(x, path_R_dst)) != "."
                     ]
 
                     operations_for_rename["D"] = [
-                        (
-                            tuple([os_path.relpath(x[0], path_R[1])])
-                            if is_parent_dir(path_R[1], x[0])
-                            else "."
-                        )
-                        for x in operations["D"]
-                    ]
-                    operations_for_rename["D"] = [
-                        x for x in operations_for_rename["D"] if x != (".")
+                        (rel,)
+                        for (x,) in operations["D"]
+                        if is_parent_dir(path_R_dst, x)
+                        and (rel := os_path.relpath(x, path_R_dst)) != "."
                     ]
 
                     operations_for_rename["A"] = [
-                        (
-                            tuple([os_path.relpath(x[0], path_R[1])])
-                            if is_parent_dir(path_R[1], x[0])
-                            else "."
-                        )
-                        for x in operations["A"]
-                    ]
-                    operations_for_rename["A"] = [
-                        x for x in operations_for_rename["A"] if x != (".")
+                        (rel,)
+                        for (x,) in operations["A"]
+                        if is_parent_dir(path_R_dst, x)
+                        and (rel := os_path.relpath(x, path_R_dst)) != "."
                     ]
 
                     ignore_set.add(rename_src_file)
@@ -225,8 +189,9 @@ def _operations(
                         )
                     )"""
 
-                keep_renamed_path: str = os_path.join(root_src, rename_dst_dir)
-                keep_renamed_path = os_path.normpath(keep_renamed_path)
+                keep_renamed_path: str = os_path.normpath(
+                    os_path.join(root_src, rename_dst_dir)
+                )
                 if fn_filter([current_dirname], keep_renamed_path):
                     keep_set.add(rename_dst_file)
                 elif is_parent_dir(current_dirname, keep_renamed_path):
@@ -293,15 +258,11 @@ def update(pre_ver: ResPack, ver: ResPack) -> None:
     if operations is None or operations == {}:
         return
     for MA in operations["M"] + operations["A"]:
-        s: str = os_path.join(ver.operations_path, os_path.basename(MA[0]))
-        d: str = os_path.join(dst, MA[0])
         copydata(
-            s,
-            d,
+            os_path.join(ver.operations_path, os_path.basename(MA[0])),
+            os_path.join(dst, MA[0]),
             operations=None,
             purge=True,
-            root_src=s,
-            root_dst=d,
         )
     for D in operations["D"]:
         delete(os_path.join(dst, D[0]))
