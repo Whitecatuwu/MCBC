@@ -1,6 +1,8 @@
-from func.update import *
+from func.update import update
+from func.ResPack import ResPack
+from func.ansi import Strong
 from time import time as current_time
-from os import chdir
+from os import chdir, path as os_path
 
 CURRENT_DIR = os_path.dirname(os_path.abspath(__file__))
 
