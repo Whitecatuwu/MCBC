@@ -103,39 +103,40 @@ def _operations(
                 path_D: str = path_D[0]
                 path_D = os_path.join(root_src, path_D)
                 dirname, filename = os_path.split(path_D)
-                if fn_filter([current_dirname], dirname) or dirname == root_src:
-                    names_set: set = set(fn_filter(src_filenames, filename))
-                    delete_set.update(names_set)
-                    if not names_set and (not dirname == root_src):
-                        print(
-                            Yellow(
-                                f'Warning : There were no results found for {filename} in "{dirname}".'
-                            )
+                if not fn_filter([current_dirname], dirname) and dirname != root_src:
+                    continue
+                names_set: set = set(fn_filter(src_filenames, filename))
+                delete_set.update(names_set)
+                if not names_set and dirname != root_src:
+                    print(
+                        Yellow(
+                            f'Warning : There were no results found for {filename} in "{dirname}".'
                         )
+                    )
 
             for path_M in operations["M"]:
                 path_M: str = path_M[0]
                 path_M = os_path.join(root_src, path_M)
-                # assert is_valid_pathname(path_M)
                 dirname, filename = os_path.split(path_M)
-                if fn_filter([current_dirname], dirname) or dirname == root_src:
-                    names_set: set = set(fn_filter(src_filenames, filename))
-                    modify_set.update(names_set)
-                    if not names_set and (not dirname == root_src):
-                        print(
-                            Yellow(
-                                f'Warning : There were no results found for {filename} in "{dirname}".'
-                            )
+                if not fn_filter([current_dirname], dirname) and dirname != root_src:
+                    continue
+                names_set: set = set(fn_filter(src_filenames, filename))
+                modify_set.update(names_set)
+                if not names_set and (not dirname == root_src):
+                    print(
+                        Yellow(
+                            f'Warning : There were no results found for {filename} in "{dirname}".'
                         )
+                    )
 
             for path_A in operations["A"]:
                 path_A: str = path_A[0]
                 path_A = os_path.join(root_src, path_A)
-                # assert is_valid_pathname(path_A)
-                if is_parent_dir(current_dirname, path_A):
-                    filename = get_top_dirname(os_path.relpath(path_A, current_dirname))
-                    if filename not in src_filenames:
-                        add_set.add(filename)
+                if not is_parent_dir(current_dirname, path_A):
+                    continue
+                filename = get_top_dirname(os_path.relpath(path_A, current_dirname))
+                if filename not in src_filenames:
+                    add_set.add(filename)
 
             for path_R in operations["R"]:
                 path_R_src: str = path_R[0]
@@ -243,7 +244,7 @@ def _operations(
             keep_set = keep_set | modify_set | add_set
             keep_set.difference_update(delete_set)
 
-        if (purge == True) and os_path.exists(
+        if purge and os_path.exists(
             path_dst := os_path.normpath(
                 os_path.join(root_dst, os_path.relpath(current_dirname, root_src))
             )

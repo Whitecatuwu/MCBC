@@ -1,7 +1,6 @@
 from pathlib import Path
 from re import match
-from fnmatch import filter as fn_filter
-from os.path import normpath as os_path_normpath
+from os.path import normpath, commonpath
 
 
 def is_valid_pathname(pathname: str) -> bool:
@@ -14,23 +13,15 @@ def is_valid_pathname(pathname: str) -> bool:
 
 
 def is_parent_dir(path_parent: str, path_child: str) -> bool:
-    if len(path_child) < len(path_parent):
-        return False
+    path_parent = normpath(path_parent)
+    path_child = normpath(path_child)
 
-    path_parent = path_parent.replace("/", "\\")
-    path_child = path_child.replace("/", "\\")
-    spilt_parent = path_parent.split("\\")
-    spilt_child = path_child.split("\\")
-
-    for p, c in zip(spilt_parent, spilt_child):
-        if not fn_filter([c], p):
-            return False
-    return True
+    return commonpath([path_parent, path_child]) == path_parent
 
 
 def get_top_dirname(path: str) -> str:
     assert is_valid_pathname(path)
-    return Path(os_path_normpath(path)).parts[0]
+    return Path(normpath(path)).parts[0]
     # path = path.replace("/", "\\").strip("\\")
     # return path.split("\\")[0]
 

@@ -107,7 +107,7 @@ class ResPack:
                 "#   home/user/projects/my_resource_pack/assets/minecraft/textures/item\n"
             )
             w.write("# Instead, start from inside the resource pack, like:\n")
-            w.write("#   /assets/minecraft/textures/item\n")
+            w.write("#   assets/minecraft/textures/item\n")
 
     def __set_path(self, path: str) -> None:
         p = os_path.normpath(os_path.abspath(path))
