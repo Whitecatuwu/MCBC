@@ -1,7 +1,7 @@
-R:\assets\minecraft\shaders\core\battlecat_anime_lines.fsh,\assets\minecraft\shaders\core\rendertype_lines.fsh
-R:\assets\minecraft\shaders\core\battlecat_anime_lines.vsh,\assets\minecraft\shaders\core\rendertype_lines.vsh
+R:assets\minecraft\shaders\core\battlecat_anime_lines.fsh,\assets\minecraft\shaders\core\rendertype_lines.fsh
+R:assets\minecraft\shaders\core\battlecat_anime_lines.vsh,\assets\minecraft\shaders\core\rendertype_lines.vsh
 
-D:\assets\minecraft\shaders\core\rendertype_lines.json
-D:\assets\minecraft\items\*_spawn_egg.json
-D:\assets\minecraft\textures\item\spawn_egg.png
-D:\assets\minecraft\textures\item\spawn_egg_overlay.png
+D:assets\minecraft\shaders\core\rendertype_lines.json
+D:assets\minecraft\items\*_spawn_egg.json
+D:assets\minecraft\textures\item\spawn_egg.png
+D:assets\minecraft\textures\item\spawn_egg_overlay.png

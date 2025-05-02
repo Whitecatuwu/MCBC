@@ -1,8 +1,8 @@
-A:\assets\minecraft\shaders
+A:assets\minecraft\shaders
 D:*unused
-A:\assets\minecraft\textures\item\spawneggs\axolotl_spawn_egg.png
-A:\assets\minecraft\textures\item\spawneggs\glow_squid_spawn_egg.png
-A:\assets\minecraft\textures\item\spawneggs\goat_spawn_egg.png
-A:\assets\minecraft\models\item\axolotl_spawn_egg.json
-A:\assets\minecraft\models\item\glow_squid_spawn_egg.json
-A:\assets\minecraft\models\item\goat_spawn_egg.json
+A:assets\minecraft\textures\item\spawneggs\axolotl_spawn_egg.png
+A:assets\minecraft\textures\item\spawneggs\glow_squid_spawn_egg.png
+A:assets\minecraft\textures\item\spawneggs\goat_spawn_egg.png
+A:assets\minecraft\models\item\axolotl_spawn_egg.json
+A:assets\minecraft\models\item\glow_squid_spawn_egg.json
+A:assets\minecraft\models\item\goat_spawn_egg.json

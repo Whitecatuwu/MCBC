@@ -1,1 +1,1 @@
-M:\assets\minecraft\textures\item\spawneggs\bat_spawn_egg.png
+M:assets\minecraft\textures\item\spawneggs\bat_spawn_egg.png
