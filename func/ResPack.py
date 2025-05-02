@@ -34,6 +34,7 @@ class ResPack:
         self.ver: str = None
         self.ver_num: int = None
         self.operations_path: str = None
+        self.operations_list: dict[str, list] = None
 
         self.__set_path(path)
         self.__set_operations_path(operations_path)
@@ -47,7 +48,9 @@ class ResPack:
 
     def get_operations(self) -> dict[str, list]:
         # R:rename, #M:modify, D:delete, A:add
-        output: dict[str, list] = {"R": [], "M": [], "D": [], "A": []}
+        if self.operations_list is not None:
+            return self.operations_list
+
         if self.operations_path is None:
             return None
 
@@ -57,6 +60,7 @@ class ResPack:
             self.__write_operations(docs)
             return None
 
+        output: dict[str, list] = {"R": [], "M": [], "D": [], "A": []}
         with open(docs, "r") as r:
             key: str
             paths: str
@@ -70,7 +74,10 @@ class ResPack:
                 if key in ("A", "R", "M") and not all(map(is_valid_pathname, paths)):
                     print(Yellow(f'Warning : "{paths}" is not a valid path name.'))
                     continue
-                output[key].append(tuple(map(lambda x: x.strip("\\"), paths)))
+                output[key].append(
+                    tuple(map(lambda x: os_path.normpath(x.strip("\\")), paths))
+                )
+        self.operations_list = output
         return output
 
     def __write_operations(self, docs) -> None:
@@ -83,13 +90,24 @@ class ResPack:
         if not os_path.exists(os_path.dirname(docs)):
             makedirs(os_path.dirname(docs))
         with open(docs, "w") as w:
-            w.write("# R:rename, #M:modify, D:delete, A:add\n")
+            w.write("# Specify the relative paths to resource pack contents.\n")
+            w.write("# Each line starts with a prefix indicating the action:\n")
+            w.write(
+                "#   R: Rename   (e.g., R:assets/minecraft/textures/item,assets/minecraft/item)\n"
+            )
+            w.write("#   M: Modify   (e.g., M:assets/minecraft/textures/item)\n")
+            w.write("#   D: Delete   (e.g., D:assets/minecraft/textures/item)\n")
+            w.write("#   A: Add      (e.g., A:assets/minecraft/textures/item)\n")
             w.write("#\n")
-            w.write("# Example:\n")
-            w.write("# R:source_path,destination_path\n")
-            w.write("# M:path\n")
-            w.write("# D:path\n")
-            w.write("# A:path\n")
+            w.write(
+                "# All paths must be *relative* to the root of the resource pack.\n"
+            )
+            w.write("# Do NOT provide full system paths like this:\n")
+            w.write(
+                "#   home/user/projects/my_resource_pack/assets/minecraft/textures/item\n"
+            )
+            w.write("# Instead, start from inside the resource pack, like:\n")
+            w.write("#   /assets/minecraft/textures/item\n")
 
     def __set_path(self, path: str) -> None:
         p = os_path.normpath(os_path.abspath(path))

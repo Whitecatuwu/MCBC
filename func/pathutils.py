@@ -1,8 +1,7 @@
-import os
-import sys
-import pathlib
+from pathlib import Path
 from re import match
 from fnmatch import filter as fn_filter
+from os.path import normpath as os_path_normpath
 
 
 def is_valid_pathname(pathname: str) -> bool:
@@ -31,5 +30,10 @@ def is_parent_dir(path_parent: str, path_child: str) -> bool:
 
 def get_top_dirname(path: str) -> str:
     assert is_valid_pathname(path)
-    path = path.replace("/", "\\").strip("\\")
-    return path.split("\\")[0]
+    return Path(os_path_normpath(path)).parts[0]
+    # path = path.replace("/", "\\").strip("\\")
+    # return path.split("\\")[0]
+
+
+"""def is_same_path(path1, path2):
+    return Path(path1).resolve(strict=False) == Path(path2).resolve(strict=False)"""

@@ -129,19 +129,21 @@ def _operations(
                         )
 
             for path_A in operations["A"]:
-                path_A: str = path_A[0].strip("\\")
-                add_path: str = os_path.join(root_src, path_A)
-                # assert is_valid_pathname(add_path)
-                if is_parent_dir(current_dirname, add_path):
-                    filename = get_top_dirname(add_path.replace(current_dirname, ""))
+                path_A: str = path_A[0]
+                path_A = os_path.join(root_src, path_A)
+                # assert is_valid_pathname(path_A)
+                if is_parent_dir(current_dirname, path_A):
+                    filename = get_top_dirname(os_path.relpath(path_A, current_dirname))
                     if filename not in src_filenames:
                         add_set.add(filename)
 
             for path_R in operations["R"]:
-                rename_src_dir, rename_src_file = os_path.split(path_R[0].strip("\\"))
-                rename_dst_dir, rename_dst_file = os_path.split(path_R[1].strip("\\"))
-                rename_src_path = os_path.join(root_src, path_R[0].strip("\\"))
-                rename_dst_path = os_path.join(root_dst, path_R[1].strip("\\"))
+                path_R_src: str = path_R[0]
+                path_R_dst: str = path_R[1]
+                rename_src_dir, rename_src_file = os_path.split(path_R_src)
+                rename_dst_dir, rename_dst_file = os_path.split(path_R_dst)
+                rename_src_path = os_path.join(root_src, path_R_src)
+                rename_dst_path = os_path.join(root_dst, path_R_dst)
                 # assert is_valid_pathname(rename_src_path) and is_valid_pathname(rename_dst_path)
 
                 if fn_filter([current_dirname], os_path.dirname(rename_src_path)):
@@ -154,14 +156,14 @@ def _operations(
                     operations_for_rename["R"] = [
                         (
                             (
-                                x.replace(path_R[0], "").strip("\\")
+                                os_path.relpath(x, path_R[0])
                                 if is_parent_dir(path_R[0], x)
-                                else ""
+                                else "."
                             ),
                             (
-                                y.replace(path_R[1], "").strip("\\")
+                                os_path.relpath(y, path_R[1])
                                 if is_parent_dir(path_R[1], y)
-                                else ""
+                                else "."
                             ),
                         )
                         for (x, y) in operations["R"]
@@ -169,43 +171,43 @@ def _operations(
                     operations_for_rename["R"] = [
                         (x, y)
                         for (x, y) in operations_for_rename["R"]
-                        if x != "" and y != ""
+                        if x != "." and y != "."
                     ]
 
                     operations_for_rename["M"] = [
                         (
-                            tuple([x[0].replace(path_R[1], "").strip("\\")])
+                            tuple([os_path.relpath(x[0], path_R[1])])
                             if is_parent_dir(path_R[1], x[0])
-                            else ""
+                            else "."
                         )
                         for x in operations["M"]
                     ]
                     operations_for_rename["M"] = [
-                        x for x in operations_for_rename["M"] if x != ("")
+                        x for x in operations_for_rename["M"] if x != (".")
                     ]
 
                     operations_for_rename["D"] = [
                         (
-                            tuple([x[0].replace(path_R[1], "").strip("\\")])
+                            tuple([os_path.relpath(x[0], path_R[1])])
                             if is_parent_dir(path_R[1], x[0])
-                            else ""
+                            else "."
                         )
                         for x in operations["D"]
                     ]
                     operations_for_rename["D"] = [
-                        x for x in operations_for_rename["D"] if x != ("")
+                        x for x in operations_for_rename["D"] if x != (".")
                     ]
 
                     operations_for_rename["A"] = [
                         (
-                            tuple([x[0].replace(path_R[1], "").strip("\\")])
+                            tuple([os_path.relpath(x[0], path_R[1])])
                             if is_parent_dir(path_R[1], x[0])
-                            else ""
+                            else "."
                         )
                         for x in operations["A"]
                     ]
                     operations_for_rename["A"] = [
-                        x for x in operations_for_rename["A"] if x != ("")
+                        x for x in operations_for_rename["A"] if x != (".")
                     ]
 
                     ignore_set.add(rename_src_file)
@@ -227,14 +229,13 @@ def _operations(
                         )
                     )"""
 
-                keep_renamed_path: str = os_path.join(root_src, rename_dst_dir).strip(
-                    "\\"
-                )
+                keep_renamed_path: str = os_path.join(root_src, rename_dst_dir)
+                keep_renamed_path = os_path.normpath(keep_renamed_path)
                 if fn_filter([current_dirname], keep_renamed_path):
                     keep_set.add(rename_dst_file)
                 elif is_parent_dir(current_dirname, keep_renamed_path):
                     filename = get_top_dirname(
-                        keep_renamed_path.replace(current_dirname, "")
+                        os_path.relpath(keep_renamed_path, current_dirname)
                     )
                     keep_set.add(filename)
 
@@ -243,7 +244,9 @@ def _operations(
             keep_set.difference_update(delete_set)
 
         if (purge == True) and os_path.exists(
-            path_dst := current_dirname.replace(root_src, root_dst)
+            path_dst := os_path.normpath(
+                os_path.join(root_dst, os_path.relpath(current_dirname, root_src))
+            )
         ):
             for d in scandir(path_dst):
                 if d.name not in keep_set:
@@ -378,9 +381,10 @@ if __name__ == "__main__":
             main()
             print("\nFinish.")
             print("runtime: %s seconds" % (current_time() - start_time))
-            c = input("Press Enter to continue or -1 to exit...")
+            c = input("Press Enter to continue or -1 to exit...\n")
             if c == "-1":
                 break
         except Exception as e:
-            print(Red(f"Error: {e}"))
+            # print(Red(f"Error: {e}"))
+            raise e
             break
