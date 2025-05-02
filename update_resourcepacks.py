@@ -65,7 +65,6 @@ def main():
 
 
 if __name__ == "__main__":
-
     chdir(CURRENT_DIR)
     while True:
         start_time = current_time()

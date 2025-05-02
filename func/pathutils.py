@@ -28,3 +28,6 @@ def get_top_dirname(path: str) -> str:
 
 """def is_same_path(path1, path2):
     return Path(path1).resolve(strict=False) == Path(path2).resolve(strict=False)"""
+
+if __name__ == "__main__":
+    print(is_parent_dir(r"assets/item", r"assets/item"))
