@@ -1,9 +1,9 @@
 from shutil import copy2, copytree, rmtree
 from os import scandir, remove, makedirs, path as os_path
 from fnmatch import filter as fn_filter
-from func.ansi import *
-from func.pathutils import *
-from func.ResPack import ResPack
+from .ansi import *
+from .pathutils import *
+from .ResPack import ResPack
 
 
 def filtercopy(ignore_old=True) -> callable:
@@ -80,6 +80,8 @@ def _operations(
     root_dst: str,
     purge: bool = False,
 ) -> callable:
+    operations_is_empty = operations is None or operations == {}
+
     def _ignore(current_dirname: str, src_filenames: list) -> set:
         keep_set: set[str] = set(src_filenames)
         delete_set: set[str] = set()
@@ -87,17 +89,20 @@ def _operations(
         add_set: set[str] = set()
         ignore_set: set[str] = set()
 
-        if operations is None or operations == {}:
+        if operations_is_empty:
             pass
         else:
             for (path_D,) in operations["D"]:
                 path_D = os_path.join(root_src, path_D)
                 dirname, filename = os_path.split(path_D)
-                if not fn_filter([current_dirname], dirname) and dirname != root_src:
+                is_global_ignore: bool = os_path.normpath(dirname) == os_path.normpath(
+                    root_src
+                )
+                if not fn_filter([current_dirname], dirname) and not is_global_ignore:
                     continue
                 names_set: set = set(fn_filter(src_filenames, filename))
                 delete_set.update(names_set)
-                if not names_set and dirname != root_src:
+                if not names_set and not is_global_ignore:
                     print(
                         Yellow(
                             f'Warning : There were no results found for {filename} in "{dirname}".'
@@ -107,11 +112,11 @@ def _operations(
             for (path_M,) in operations["M"]:
                 path_M = os_path.join(root_src, path_M)
                 dirname, filename = os_path.split(path_M)
-                if not fn_filter([current_dirname], dirname) and dirname != root_src:
+                if not fn_filter([current_dirname], dirname):
                     continue
                 names_set: set = set(fn_filter(src_filenames, filename))
                 modify_set.update(names_set)
-                if not names_set and dirname != root_src:
+                if not names_set:
                     print(
                         Yellow(
                             f'Warning : There were no results found for {filename} in "{dirname}".'
@@ -257,12 +262,12 @@ def update(pre_ver: ResPack, ver: ResPack) -> None:
 
     if operations is None or operations == {}:
         return
-    for MA in operations["M"] + operations["A"]:
+    for (MA,) in operations["M"] + operations["A"]:
         copydata(
-            os_path.join(ver.operations_path, os_path.basename(MA[0])),
-            os_path.join(dst, MA[0]),
+            os_path.join(ver.operations_path, os_path.basename(MA)),
+            os_path.join(dst, MA),
             operations=None,
             purge=True,
         )
-    for D in operations["D"]:
-        delete(os_path.join(dst, D[0]))
+    for (D,) in operations["D"]:
+        delete(os_path.join(dst, D))
