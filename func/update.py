@@ -102,12 +102,12 @@ def _operations(
                     continue
                 names_set: set = set(fn_filter(src_filenames, filename))
                 delete_set.update(names_set)
-                if not names_set and not is_global_ignore:
+                """if not names_set and not is_global_ignore:
                     print(
                         Yellow(
                             f'Warning : There were no results found for {filename} in "{dirname}".'
                         )
-                    )
+                    )"""
 
             for (path_M,) in operations["M"]:
                 path_M = os_path.join(root_src, path_M)
@@ -116,12 +116,12 @@ def _operations(
                     continue
                 names_set: set = set(fn_filter(src_filenames, filename))
                 modify_set.update(names_set)
-                if not names_set:
+                """if not names_set:
                     print(
                         Yellow(
                             f'Warning : There were no results found for {filename} in "{dirname}".'
                         )
-                    )
+                    )"""
 
             for (path_A,) in operations["A"]:
                 path_A = os_path.join(root_src, path_A)
@@ -136,6 +136,8 @@ def _operations(
                 rename_dst_dir, rename_dst_file = os_path.split(path_R_dst)
                 rename_src_path = os_path.join(root_src, path_R_src)
                 rename_dst_path = os_path.join(root_dst, path_R_dst)
+                if not os_path.exists(rename_src_path):
+                    continue
 
                 if fn_filter([current_dirname], os_path.dirname(rename_src_path)):
                     operations_for_rename: dict[str, list] = {
@@ -268,6 +270,8 @@ def update(pre_ver: ResPack, ver: ResPack) -> None:
         if not os_path.exists(src_update):
             # print(Yellow(f"Can't find {src_update}"))
             src_update = os_path.join(src, M)
+        if not os_path.exists(src_update):
+            continue
         copydata(
             src_update,
             dst_update,
