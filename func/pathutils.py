@@ -20,7 +20,7 @@ def is_parent_dir(path_parent: str, path_child: str) -> bool:
 
 
 def get_top_dirname(path: str) -> str:
-    assert is_valid_pathname(path)
+    # assert is_valid_pathname(path)
     return Path(normpath(path)).parts[0]
     # path = path.replace("/", "\\").strip("\\")
     # return path.split("\\")[0]
