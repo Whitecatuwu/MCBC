@@ -74,7 +74,7 @@ class ResPack:
                     print(Yellow(f'Warning : "{paths}" is not a valid path name.'))
                     continue
                 output[key].append(
-                    tuple(map(lambda x: os_path.normpath(x.strip("\\")), paths))
+                    tuple(map(lambda x: os_path.normpath(x.strip().strip("\\")), paths))
                 )
         return output
 

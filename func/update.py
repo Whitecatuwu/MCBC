@@ -136,65 +136,6 @@ def _operations(
                 rename_dst_dir, rename_dst_file = os_path.split(path_R_dst)
                 rename_src_path = os_path.join(root_src, path_R_src)
                 rename_dst_path = os_path.join(root_dst, path_R_dst)
-                if not os_path.exists(rename_src_path):
-                    continue
-
-                if fn_filter([current_dirname], os_path.dirname(rename_src_path)):
-                    operations_for_rename: dict[str, list] = {
-                        "R": [],
-                        "M": [],
-                        "D": [],
-                        "A": [],
-                    }
-
-                    operations_for_rename["R"] = [
-                        (rel_src, rel_dst)
-                        for (x, y) in operations["R"]
-                        if is_parent_dir(path_R_src, x)
-                        and is_parent_dir(path_R_dst, y)
-                        and (rel_src := os_path.relpath(x, path_R_src)) != "."
-                        and (rel_dst := os_path.relpath(y, path_R_dst)) != "."
-                    ]
-
-                    operations_for_rename["M"] = [
-                        (rel,)
-                        for (x,) in operations["M"]
-                        if is_parent_dir(path_R_dst, x)
-                        and (rel := os_path.relpath(x, path_R_dst)) != "."
-                    ]
-
-                    operations_for_rename["D"] = [
-                        (rel,)
-                        for (x,) in operations["D"]
-                        if is_parent_dir(path_R_dst, x)
-                        and (rel := os_path.relpath(x, path_R_dst)) != "."
-                    ]
-
-                    operations_for_rename["A"] = [
-                        (rel,)
-                        for (x,) in operations["A"]
-                        if is_parent_dir(path_R_dst, x)
-                        and (rel := os_path.relpath(x, path_R_dst)) != "."
-                    ]
-
-                    ignore_set.add(rename_src_file)
-                    keep_set.discard(rename_src_file)
-                    copydata(
-                        rename_src_path,
-                        rename_dst_path,
-                        operations=operations_for_rename,
-                        purge=True,
-                        root_src=rename_src_path,
-                        root_dst=rename_dst_path,
-                    )
-                    """print(
-                        Orange(
-                            'Rename: "{}" \n -> "{}"\n'.format(
-                                path.relpath(rename_src_path, current),
-                                path.relpath(rename_dst_path, current),
-                            )
-                        )
-                    )"""
 
                 keep_renamed_path: str = os_path.normpath(
                     os_path.join(root_src, rename_dst_dir)
@@ -202,10 +143,77 @@ def _operations(
                 if fn_filter([current_dirname], keep_renamed_path):
                     keep_set.add(rename_dst_file)
                 elif is_parent_dir(current_dirname, keep_renamed_path):
-                    filename = get_top_dirname(
+                    filename: str = get_top_dirname(
                         os_path.relpath(keep_renamed_path, current_dirname)
                     )
                     keep_set.add(filename)
+
+                if not os_path.exists(rename_src_path):
+                    continue
+
+                if not fn_filter([current_dirname], os_path.dirname(rename_src_path)):
+                    continue
+
+                if (path_R_dst,) in operations["D"]:
+                    names_set: set = set(fn_filter(src_filenames, rename_src_file))
+                    delete_set.update(names_set)
+                    continue
+
+                operations_for_rename: dict[str, list] = {
+                    "R": [],
+                    "M": [],
+                    "D": [],
+                    "A": [],
+                }
+
+                operations_for_rename["R"] = [
+                    (rel_src, rel_dst)
+                    for (x, y) in operations["R"]
+                    if is_parent_dir(path_R_src, x)
+                    and is_parent_dir(path_R_dst, y)
+                    and (rel_src := os_path.relpath(x, path_R_src)) != "."
+                    and (rel_dst := os_path.relpath(y, path_R_dst)) != "."
+                ]
+
+                operations_for_rename["M"] = [
+                    (rel,)
+                    for (x,) in operations["M"]
+                    if is_parent_dir(path_R_dst, x)
+                    and (rel := os_path.relpath(x, path_R_dst)) != "."
+                ]
+
+                operations_for_rename["D"] = [
+                    (rel,)
+                    for (x,) in operations["D"]
+                    if is_parent_dir(path_R_dst, x)
+                    and (rel := os_path.relpath(x, path_R_dst)) != "."
+                ]
+
+                operations_for_rename["A"] = [
+                    (rel,)
+                    for (x,) in operations["A"]
+                    if is_parent_dir(path_R_dst, x)
+                    and (rel := os_path.relpath(x, path_R_dst)) != "."
+                ]
+
+                ignore_set.add(rename_src_file)
+                keep_set.discard(rename_src_file)
+                copydata(
+                    rename_src_path,
+                    rename_dst_path,
+                    operations=operations_for_rename,
+                    purge=True,
+                    root_src=rename_src_path,
+                    root_dst=rename_dst_path,
+                )
+                """print(
+                    Orange(
+                        'Rename: "{}" \n -> "{}"\n'.format(
+                            path.relpath(rename_src_path, current),
+                            path.relpath(rename_dst_path, current),
+                        )
+                    )
+                )"""
 
             ignore_set = ignore_set | delete_set | modify_set
             keep_set = keep_set | modify_set | add_set
