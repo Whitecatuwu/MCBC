@@ -60,12 +60,15 @@ class ResPack:
         with open(docs, "r") as r:
             key: str
             paths: str
-            for i in r.readlines():
-                if i.startswith("#"):
-                    continue
-                i = i.strip().replace("/", "\\").split(":", 1)
-                if (key := i[0]) not in output.keys():
-                    continue
+            lines = (
+                b
+                for a in r.readlines()
+                if not a.startswith("#")
+                and (b := a.strip().replace("/", "\\").split(":", 1))
+                and (b[0] in output.keys())
+            )
+            for i in lines:
+                key = i[0]
                 paths = i[1].split(",")
                 if key in ("A", "R", "M") and not all(map(is_valid_pathname, paths)):
                     print(Yellow(f'Warning : "{paths}" is not a valid path name.'))

@@ -3,6 +3,7 @@ A:assets/minecraft/textures/item/spawneggs/ender_dragon_spawn_egg.png
 A:assets/minecraft/textures/item/spawneggs/iron_golem_spawn_egg.png
 A:assets/minecraft/textures/item/spawneggs/snow_golem_spawn_egg.png
 A:assets/minecraft/textures/item/spawneggs/wither_spawn_egg.png
+A:assets/minecraft/textures/item/spawneggs/camel_spawn_egg.png
 
 A:assets/minecraft/atlases/banner_patterns.json
 A:assets/minecraft/atlases/beds.json

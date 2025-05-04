@@ -1,4 +1,5 @@
-#M:assets\minecraft\shaders
+M:assets/minecraft/shaders/core/battlecat_anime_lines.vsh
+
 M:assets/minecraft/blockstates/light.json
 M:assets/minecraft/blockstates/redstone_wire.json
 M:assets/minecraft/font/glyph_sizes.bin
