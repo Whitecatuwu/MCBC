@@ -34,7 +34,6 @@ class ResPack:
         self.ver: str = None
         self.ver_num: int = None
         self.operations_path: str = None
-        self.operations_list: dict[str, list] = None
 
         self.__set_path(path)
         self.__set_operations_path(operations_path)
@@ -48,9 +47,6 @@ class ResPack:
 
     def get_operations(self) -> dict[str, list]:
         # R:rename, #M:modify, D:delete, A:add
-        if self.operations_list is not None:
-            return self.operations_list
-
         if self.operations_path is None:
             return None
 
@@ -77,7 +73,6 @@ class ResPack:
                 output[key].append(
                     tuple(map(lambda x: os_path.normpath(x.strip("\\")), paths))
                 )
-        self.operations_list = output
         return output
 
     def __write_operations(self, docs) -> None:

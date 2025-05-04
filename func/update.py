@@ -262,10 +262,27 @@ def update(pre_ver: ResPack, ver: ResPack) -> None:
 
     if operations is None or operations == {}:
         return
-    for (MA,) in operations["M"] + operations["A"]:
+    for (M,) in operations["M"]:
+        src_update: str = os_path.join(ver.operations_path, os_path.basename(M))
+        dst_update: str = os_path.join(dst, M)
+        if not os_path.exists(src_update):
+            # print(Yellow(f"Can't find {src_update}"))
+            src_update = os_path.join(src, M)
         copydata(
-            os_path.join(ver.operations_path, os_path.basename(MA)),
-            os_path.join(dst, MA),
+            src_update,
+            dst_update,
+            operations=None,
+            purge=True,
+        )
+
+    for (A,) in operations["A"]:
+        src_update: str = os_path.join(ver.operations_path, os_path.basename(A))
+        dst_update: str = os_path.join(dst, A)
+        if not os_path.exists(src_update):
+            continue
+        copydata(
+            src_update,
+            dst_update,
             operations=None,
             purge=True,
         )
