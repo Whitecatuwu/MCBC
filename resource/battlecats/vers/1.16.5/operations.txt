@@ -13,6 +13,13 @@ M:assets\minecraft\textures\gui\container\stats_icons.png
 M:assets\minecraft\textures\gui\recipe_button.png
 M:assets\minecraft\textures\gui\toasts.png
 
+D:assets\minecraft\shaders
+D:assets\minecraft\textures\item\spawneggs\axolotl_spawn_egg.png
+D:assets\minecraft\textures\item\spawneggs\glow_squid_spawn_egg.png
+D:assets\minecraft\textures\item\spawneggs\goat_spawn_egg.png
+D:assets\minecraft\models\item\axolotl_spawn_egg.json
+D:assets\minecraft\models\item\glow_squid_spawn_egg.json
+D:assets\minecraft\models\item\goat_spawn_egg.json
 D:assets\minecraft\textures\item\amethyst_shard.png
 D:assets\minecraft\textures\item\axolotl_bucket.png
 D:assets\minecraft\textures\item\bundle.png
