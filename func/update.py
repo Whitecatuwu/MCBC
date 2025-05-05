@@ -20,7 +20,7 @@ def mirror_cleanup(
     for d in scandir(dst_dirname):
         if d.name in src_filenames or d.name in keep_filenames:
             continue
-        # delete(d.path)
+        delete(d.path)
 
 
 def filtercopy(ignore_old=True) -> callable:
