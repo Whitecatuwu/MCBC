@@ -6,6 +6,23 @@ from .pathutils import *
 from .ResPack import ResPack
 
 
+def mirror_cleanup(
+    src_dirname: str, dst_dirname: str, keep_filenames: set = set()
+) -> None:
+    if not os_path.isdir(src_dirname):
+        raise ValueError(f"{src_dirname} must be a directory.")
+    if not os_path.isdir(dst_dirname):
+        raise ValueError(f"{dst_dirname} must be a directory.")
+    if os_path.samefile(src_dirname, dst_dirname):
+        raise ValueError("Source and destination directories must be different.")
+
+    src_filenames = set(map(lambda x: x.name, scandir(src_dirname)))
+    for d in scandir(dst_dirname):
+        if d.name in src_filenames or d.name in keep_filenames:
+            continue
+        # delete(d.path)
+
+
 def filtercopy(ignore_old=True) -> callable:
     ##Ignore older files when ignore_old is True.
     def _filter(src, dst) -> None:
@@ -45,7 +62,7 @@ def copydata(
     operations: dict[str, list] = None,
     root_src: str = None,
     root_dst: str = None,
-    purge: bool = False,
+    mirror: bool = False,
     ignore_old: bool = True,
 ) -> bool:
     if not os_path.exists(src):
@@ -58,7 +75,7 @@ def copydata(
             src,
             dst,
             dirs_exist_ok=True,
-            ignore=_operations(operations, root_src, root_dst, purge=purge),
+            ignore=_operations(operations, root_src, root_dst, mirror=mirror),
             copy_function=filtercopy(ignore_old=ignore_old),
         )
         return True
@@ -78,7 +95,7 @@ def _operations(
     operations: dict[str, list],
     root_src: str,
     root_dst: str,
-    purge: bool = False,
+    mirror: bool = False,
 ) -> callable:
     operations_is_empty = operations is None or operations == {}
 
@@ -202,7 +219,7 @@ def _operations(
                     rename_src_path,
                     rename_dst_path,
                     operations=operations_for_rename,
-                    purge=True,
+                    mirror=True,
                     root_src=rename_src_path,
                     root_dst=rename_dst_path,
                 )
@@ -219,14 +236,12 @@ def _operations(
             keep_set = keep_set | modify_set | add_set
             keep_set.difference_update(delete_set)
 
-        if purge and os_path.exists(
+        if mirror and os_path.exists(
             path_dst := os_path.normpath(
                 os_path.join(root_dst, os_path.relpath(current_dirname, root_src))
             )
         ):
-            for d in scandir(path_dst):
-                if d.name not in keep_set:
-                    delete(d.path)
+            mirror_cleanup(current_dirname, path_dst, keep_set)
 
         """for dele in delete_set:
             print(
@@ -248,7 +263,7 @@ def _operations(
     return _ignore
 
 
-def update(pre_ver: ResPack, ver: ResPack) -> None:
+def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
     src: str = pre_ver.path
     dst: str = ver.path
     operations: dict[str, list] = ver.get_operations()
@@ -267,7 +282,7 @@ def update(pre_ver: ResPack, ver: ResPack) -> None:
         operations=operations,
         root_src=src,
         root_dst=dst,
-        purge=True,
+        mirror=mirror,
     )
 
     if operations is None or operations == {}:
@@ -279,24 +294,26 @@ def update(pre_ver: ResPack, ver: ResPack) -> None:
             # print(Yellow(f"Can't find {src_update}"))
             src_update = os_path.join(src, M)
         if not os_path.exists(src_update):
+            delete(dst_update)
             continue
         copydata(
             src_update,
             dst_update,
             operations=None,
-            purge=True,
+            mirror=mirror,
         )
 
     for (A,) in operations["A"]:
         src_update: str = os_path.join(ver.operations_path, os_path.basename(A))
         dst_update: str = os_path.join(dst, A)
         if not os_path.exists(src_update):
+            delete(dst_update)
             continue
         copydata(
             src_update,
             dst_update,
             operations=None,
-            purge=True,
+            mirror=mirror,
         )
     for (D,) in operations["D"]:
         delete(os_path.join(dst, D))
