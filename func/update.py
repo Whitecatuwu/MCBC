@@ -24,7 +24,6 @@ def mirror_cleanup(
 
 
 def filtercopy(ignore_old=True) -> callable:
-    ##Ignore older files when ignore_old is True.
     def _filter(src, dst) -> None:
         dst_is_older: bool = (not os_path.exists(dst)) or (
             os_path.getmtime(src) > os_path.getmtime(dst)
@@ -275,7 +274,6 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
         print(Yellow(f'Warning : "{dst}" is does not exist.'))
         return
 
-    # Copy files that not in ignore list and not in operations.
     copydata(
         os_path.join(src, "assets"),
         os_path.join(dst, "assets"),
