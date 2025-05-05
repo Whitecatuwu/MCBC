@@ -294,7 +294,8 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
             # print(Yellow(f"Can't find {src_update}"))
             src_update = os_path.join(src, M)
         if not os_path.exists(src_update):
-            delete(dst_update)
+            if mirror:
+                delete(dst_update)
             continue
         copydata(
             src_update,
@@ -307,7 +308,8 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
         src_update: str = os_path.join(ver.operations_path, os_path.basename(A))
         dst_update: str = os_path.join(dst, A)
         if not os_path.exists(src_update):
-            delete(dst_update)
+            if mirror:
+                delete(dst_update)
             continue
         copydata(
             src_update,
