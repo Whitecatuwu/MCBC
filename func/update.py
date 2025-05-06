@@ -4,6 +4,7 @@ from fnmatch import filter as fn_filter
 from .ansi import *
 from .pathutils import *
 from .ResPack import ResPack
+import glob
 
 
 def mirror_cleanup(
@@ -45,14 +46,19 @@ def filtercopy(ignore_old=True) -> callable:
 
 
 def delete(pathname: str) -> None:
-    if not os_path.exists(pathname):
+    matched_paths = glob.glob(pathname, recursive=True)
+    if not matched_paths:
         return
-    try:
-        rmtree(pathname) if os_path.isdir(pathname) else remove(pathname)
-    except Exception as e:
-        print(Red(f"Delete failed: {pathname} \nBecause: {e}\n"))
-    else:
-        print(Purple(f"Delete: {pathname}"))
+    for matched in matched_paths:
+        try:
+            if os_path.isdir(matched):
+                rmtree(matched)
+            else:
+                remove(matched)
+        except Exception as e:
+            print(Red(f"Delete failed: {matched}\nReason: {e}\n"))
+        else:
+            print(Purple(f"Delete: {matched}"))
 
 
 def copydata(
@@ -63,10 +69,10 @@ def copydata(
     root_dst: str = None,
     mirror: bool = False,
     ignore_old: bool = True,
-) -> bool:
+) -> None:
     if not os_path.exists(src):
         print(Red(f'Update failed: {dst} \nBecause: "{src}" does not exist.\n'))
-        return False
+        return
     if os_path.isdir(src):
         root_src = src if root_src == None else root_src
         root_dst = dst if root_dst == None else root_dst
@@ -77,17 +83,16 @@ def copydata(
             ignore=_operations(operations, root_src, root_dst, mirror=mirror),
             copy_function=filtercopy(ignore_old=ignore_old),
         )
-        return True
+        return
     elif os_path.isfile(src):
         filtercopy(ignore_old=ignore_old)(src, dst)
-        return True
+        return
     else:
         print(
             Red(
                 f'Update failed: {dst} \nBecause: "{src}" is not a directory or a file.\n'
             )
         )
-        return False
 
 
 def _operations(
@@ -163,6 +168,8 @@ def _operations(
                     keep_set.add(filename)
 
                 if not os_path.exists(rename_src_path):
+                    if mirror:
+                        delete(rename_dst_path)
                     continue
 
                 if not fn_filter([current_dirname], os_path.dirname(rename_src_path)):
@@ -212,11 +219,12 @@ def _operations(
 
                 ignore_set.add(rename_src_file)
                 keep_set.discard(rename_src_file)
+
                 copydata(
                     rename_src_path,
                     rename_dst_path,
                     operations=operations_for_rename,
-                    mirror=True,
+                    mirror=mirror,
                     root_src=rename_src_path,
                     root_dst=rename_dst_path,
                 )
@@ -286,13 +294,6 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
     for (M,) in operations["M"]:
         src_update: str = os_path.join(ver.operations_path, os_path.basename(M))
         dst_update: str = os_path.join(dst, M)
-        if not os_path.exists(src_update):
-            # print(Yellow(f"Can't find {src_update}"))
-            src_update = os_path.join(src, M)
-        if not os_path.exists(src_update):
-            if mirror:
-                delete(dst_update)
-            continue
         copydata(
             src_update,
             dst_update,
@@ -303,10 +304,6 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
     for (A,) in operations["A"]:
         src_update: str = os_path.join(ver.operations_path, os_path.basename(A))
         dst_update: str = os_path.join(dst, A)
-        if not os_path.exists(src_update):
-            if mirror:
-                delete(dst_update)
-            continue
         copydata(
             src_update,
             dst_update,

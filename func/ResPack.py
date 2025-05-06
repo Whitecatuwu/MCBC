@@ -67,15 +67,21 @@ class ResPack:
                 and (b := a.strip().replace("/", "\\").split(":", 1))
                 and (b[0] in output.keys())
             )
-            for i in lines:
-                key = i[0]
-                paths = i[1].split(",")
-                if key in ("A", "R", "M") and not all(map(is_valid_pathname, paths)):
-                    print(Yellow(f'Warning : "{paths}" is not a valid path name.'))
-                    continue
-                output[key].add(
-                    tuple(map(lambda x: os_path.normpath(x.strip().strip("\\")), paths))
-                )
+        for key, paths in lines:
+            paths = paths.split(",")
+            invalid_paths = [p for p in paths if not is_valid_pathname(p)]
+            if key != "D" and invalid_paths:
+                print(Yellow(f"Warning: Invalid path(s): {invalid_paths}"))
+                continue
+            elem = tuple(map(lambda x: os_path.normpath(x.strip().strip("\\")), paths))
+            if key in ("R", "D"):
+                output[key].add(elem)
+                continue
+            if os_path.exists(
+                os_path.join(self.operations_path, os_path.basename(elem[0]))
+            ):
+                output[key].add(elem)
+
         return output
 
     def __write_operations(self, docs) -> None:
