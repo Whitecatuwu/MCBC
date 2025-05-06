@@ -3,7 +3,7 @@ from .pathutils import is_valid_pathname
 from .ansi import Yellow
 
 RESOURCE_VER = {
-    "": 0,  # common version
+    "core": 0,  # core version
     "1.8.9": 1,
     "1.10.2": 2,
     "1.12.2": 3,

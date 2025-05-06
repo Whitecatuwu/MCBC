@@ -136,5 +136,3 @@ https://www.python.org/
 ```sh
 python update_resourcepacks.py
 ```
-
-
