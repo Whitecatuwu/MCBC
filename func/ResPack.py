@@ -45,7 +45,7 @@ class ResPack:
     def version_num(self) -> int:
         return self.ver_num
 
-    def get_operations(self) -> dict[str, list]:
+    def get_operations(self) -> dict[str, set]:
         # R:rename, #M:modify, D:delete, A:add
         if self.operations_path is None:
             return None
@@ -56,7 +56,7 @@ class ResPack:
             self.__write_operations(docs)
             return None
 
-        output: dict[str, list] = {"R": [], "M": [], "D": [], "A": []}
+        output: dict[str, set] = {"R": set(), "M": set(), "D": set(), "A": set()}
         with open(docs, "r") as r:
             key: str
             paths: str
@@ -73,7 +73,7 @@ class ResPack:
                 if key in ("A", "R", "M") and not all(map(is_valid_pathname, paths)):
                     print(Yellow(f'Warning : "{paths}" is not a valid path name.'))
                     continue
-                output[key].append(
+                output[key].add(
                     tuple(map(lambda x: os_path.normpath(x.strip().strip("\\")), paths))
                 )
         return output
