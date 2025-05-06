@@ -1,5 +1,5 @@
 from os import path as os_path, makedirs
-from .pathutils import is_valid_pathname
+from .path_utils import is_valid_pathname
 from .ansi import Yellow
 
 RESOURCE_VER = {
