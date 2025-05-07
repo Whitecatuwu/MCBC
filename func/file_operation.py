@@ -3,6 +3,7 @@ from os import scandir, remove, makedirs, path as os_path
 from fnmatch import filter as fn_filter
 from .ansi import *
 from .path_utils import *
+from .Pipe import Pipe
 import glob
 
 
@@ -126,12 +127,6 @@ def __operations(
                     continue
                 names_set: set = set(fn_filter(src_filenames, filename))
                 delete_set.update(names_set)
-                """if not names_set and not is_global_ignore:
-                    print(
-                        Yellow(
-                            f'Warning : There were no results found for {filename} in "{dirname}".'
-                        )
-                    )"""
 
             for (path_M,) in operations["M"]:
                 dirname, filename = os_path.split(os_path.join(root_src, path_M))
@@ -139,12 +134,6 @@ def __operations(
                     continue
                 names_set: set = set(fn_filter(src_filenames, filename))
                 modify_set.update(names_set)
-                """if not names_set:
-                    print(
-                        Yellow(
-                            f'Warning : There were no results found for {filename} in "{dirname}".'
-                        )
-                    )"""
 
             for (path_A,) in operations["A"]:
                 path_A = os_path.join(root_src, path_A)
@@ -250,9 +239,11 @@ def __operations(
             keep_set.difference_update(delete_set)
 
         if mirror and os_path.exists(
-            path_dst := os_path.normpath(
-                os_path.join(root_dst, os_path.relpath(current_dirname, root_src))
-            )
+            path_dst := Pipe(current_dirname)
+            .do(os_path.relpath, ..., root_src)
+            .do(os_path.join, root_dst, ...)
+            .to(os_path.normpath)
+            .get()
         ):
             mirror_cleanup(current_dirname, path_dst, keep_set)
 

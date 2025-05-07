@@ -27,7 +27,7 @@ def main():
         "1.21.5",
     ]
 
-    ver_res_packs = []
+    ver_res_packs: list[ResPack] = []
     for ver in vers:
         if ver == "core":
             pack = ResPack(os_path.join(CURRENT_DIR, RESOURCE, "battlecats_core"), ver)
@@ -39,7 +39,7 @@ def main():
             )
         ver_res_packs.append(pack)
 
-    older_ver_res_packs = []
+    older_ver_res_packs: list[ResPack] = []
     for old in older_vers:
         if old == "core":
             pack = ResPack(os_path.join(CURRENT_DIR, RESOURCE, "battlecats_core"), old)
