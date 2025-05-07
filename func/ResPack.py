@@ -1,6 +1,7 @@
 from os import path as os_path, makedirs
 from .path_utils import is_valid_pathname
 from .ansi import Yellow
+from .Pipe import Pipe
 
 RESOURCE_VER = {
     "core": 0,  # core version
@@ -73,7 +74,13 @@ class ResPack:
             if key != "D" and invalid_paths:
                 print(Yellow(f"Warning: Invalid path(s): {invalid_paths}"))
                 continue
-            elem = tuple(map(lambda x: os_path.normpath(x.strip().strip("\\")), paths))
+            # elem = tuple(map(lambda x: os_path.normpath(x.strip().strip("\\")), paths))
+            elem = (
+                Pipe(paths)
+                .do(map, lambda x: os_path.normpath(x.strip().strip("\\")), ...)
+                .to(tuple)
+                .get()
+            )
             if key in ("R", "D"):
                 output[key].add(elem)
                 continue
@@ -85,11 +92,10 @@ class ResPack:
         return output
 
     def __write_operations(self, docs) -> None:
-        print(
-            Yellow(
-                f"Warning: {self.DOCS_NAME} in {self.operations_path} does not exist, it will be created."
-            )
+        WARNING_MSG: str = (
+            f"Warning: {self.DOCS_NAME} in {self.operations_path} does not exist, it will be created."
         )
+        print(Yellow(WARNING_MSG))
 
         if not os_path.exists(os_path.dirname(docs)):
             makedirs(os_path.dirname(docs))
@@ -114,7 +120,8 @@ class ResPack:
             w.write("#   assets/minecraft/textures/item\n")
 
     def __set_path(self, path: str) -> None:
-        p = os_path.normpath(os_path.abspath(path))
+        # p = os_path.normpath(os_path.abspath(path))
+        p = Pipe(path).to(os_path.abspath).to(os_path.normpath).get()
         if os_path.exists(p):
             self.path = p
         else:
@@ -130,7 +137,8 @@ class ResPack:
     def __set_operations_path(self, path: str = None) -> None:
         if path is None:
             return
-        p = os_path.normpath(os_path.abspath(path))
+        # p = os_path.normpath(os_path.abspath(path))
+        p = Pipe(path).to(os_path.abspath).to(os_path.normpath).get()
         if os_path.exists(p):
             self.operations_path = p
         else:

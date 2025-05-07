@@ -5,7 +5,6 @@ from os.path import normpath, commonpath
 
 def is_valid_pathname(pathname: str) -> bool:
     ###"""invalid: {\, /, *, ?, :, ", <, >, |}"""
-    # assert isinstance(pathname,str)
     pathname = pathname.replace("/", "\\")
     pattern = r'(([a-zA-Z]:\\)|\.{0,2}\\)?([^\\/:*?"<>|]+\\)*([^\\/*?:"<>|]+(\.[^\\/*?:"<>|]+)*)$'
     # pattern = r'(([a-zA-Z]:\\)|\.{0,2}\\)?(\w+\\)*(\w+(\.\w+)*)$'
@@ -15,12 +14,10 @@ def is_valid_pathname(pathname: str) -> bool:
 def is_parent_dir(path_parent: str, path_child: str) -> bool:
     path_parent = normpath(path_parent)
     path_child = normpath(path_child)
-
     return commonpath([path_parent, path_child]) == path_parent
 
 
 def get_top_dirname(path: str) -> str:
-    # assert is_valid_pathname(path)
     return Path(normpath(path)).parts[0]
     # path = path.replace("/", "\\").strip("\\")
     # return path.split("\\")[0]
