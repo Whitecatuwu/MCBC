@@ -28,12 +28,11 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
     if operations is None or operations == {}:
         return
     for MA, sub_dir in operations["M"] | operations["A"]:
-
-        src_update: str = os_path.join(
-            *filter(
-                lambda x: x != "", [ver.operations_path, sub_dir, os_path.basename(MA)]
-            )
+        temp = filter(
+            lambda x: x != ".",
+            [ver.operations_path, sub_dir, os_path.basename(MA)],
         )
+        src_update: str = os_path.join(*temp)
         dst_update: str = os_path.join(dst, MA)
         copydata(
             src_update,

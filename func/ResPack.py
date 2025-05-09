@@ -91,9 +91,10 @@ class ResPack:
                 continue
 
             temp = filter(
-                lambda x: x != "",
+                lambda x: x != ".",
                 [self.operations_path, elem[1], os_path.basename(elem[0])],
             )
+
             if os_path.exists(os_path.join(*temp)):
                 output[key].add(elem)
 
