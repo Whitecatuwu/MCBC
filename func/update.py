@@ -27,9 +27,14 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
 
     if operations is None or operations == {}:
         return
-    for (M,) in operations["M"]:
-        src_update: str = os_path.join(ver.operations_path, os_path.basename(M))
-        dst_update: str = os_path.join(dst, M)
+    for MA, sub_dir in operations["M"] | operations["A"]:
+
+        src_update: str = os_path.join(
+            *filter(
+                lambda x: x != "", [ver.operations_path, sub_dir, os_path.basename(MA)]
+            )
+        )
+        dst_update: str = os_path.join(dst, MA)
         copydata(
             src_update,
             dst_update,
@@ -37,7 +42,7 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
             mirror=mirror,
         )
 
-    for (A,) in operations["A"]:
+    """for (A,) in operations["A"]:
         src_update: str = os_path.join(ver.operations_path, os_path.basename(A))
         dst_update: str = os_path.join(dst, A)
         copydata(
@@ -45,6 +50,6 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
             dst_update,
             operations=None,
             mirror=mirror,
-        )
-    for (D,) in operations["D"]:
+        )"""
+    for D, _ in operations["D"]:
         delete(os_path.join(dst, D))
