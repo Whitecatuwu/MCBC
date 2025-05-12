@@ -2,6 +2,22 @@ D:assets/minecraft/shaders/core/gui.vsh
 #D:assets/minecraft/shaders/core/rendertype_gui.fsh
 M:assets/minecraft/shaders/core/battlecat_anime_lines.fsh
 M:assets/minecraft/shaders/core/battlecat_anime_lines.vsh
+A:assets/minecraft/textures/item/black_bundle.png, bundle
+A:assets/minecraft/textures/item/blue_bundle.png, bundle
+A:assets/minecraft/textures/item/brown_bundle.png, bundle
+A:assets/minecraft/textures/item/cyan_bundle.png, bundle
+A:assets/minecraft/textures/item/gray_bundle.png, bundle
+A:assets/minecraft/textures/item/green_bundle.png, bundle
+A:assets/minecraft/textures/item/light_blue_bundle.png, bundle
+A:assets/minecraft/textures/item/light_gray_bundle.png, bundle
+A:assets/minecraft/textures/item/lime_bundle.png, bundle
+A:assets/minecraft/textures/item/magenta_bundle.png, bundle
+A:assets/minecraft/textures/item/orange_bundle.png, bundle
+A:assets/minecraft/textures/item/pink_bundle.png, bundle
+A:assets/minecraft/textures/item/purple_bundle.png, bundle
+A:assets/minecraft/textures/item/red_bundle.png, bundle
+A:assets/minecraft/textures/item/white_bundle.png, bundle
+A:assets/minecraft/textures/item/yellow_bundle.png, bundle
 
 #R058:assets/minecraft/shaders/post/creeper.json, assets/minecraft/post_effect/creeper.json
 #R080:assets/minecraft/shaders/core/rendertype_entity_cutout.fsh, assets/minecraft/shaders/core/entity.fsh
@@ -4466,14 +4482,14 @@ A:assets/minecraft/textures/gui/sprites/tooltip/background.png
 A:assets/minecraft/textures/gui/sprites/tooltip/background.png.mcmeta
 A:assets/minecraft/textures/gui/sprites/tooltip/frame.png
 A:assets/minecraft/textures/gui/sprites/tooltip/frame.png.mcmeta
-A:assets/minecraft/textures/item/black_bundle.png
+#A:assets/minecraft/textures/item/black_bundle.png
 A:assets/minecraft/textures/item/black_bundle_open_back.png
 A:assets/minecraft/textures/item/black_bundle_open_front.png
-A:assets/minecraft/textures/item/blue_bundle.png
+#A:assets/minecraft/textures/item/blue_bundle.png
 A:assets/minecraft/textures/item/blue_bundle_open_back.png
 A:assets/minecraft/textures/item/blue_bundle_open_front.png
 A:assets/minecraft/textures/item/bordure_indented_banner_pattern.png
-A:assets/minecraft/textures/item/brown_bundle.png
+#A:assets/minecraft/textures/item/brown_bundle.png
 A:assets/minecraft/textures/item/brown_bundle_open_back.png
 A:assets/minecraft/textures/item/brown_bundle_open_front.png
 M:assets/minecraft/textures/item/bundle.png
@@ -4481,34 +4497,34 @@ D:assets/minecraft/textures/item/bundle_filled.png
 A:assets/minecraft/textures/item/bundle_open_back.png
 A:assets/minecraft/textures/item/bundle_open_front.png
 M:assets/minecraft/textures/item/creeper_banner_pattern.png
-A:assets/minecraft/textures/item/cyan_bundle.png
+#A:assets/minecraft/textures/item/cyan_bundle.png
 A:assets/minecraft/textures/item/cyan_bundle_open_back.png
 A:assets/minecraft/textures/item/cyan_bundle_open_front.png
 A:assets/minecraft/textures/item/field_masoned_banner_pattern.png
 M:assets/minecraft/textures/item/flow_banner_pattern.png
 M:assets/minecraft/textures/item/flower_banner_pattern.png
 M:assets/minecraft/textures/item/globe_banner_pattern.png
-A:assets/minecraft/textures/item/gray_bundle.png
+#A:assets/minecraft/textures/item/gray_bundle.png
 A:assets/minecraft/textures/item/gray_bundle_open_back.png
 A:assets/minecraft/textures/item/gray_bundle_open_front.png
-A:assets/minecraft/textures/item/green_bundle.png
+#A:assets/minecraft/textures/item/green_bundle.png
 A:assets/minecraft/textures/item/green_bundle_open_back.png
 A:assets/minecraft/textures/item/green_bundle_open_front.png
 M:assets/minecraft/textures/item/guster_banner_pattern.png
-A:assets/minecraft/textures/item/light_blue_bundle.png
+#A:assets/minecraft/textures/item/light_blue_bundle.png
 A:assets/minecraft/textures/item/light_blue_bundle_open_back.png
 A:assets/minecraft/textures/item/light_blue_bundle_open_front.png
-A:assets/minecraft/textures/item/light_gray_bundle.png
+#A:assets/minecraft/textures/item/light_gray_bundle.png
 A:assets/minecraft/textures/item/light_gray_bundle_open_back.png
 A:assets/minecraft/textures/item/light_gray_bundle_open_front.png
-A:assets/minecraft/textures/item/lime_bundle.png
+#A:assets/minecraft/textures/item/lime_bundle.png
 A:assets/minecraft/textures/item/lime_bundle_open_back.png
 A:assets/minecraft/textures/item/lime_bundle_open_front.png
-A:assets/minecraft/textures/item/magenta_bundle.png
+#A:assets/minecraft/textures/item/magenta_bundle.png
 A:assets/minecraft/textures/item/magenta_bundle_open_back.png
 A:assets/minecraft/textures/item/magenta_bundle_open_front.png
 M:assets/minecraft/textures/item/mojang_banner_pattern.png
-A:assets/minecraft/textures/item/orange_bundle.png
+#A:assets/minecraft/textures/item/orange_bundle.png
 A:assets/minecraft/textures/item/orange_bundle_open_back.png
 A:assets/minecraft/textures/item/orange_bundle_open_front.png
 A:assets/minecraft/textures/item/pale_oak_boat.png
@@ -4517,20 +4533,20 @@ A:assets/minecraft/textures/item/pale_oak_door.png
 A:assets/minecraft/textures/item/pale_oak_hanging_sign.png
 A:assets/minecraft/textures/item/pale_oak_sign.png
 M:assets/minecraft/textures/item/piglin_banner_pattern.png
-A:assets/minecraft/textures/item/pink_bundle.png
+#A:assets/minecraft/textures/item/pink_bundle.png
 A:assets/minecraft/textures/item/pink_bundle_open_back.png
 A:assets/minecraft/textures/item/pink_bundle_open_front.png
-A:assets/minecraft/textures/item/purple_bundle.png
+#A:assets/minecraft/textures/item/purple_bundle.png
 A:assets/minecraft/textures/item/purple_bundle_open_back.png
 A:assets/minecraft/textures/item/purple_bundle_open_front.png
-A:assets/minecraft/textures/item/red_bundle.png
+#A:assets/minecraft/textures/item/red_bundle.png
 A:assets/minecraft/textures/item/red_bundle_open_back.png
 A:assets/minecraft/textures/item/red_bundle_open_front.png
 M:assets/minecraft/textures/item/skull_banner_pattern.png
-A:assets/minecraft/textures/item/white_bundle.png
+#A:assets/minecraft/textures/item/white_bundle.png
 A:assets/minecraft/textures/item/white_bundle_open_back.png
 A:assets/minecraft/textures/item/white_bundle_open_front.png
-A:assets/minecraft/textures/item/yellow_bundle.png
+#A:assets/minecraft/textures/item/yellow_bundle.png
 A:assets/minecraft/textures/item/yellow_bundle_open_back.png
 A:assets/minecraft/textures/item/yellow_bundle_open_front.png
 R:assets/minecraft/textures/misc/enchanted_item_glint.png.mcmeta, assets/minecraft/textures/misc/enchanted_glint_entity.png.mcmeta

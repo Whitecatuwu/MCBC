@@ -69,24 +69,33 @@ class ResPack:
                 and (b[0] in output.keys())
             )
         for key, paths in lines:
-            paths = paths.split(",")
-            invalid_paths = [p for p in paths if not is_valid_pathname(p)]
-            if key != "D" and invalid_paths:
-                print(Yellow(f"Warning: Invalid path(s): {invalid_paths}"))
+            paths: list = paths.split(",")
+            if len(paths) < 2:
+                paths.append("")
+            if key == "R" and any(map(lambda x: not is_valid_pathname(x), paths)):
+                print(Yellow(f"Warning: Invalid path(s): {paths}"))
                 continue
-            # elem = tuple(map(lambda x: os_path.normpath(x.strip().strip("\\")), paths))
+            if key in ("M", "A") and not is_valid_pathname(paths[0]):
+                print(Yellow(f"Warning: Invalid path(s): {paths[0]}"))
+                continue
+
             elem = (
                 Pipe(paths)
                 .do(map, lambda x: os_path.normpath(x.strip().strip("\\")), ...)
                 .to(tuple)
                 .get()
             )
+
             if key in ("R", "D"):
                 output[key].add(elem)
                 continue
-            if os_path.exists(
-                os_path.join(self.operations_path, os_path.basename(elem[0]))
-            ):
+
+            temp = filter(
+                lambda x: x != ".",
+                [self.operations_path, elem[1], os_path.basename(elem[0])],
+            )
+
+            if os_path.exists(os_path.join(*temp)):
                 output[key].add(elem)
 
         return output

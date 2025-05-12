@@ -68,10 +68,10 @@ resource/battlecats_core/vers/
 # 不要使用絕對路徑
 # #字號為註解
 # 語法格式如下：
-#   R: 舊路徑,新路徑（Rename）
-#   M: 修改路徑（Modify）
-#   D: 刪除路徑（Delete）
-#   A: 新增路徑（Add）
+#   R: <舊路徑>,<新路徑>（Rename）
+#   M: <修改路徑>,[子目錄路徑]（Modify）
+#   D: <刪除路徑>（Delete）
+#   A: <新增路徑>,[子目錄路徑]（Add）
 
 # 範例：
 R:assets/minecraft/textures/item,assets/minecraft/item
@@ -97,6 +97,15 @@ M:assets/minecraft/textures/gui
 並且在`resource/battlecats/vers/1.19.2/operations.txt`加入:
 ```
 A:assets/minecraft/textures/item/echo_shard.png
+```
+##### 檔案名稱衝突
+1.21.3中`container/bundle/slot_highlight_back.png`與`container/slot_highlight_back.png`路徑不同但檔名相同，<br>
+放在`resource/battlecats/vers/1.21.3`會有衝突，可以新增子目錄如`bundle`，<br>
+並把`container/bundle/slot_highlight_back.png`放在其底下，<br>
+隨後`operations.txt`輸入:
+```
+A:assets/minecraft/textures/gui/sprites/container/bundle/slot_highlight_back.png, bundle
+A:assets/minecraft/textures/gui/sprites/container/slot_highlight_back.png
 ```
 ##### 刪除
 1.16.5刪除了`assets/minecraft/shaders/core` (與1.17.1比較)<br>
