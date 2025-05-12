@@ -41,14 +41,8 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
             mirror=mirror,
         )
 
-    """for (A,) in operations["A"]:
-        src_update: str = os_path.join(ver.operations_path, os_path.basename(A))
-        dst_update: str = os_path.join(dst, A)
-        copydata(
-            src_update,
-            dst_update,
-            operations=None,
-            mirror=mirror,
-        )"""
     for D, _ in operations["D"]:
-        delete(os_path.join(dst, D))
+        if os_path.split(D)[0] == "":
+            delete(os_path.join(dst, "**", D))
+        else:
+            delete(os_path.join(dst, D))
