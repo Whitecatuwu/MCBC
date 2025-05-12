@@ -1,4 +1,30 @@
 A:assets/minecraft/textures/item/spawneggs/sniffer_spawn_egg.png
+A:assets/minecraft/textures/item/coast_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/dune_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/eye_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/netherite_upgrade_smithing_template.png, template
+A:assets/minecraft/textures/item/rib_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/sentry_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/snout_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/spire_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/tide_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/vex_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/ward_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/wild_armor_trim_smithing_template.png, template
+A:assets/minecraft/textures/item/empty_slot_amethyst_shard.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_axe.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_diamond.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_emerald.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_hoe.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_ingot.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_lapis_lazuli.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_pickaxe.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_quartz.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_redstone_dust.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_shovel.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_smithing_template_armor_trim.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_smithing_template_netherite_upgrade.png, empty_slot
+A:assets/minecraft/textures/item/empty_slot_sword.png, empty_slot
 
 A:assets/minecraft/atlases/armor_trims.json
 M:assets/minecraft/atlases/blocks.json
@@ -547,43 +573,43 @@ A:assets/minecraft/textures/item/cherry_chest_boat.png
 A:assets/minecraft/textures/item/cherry_door.png
 A:assets/minecraft/textures/item/cherry_hanging_sign.png
 A:assets/minecraft/textures/item/cherry_sign.png
-A:assets/minecraft/textures/item/coast_armor_trim_smithing_template.png
-A:assets/minecraft/textures/item/dune_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/coast_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/dune_armor_trim_smithing_template.png
 M:assets/minecraft/textures/item/empty_armor_slot_boots.png
 M:assets/minecraft/textures/item/empty_armor_slot_chestplate.png
 M:assets/minecraft/textures/item/empty_armor_slot_helmet.png
 M:assets/minecraft/textures/item/empty_armor_slot_leggings.png
 M:assets/minecraft/textures/item/empty_armor_slot_shield.png
-A:assets/minecraft/textures/item/empty_slot_amethyst_shard.png
-A:assets/minecraft/textures/item/empty_slot_axe.png
-A:assets/minecraft/textures/item/empty_slot_diamond.png
-A:assets/minecraft/textures/item/empty_slot_emerald.png
-A:assets/minecraft/textures/item/empty_slot_hoe.png
-A:assets/minecraft/textures/item/empty_slot_ingot.png
-A:assets/minecraft/textures/item/empty_slot_lapis_lazuli.png
-A:assets/minecraft/textures/item/empty_slot_pickaxe.png
-A:assets/minecraft/textures/item/empty_slot_quartz.png
-A:assets/minecraft/textures/item/empty_slot_redstone_dust.png
-A:assets/minecraft/textures/item/empty_slot_shovel.png
-A:assets/minecraft/textures/item/empty_slot_smithing_template_armor_trim.png
-A:assets/minecraft/textures/item/empty_slot_smithing_template_netherite_upgrade.png
-A:assets/minecraft/textures/item/empty_slot_sword.png
-A:assets/minecraft/textures/item/eye_armor_trim_smithing_template.png
-A:assets/minecraft/textures/item/netherite_upgrade_smithing_template.png
+#A:assets/minecraft/textures/item/empty_slot_amethyst_shard.png
+#A:assets/minecraft/textures/item/empty_slot_axe.png
+#A:assets/minecraft/textures/item/empty_slot_diamond.png
+#A:assets/minecraft/textures/item/empty_slot_emerald.png
+#A:assets/minecraft/textures/item/empty_slot_hoe.png
+#A:assets/minecraft/textures/item/empty_slot_ingot.png
+#A:assets/minecraft/textures/item/empty_slot_lapis_lazuli.png
+#A:assets/minecraft/textures/item/empty_slot_pickaxe.png
+#A:assets/minecraft/textures/item/empty_slot_quartz.png
+#A:assets/minecraft/textures/item/empty_slot_redstone_dust.png
+#A:assets/minecraft/textures/item/empty_slot_shovel.png
+#A:assets/minecraft/textures/item/empty_slot_smithing_template_armor_trim.png
+#A:assets/minecraft/textures/item/empty_slot_smithing_template_netherite_upgrade.png
+#A:assets/minecraft/textures/item/empty_slot_sword.png
+#A:assets/minecraft/textures/item/eye_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/netherite_upgrade_smithing_template.png
 A:assets/minecraft/textures/item/pink_petals.png
 A:assets/minecraft/textures/item/pottery_shard_archer.png
 A:assets/minecraft/textures/item/pottery_shard_arms_up.png
 A:assets/minecraft/textures/item/pottery_shard_prize.png
 A:assets/minecraft/textures/item/pottery_shard_skull.png
-A:assets/minecraft/textures/item/rib_armor_trim_smithing_template.png
-A:assets/minecraft/textures/item/sentry_armor_trim_smithing_template.png
-A:assets/minecraft/textures/item/snout_armor_trim_smithing_template.png
-A:assets/minecraft/textures/item/spire_armor_trim_smithing_template.png
-A:assets/minecraft/textures/item/tide_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/rib_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/sentry_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/snout_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/spire_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/tide_armor_trim_smithing_template.png
 A:assets/minecraft/textures/item/torchflower_seeds.png
-A:assets/minecraft/textures/item/vex_armor_trim_smithing_template.png
-A:assets/minecraft/textures/item/ward_armor_trim_smithing_template.png
-A:assets/minecraft/textures/item/wild_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/vex_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/ward_armor_trim_smithing_template.png
+#A:assets/minecraft/textures/item/wild_armor_trim_smithing_template.png
 A:assets/minecraft/textures/misc/enchanted_glint_entity.png
 R:assets/minecraft/textures/misc/enchanted_item_glint.png, assets/minecraft/textures/misc/enchanted_glint_item.png
 A:assets/minecraft/textures/trims/color_palettes/amethyst.png
