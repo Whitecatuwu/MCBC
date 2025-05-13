@@ -21,14 +21,14 @@ async def async_task():
 
 
 def run_task():
-    button.config(state="disabled")
+    run_button.config(state="disabled")
 
     def worker():
         start_time = current_time()
         asyncio.run(async_task())
         print("\nFinish.")
         print("runtime: %s seconds" % (current_time() - start_time))
-        window.after(0, lambda: button.config(state="normal"))
+        window.after(0, lambda: run_button.config(state="normal"))
 
     threading.Thread(target=worker).start()
 
@@ -38,8 +38,20 @@ window.title("GUI")
 window.geometry("1280x640")
 window.configure(bg="#2f2f2f")
 
-button = tk.Button(window, width=40, text="Run", command=run_task)
-button.pack(pady=5)
+frame = tk.Frame(window)
+frame.configure(bg="#2f2f2f")
+frame.pack(pady=10)
+
+label = tk.Label(frame, text="Filter", font=("Consolas", 14, "bold"), fg="#e0e0e0")
+label.configure(bg="#2f2f2f")
+label.pack(side="left")
+
+search_entry = tk.Entry(frame)
+search_entry.bind("<KeyRelease>", lambda _: redirector.filter(search_entry.get()))
+search_entry.pack(side="left", padx=20, ipady=5)
+
+run_button = tk.Button(frame, width=40, text="Run", command=run_task)
+run_button.pack(side="left", padx=20)
 
 output_text = tk.Text(
     window,
@@ -51,7 +63,7 @@ output_text = tk.Text(
     font=("Consolas", 12),
 )
 output_text.pack(padx=10, pady=10)
+redirector = TextRedirector(output_text)
 
-sys.stdout = TextRedirector(output_text)
-
+sys.stdout = redirector
 window.mainloop()

@@ -20,12 +20,38 @@ class TextRedirector:
     def __init__(self, text_widget):
         self.text_widget = text_widget
         self._setup_tags()
+        self.log_buffer: list[str] = []
 
-    def write(self, msg):
-        self.text_widget.after(0, self._write_gui_safe, msg)
+    def write(self, msg: str):
+        if msg == "\n":
+            return
+        msgs: list = msg.split("\n")
+        self.log_buffer.extend(msgs)
+        for msg in msgs:
+            self.text_widget.after(0, self._write_gui_safe, msg + "\n")
+
+    def filter(self, keyword):
+        self.text_widget.after(0, self._filter, keyword)
 
     def flush(self):
         pass
+
+    def _filter(self, keyword):
+        self.text_widget.config(state="normal")
+        self.text_widget.delete("1.0", "end")
+        generator = (
+            (text, tags)
+            for msg in self.log_buffer
+            for text, tags in self._parse_ansi(msg)
+        )
+
+        for text, tags in generator:
+            if keyword.lower() not in text.lower():
+                continue
+            self.text_widget.insert("end", text + "\n", tags)
+
+        self.text_widget.see("end")
+        self.text_widget.config(state="disabled")
 
     def _setup_tags(self):
         self.text_widget.tag_config("bold", font=("Consolas", 12, "bold"))
@@ -51,6 +77,9 @@ class TextRedirector:
         self.text_widget.config(state="disabled")
 
     def _parse_ansi(self, msg):
+        if msg == "":
+            return [["", []]]
+
         parts = []
         last_end = 0
         active_tags = []
