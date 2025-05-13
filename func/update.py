@@ -1,5 +1,5 @@
 from os import path as os_path
-from .ansi import *
+from .gui.ansi import *
 from .file_operation import copydata, delete
 from .ResPack import ResPack
 

@@ -1,6 +1,6 @@
 from func.update import update
 from func.ResPack import ResPack
-from func.ansi import Strong
+from func.gui.ansi import Strong
 from os import chdir, path as os_path
 
 RESOURCE = "resource"
