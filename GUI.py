@@ -47,7 +47,7 @@ class TextRedirector:
         self.text_widget.tag_config("green", foreground="green")
         self.text_widget.tag_config("yellow", foreground="yellow")
         self.text_widget.tag_config("blue", foreground="blue")
-        self.text_widget.tag_config("purple", foreground="purple")
+        self.text_widget.tag_config("purple", foreground="#c155c1")
         self.text_widget.tag_config("cyan", foreground="cyan")
         self.text_widget.tag_config("white", foreground="#f0f0f0")
         self.text_widget.tag_config("orange", foreground="orange")
@@ -108,7 +108,7 @@ def run_task():
 
 window = tk.Tk()
 window.title("GUI")
-window.geometry("640x640")
+window.geometry("1280x640")
 window.configure(bg="#2f2f2f")
 
 button = tk.Button(window, width=40, text="Run", command=run_task)
@@ -116,8 +116,8 @@ button.pack(pady=5)
 
 output_text = tk.Text(
     window,
-    height=30,
-    width=80,
+    height=50,
+    width=200,
     state="disabled",
     bg="#171717",
     fg="#e0e0e0",
