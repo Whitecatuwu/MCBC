@@ -1,6 +1,6 @@
 from os import path as os_path, makedirs
 from .path_utils import is_valid_pathname
-from .ansi import Yellow
+from .gui.ansi import Yellow
 from .Pipe import Pipe
 
 RESOURCE_VER = {

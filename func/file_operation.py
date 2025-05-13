@@ -1,7 +1,7 @@
 from shutil import copy2, copytree, rmtree
 from os import scandir, remove, makedirs, path as os_path
 from fnmatch import filter as fn_filter
-from .ansi import *
+from .gui.ansi import *
 from .path_utils import *
 from .Pipe import Pipe
 import glob

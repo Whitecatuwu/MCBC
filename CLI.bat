@@ -1,0 +1,2 @@
+python ".\CLI.py"
+pause
