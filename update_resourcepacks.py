@@ -8,7 +8,7 @@ CURRENT_DIR = os_path.dirname(os_path.abspath(__file__))
 RESOURCE = "resource"
 
 
-def main():
+def init() -> callable:
     older_vers = ["core", "1.16.5", "1.16.1", "1.14.4", "1.12.2", "1.10.2", "1.8.9"]
     vers = [
         "core",
@@ -61,15 +61,18 @@ def main():
             print(Strong(f"{ver_res_packs[i].version():-^50}"))
             update(ver_res_packs[i - 1], ver_res_packs[i])
 
-    update_older()
-    update_newer()
+    return update_older, update_newer
 
 
 if __name__ == "__main__":
     chdir(CURRENT_DIR)
+    update_older: callable
+    update_newer: callable
+    update_older, update_newer = init()
     while True:
         start_time = current_time()
-        main()
+        update_older()
+        update_newer()
         print("\nFinish.")
         print("runtime: %s seconds" % (current_time() - start_time))
         c = input("Press Enter to continue or -1 to exit...\n")
