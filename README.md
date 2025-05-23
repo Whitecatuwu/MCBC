@@ -142,5 +142,9 @@ https://www.python.org/
 
 ### 2. 執行腳本
 ```sh
-python update_resourcepacks.py
+python CLI.py
+```
+or
+```sh
+python GUI.py
 ```
