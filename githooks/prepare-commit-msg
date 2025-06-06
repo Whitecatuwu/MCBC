@@ -1,0 +1,21 @@
+#!/bin/sh
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+MESSAGE=$(cat "$COMMIT_MSG_FILE")
+
+#echo "$MESSAGE" > .git/hooks/commit_message.txt
+
+git submodule foreach '
+  if [ -n "$(git status --porcelain)" ]; then
+    echo "----$name----"
+    git add .
+    git commit -m "'"$MESSAGE"'"
+    echo "-------------"
+	echo ""
+  fi
+'
+echo ""
+exit 0
+

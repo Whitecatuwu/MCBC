@@ -1,27 +1,27 @@
-[submodule "resource/battlecats_1.8.9"]
-	path = resource/battlecats_1.8.9
-	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
-	branch = 1.8.9
-[submodule "resource/battlecats_1.10.2"]
-	path = resource/battlecats_1.10.2
-	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
-	branch = 1.10.2
-[submodule "resource/battlecats_1.12.2"]
-	path = resource/battlecats_1.12.2
-	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
-	branch = 1.12.2
-[submodule "resource/battlecats_1.14.4"]
-	path = resource/battlecats_1.14.4
-	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
-	branch = 1.14.4
-[submodule "resource/battlecats_1.16.1"]
-	path = resource/battlecats_1.16.1
-	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
-	branch = 1.16.1
 [submodule "resource/battlecats_1.16.5"]
 	path = resource/battlecats_1.16.5
 	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
 	branch = 1.16.5
+[submodule "resource/battlecats_1.16.1"]
+	path = resource/battlecats_1.16.1
+	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
+	branch = 1.16.1
+[submodule "resource/battlecats_1.14.4"]
+	path = resource/battlecats_1.14.4
+	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
+	branch = 1.14.4
+[submodule "resource/battlecats_1.12.2"]
+	path = resource/battlecats_1.12.2
+	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
+	branch = 1.12.2
+[submodule "resource/battlecats_1.10.2"]
+	path = resource/battlecats_1.10.2
+	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
+	branch = 1.10.2
+[submodule "resource/battlecats_1.8.9"]
+	path = resource/battlecats_1.8.9
+	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
+	branch = 1.8.9
 [submodule "resource/battlecats_1.17.1"]
 	path = resource/battlecats_1.17.1
 	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
