@@ -13,6 +13,7 @@ git submodule foreach '
     git add .
     git commit -m "'"$MESSAGE"'"
     echo "-------------"
+	echo ""
   fi
 '
 echo ""
