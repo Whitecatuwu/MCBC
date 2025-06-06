@@ -26,15 +26,13 @@ url="$2"
 
 #-------------------------------------------------------------------------
 
-MESSAGE=$(cat .git/hooks/commit_message.txt)
-echo "Commit message: $MESSAGE"
+#MESSAGE=$(cat .git/hooks/commit_message.txt)
+#echo "Commit message: $MESSAGE"
 #VERS=("sound" "1.8.9" "1.10.2" "1.12.2" "1.14.4" "1.16.1" "1.16.5" "1.17.1" "1.18.2" "1.19.2" "1.19.3" "1.19.4" "1.20.1" "1.20.2" "1.20.4" "1.20.6" "1.21.1" "1.21.3" "1.21.4" #"1.21.5" "test")
 
 git submodule foreach '
   if [ -n "$(git status --porcelain)" ]; then
     echo "----$name----"
-    #git add .
-    #git commit -m "'"$MESSAGE"'"
     BRANCH=$(git config -f $toplevel/.gitmodules submodule.$name.branch)
     git push origin HEAD:refs/heads/$BRANCH
     echo "-------------"
@@ -55,10 +53,5 @@ for V in "${VERS[@]}"; do
 done
 
 echo "-------------"
-
-exit 0
-
-
-#-------------------------------------------------------------------------
 
 exit 0
