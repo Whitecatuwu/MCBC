@@ -1,9 +1,0 @@
-#!/bin/sh
-
-COMMIT_MSG_FILE=$1
-COMMIT_SOURCE=$2
-SHA1=$3
-MESSAGE=$(cat "$COMMIT_MSG_FILE")
-
-echo "$MESSAGE" > .git/hooks/commit_message.txt
-

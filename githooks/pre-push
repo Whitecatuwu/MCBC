@@ -33,8 +33,8 @@ echo "Commit message: $MESSAGE"
 git submodule foreach '
   if [ -n "$(git status --porcelain)" ]; then
     echo "----$name----"
-    git add .
-    git commit -m "'"$MESSAGE"'"
+    #git add .
+    #git commit -m "'"$MESSAGE"'"
     BRANCH=$(git config -f $toplevel/.gitmodules submodule.$name.branch)
     git push origin HEAD:refs/heads/$BRANCH
     echo "-------------"
