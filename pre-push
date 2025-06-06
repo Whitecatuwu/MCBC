@@ -35,7 +35,8 @@ git submodule foreach '
     echo "----$name----"
     git add .
     git commit -m "'"$MESSAGE"'"
-    git push
+    BRANCH=$(git config -f $toplevel/.gitmodules submodule.$name.branch)
+    git push origin HEAD:refs/heads/$BRANCH
     echo "-------------"
   fi
 '
