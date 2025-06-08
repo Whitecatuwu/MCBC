@@ -57,6 +57,7 @@ git submodule foreach '
 		echo ""
 	fi
 '
+echo ""
 exit 0
 
 
