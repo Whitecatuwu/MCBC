@@ -59,16 +59,14 @@ class ResPack:
 
         output: dict[str, set] = {"R": set(), "M": set(), "D": set(), "A": set()}
         with open(docs, "r") as r:
-            key: str
-            paths: str
             lines = (
-                b
-                for a in r.readlines()
-                if not a.startswith("#")
-                and (b := a.strip().replace("/", "\\").split(":", 1))
-                and (b[0] in output.keys())
+                Pipe(r.readlines())
+                .do(filter, lambda x: not x.startswith("#"), ...)
+                .do(map, lambda x: x.strip().replace("/", "\\").split(":", 1), ...)
+                .do(filter, lambda x: x[0] in output.keys(), ...)
+                .to(list)
             )
-        for key, paths in lines:
+        for key, paths in lines.get():
             paths: list = paths.split(",")
             if len(paths) < 2:
                 paths.append("")
@@ -90,11 +88,14 @@ class ResPack:
                 output[key].add(elem)
                 continue
 
+            # elem : [file_name, sub_dir]
             temp = filter(
                 lambda x: x != ".",
                 [self.operations_path, elem[1], os_path.basename(elem[0])],
             )
 
+            # Check if path exist : operations_path/sub_dir/file_name
+            # or operations_path/file_name if sub_dir is empty
             if os_path.exists(os_path.join(*temp)):
                 output[key].add(elem)
 
@@ -111,12 +112,22 @@ class ResPack:
         with open(docs, "w") as w:
             w.write("# Specify the relative paths to resource pack contents.\n")
             w.write("# Each line starts with a prefix indicating the action:\n")
+            w.write("#   R: Rename <old path>,<new path>\n")
             w.write(
-                "#   R: Rename   (e.g., R:assets/minecraft/textures/item,assets/minecraft/item)\n"
+                "#   e.g. R:assets/minecraft/textures/item,assets/minecraft/item\n\n"
             )
-            w.write("#   M: Modify   (e.g., M:assets/minecraft/textures/item)\n")
-            w.write("#   D: Delete   (e.g., D:assets/minecraft/textures/item)\n")
-            w.write("#   A: Add      (e.g., A:assets/minecraft/textures/item)\n")
+            w.write("#   M: Modify <path>,[sub_dir]\n")
+            w.write("#   e.g. M:assets/minecraft/textures/item\n\n")
+            w.write("#   A: Add <path>,[sub_dir]\n")
+            w.write("#   e.g. A:assets/minecraft/textures/item\n\n")
+            w.write("#   D: Delete <path (allow shell patterns)> \n")
+            w.write("#   e.g. D:assets/minecraft/textures/item\n")
+            w.write(
+                "#   D:*unused (Deletes all files/directories ending with 'unused')\n"
+            )
+            w.write(
+                "#   D:assets/*unused (Deletes files/directories ending with 'unused' only in the 'assets' folder)\n"
+            )
             w.write("#\n")
             w.write(
                 "# All paths must be *relative* to the root of the resource pack.\n"
