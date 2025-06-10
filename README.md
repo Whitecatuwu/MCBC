@@ -64,63 +64,72 @@ resource/battlecats_core/vers/
 <br>
 
 ```txt
-# 指定相對於資源包根目錄的資源路徑(assets 開頭)
-# 不要使用絕對路徑
+# 指定相對於資源包根目錄的資源路徑
+# 不可使用絕對路徑
+# 除了 D: 操作外，所有路徑必須以 assets/ 開頭。
 # #字號為註解
 # 語法格式如下：
-#   R: <舊路徑>,<新路徑>（Rename）
-#   M: <修改路徑>,[子目錄路徑]（Modify）
-#   D: <刪除路徑>（Delete）
-#   A: <新增路徑>,[子目錄路徑]（Add）
+#   R: <舊路徑>,<新路徑>         （Rename：重新命名或移動）
+#   M: <路徑>,[子目錄]           （Modify：修改指定路徑內容）
+#   A: <路徑>,[子目錄]           （Add：新增檔案或資料夾）
+#   D: <路徑 (可使用 shell patterns)>  （Delete：刪除檔案或資料夾）
 
 # 範例：
 R:assets/minecraft/textures/item,assets/minecraft/item
 M:assets/minecraft/lang
-D:assets/minecraft/sounds
 A:assets/minecraft/models
+D:assets/minecraft/sounds
+# 刪除所有以 unused 結尾的檔案/目錄
+D:*unused
+# 只刪除在 assets 底下以 unused 結尾的檔案/目錄
+D:assets/*unused
+
 # 錯誤範例:
-# A:minecraft/models 沒有以assets開頭
-# M:C:/Users/user/.../resourcepack/assets/minecraft/lang 使用絕對路徑
+# A:minecraft/models  ← 錯誤，沒有以 assets 開頭
+# M:C:/Users/user/.../resourcepack/assets/minecraft/lang  ← 錯誤，為絕對路徑
 ```
 
-#### 舉例
-##### 修改 
-1.20.2修改了`assets/minecraft/textures/gui` (與1.20.1比較)<br>
-將1.20.2版的`gui`放置在 `resource/battlecat/vers/1.20.2`中<br>
-並且在`resource/battlecats/vers/1.20.2/operations.txt`加入:
+#### 使用實例
+##### 📁 修改 
+1.20.2 相較 1.20.1 修改了 `assets/minecraft/textures/gui`<br>
+將1.20.2的`gui`放入 `resource/battlecat/vers/1.20.2`<br>
+並在`resource/battlecats/vers/1.20.2/operations.txt`加入:
 ```
 M:assets/minecraft/textures/gui
 ```
-##### 新增
-1.19.2新增了`assets/minecraft/textures/item/echo_shard.png` (與1.18.2比較)<br>
-將`echo_shard.png`放置在 `resource/battlecats/vers/1.19.2`中<br>
-並且在`resource/battlecats/vers/1.19.2/operations.txt`加入:
+##### ➕ 新增
+1.19.2 相較 1.18.2 新增了`assets/minecraft/textures/item/echo_shard.png`<br>
+將`echo_shard.png`放入 `resource/battlecats/vers/1.19.2`<br>
+並在`resource/battlecats/vers/1.19.2/operations.txt`加入:
 ```
 A:assets/minecraft/textures/item/echo_shard.png
 ```
-##### 檔案名稱衝突
-1.21.3中`container/bundle/slot_highlight_back.png`與`container/slot_highlight_back.png`路徑不同但檔名相同，<br>
-放在`resource/battlecats/vers/1.21.3`會有衝突，可以新增子目錄如`bundle`，<br>
-並把`container/bundle/slot_highlight_back.png`放在其底下，<br>
-隨後`operations.txt`輸入:
+##### 🧩 檔案名稱衝突
+1.21.3 出現兩個`slot_highlight_back.png`但在不同子目錄，路徑如下：<br>
+- `.../container/bundle/slot_highlight_back.png`<br>
+- `.../container/slot_highlight_back.png`<br>
+建議將第一個放入 `bundle` 子資料夾以避免衝突：<br>
 ```
 A:assets/minecraft/textures/gui/sprites/container/bundle/slot_highlight_back.png, bundle
 A:assets/minecraft/textures/gui/sprites/container/slot_highlight_back.png
 ```
-##### 刪除
-1.16.5刪除了`assets/minecraft/shaders/core` (與1.17.1比較)<br>
+##### ❌ 刪除
+1.16.5 相較 1.17.1 刪除了`assets/minecraft/shaders/core`<br>
 在`resource/battlecats/vers/1.16.5/operations.txt`加入:
 ```
 D:assets/minecraft/shaders/core
 ```
-##### 移動/重命名
-1.14.4是`assets/minecraft/textures/item` ,<br>
-在1.12.2被重命名為`assets/minecraft/textures/items`,<br>
-移除了`crossbow_arrow.png`,<br>
-修改了`acacia_boat.png`,<br>
-`book.png`被重命名為`book_normal.png`並且圖片有修改,<br>
-在`resource/battlecats/vers/1.12.2/operations.txt`加入:<br>
-(不同命名且不同名稱則視為不同檔案)
+你也可以將暫時用不到的檔案放入 `unused` 命名的資料夾中，然後加入：<br>
+```
+D:*unused
+```
+##### 🔁 移動/重命名
+1.12.2 相較 1.14.4, `assets/minecraft/textures/item`<br>
+被重命名為`assets/minecraft/textures/items`, 並且:<br>
+- 移除了`crossbow_arrow.png`,<br>
+- 修改了`acacia_boat.png`,<br>
+- `book.png`被重命名為`book_normal.png` 並假設內容有修改:<br>
+(不同名稱且不同內容則視為不同檔案)
 ```
 R:assets/minecraft/textures/item, assets/minecraft/textures/items
 D:assets/minecraft/textures/items/crossbow_arrow.png
@@ -128,7 +137,7 @@ M:assets/minecraft/textures/items/acacia_boat.png
 A:assets/minecraft/textures/items/book_normal.png
 D:assets/minecraft/textures/item/book.png
 ```
-若`book_normal.png`沒有修改過:
+若`book.png`僅重新命名為`book_normal.png`，內容沒有修改:
 ```
 R:assets/minecraft/textures/item, assets/minecraft/textures/items
 D:assets/minecraft/textures/items/crossbow_arrow.png

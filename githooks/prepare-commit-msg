@@ -12,6 +12,7 @@ git submodule foreach '
     echo "----$name----"
     git add .
     git commit -m "'"$MESSAGE"'"
+	git -C $toplevel add $name
     echo "-------------"
 	echo ""
   fi
