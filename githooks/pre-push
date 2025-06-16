@@ -41,7 +41,6 @@ git submodule foreach '
 	if [ "$CURRENT_BRANCH" = "HEAD" ]; then
 		echo -e "\033[1;33m Detached HEAD - checkout to $BRANCH\033[0m"
 		git checkout $BRANCH
-		exit 0
 	fi
 	
 	UPSTREAM="origin/$BRANCH"
