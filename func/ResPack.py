@@ -29,7 +29,12 @@ class ResPack:
             self.__write_operations(docs)
             return None
 
-        output: dict[str, set] = {"R": set(), "M": set(), "D": set(), "A": set()}
+        output: dict[str, set] = {
+            "R": set(),
+            "M": set(),
+            "D": set(),
+            "A": set(),
+        }
         with open(docs, "r") as r:
             lines = (
                 Pipe(r.readlines())
@@ -56,21 +61,19 @@ class ResPack:
                 .get()
             )
 
-            if key in ("R", "D"):
-                output[key].add(elem)
-                continue
-
-            # elem : [file_name, sub_dir]
-            temp = filter(
-                lambda x: x != ".",
-                [self.operations_path, elem[1], os_path.basename(elem[0])],
-            )
-
-            # Check if path exist : operations_path/sub_dir/file_name
-            # or operations_path/file_name if sub_dir is empty
-            if os_path.exists(os_path.join(*temp)):
-                output[key].add(elem)
-
+            match key:
+                case "D" | "R":
+                    output[key].add(elem)
+                case "M" | "A":
+                    # elem : [file_name, sub_dir]
+                    # Check if path exist : "operations_path/sub_dir/file_name"
+                    # or "operations_path/file_name" if sub_dir is empty
+                    temp = filter(
+                        lambda x: x != ".",
+                        [self.operations_path, elem[1], os_path.basename(elem[0])],
+                    )
+                    if os_path.exists(os_path.join(*temp)):
+                        output[key].add(elem)
         return output
 
     def __write_operations(self, docs) -> None:

@@ -37,10 +37,10 @@ def filtercopy(ignore_old: bool = True) -> callable:
         if os_path.isdir(dst):
             raise TypeError(f"{dst} must be a file.")
 
-        dst_is_older: bool = (not os_path.exists(dst)) or (
-            os_path.getmtime(src) > os_path.getmtime(dst)
+        dst_is_newer: bool = (os_path.exists(dst)) and (
+            os_path.getmtime(src) <= os_path.getmtime(dst)
         )
-        if ignore_old and not dst_is_older:
+        if ignore_old and dst_is_newer:
             return
 
         dst_dir = os_path.dirname(dst)
@@ -135,13 +135,13 @@ def __operations(
         modify_set: set[str] = set()
         # 新增集:需要新增的文件
         add_set: set[str] = set()
-        # 忽略集:不需要處理的文件，包含新增集、修改集和刪除集的文件
+        # 忽略集:不需要處理的文件，包含修改集和刪除集的文件
         ignore_set: set[str] = set()
 
         if operations_is_empty:
             pass
         else:
-            # 處理刪除操作
+            # 處理刪除集
             for path_D, _ in operations["D"]:
                 dirname, filename = os_path.split(os_path.join(root_src, path_D))
                 is_global_ignore: bool = os_path.normpath(dirname) == os_path.normpath(
@@ -152,7 +152,7 @@ def __operations(
                 names_set: set = set(fn_filter(src_filenames, filename))
                 delete_set.update(names_set)
 
-            # 處理修改操作
+            # 處理修改集
             for path_M, _ in operations["M"]:
                 dirname, filename = os_path.split(os_path.join(root_src, path_M))
                 if not fn_filter([current_dirname], dirname):
@@ -160,7 +160,7 @@ def __operations(
                 names_set: set = set(fn_filter(src_filenames, filename))
                 modify_set.update(names_set)
 
-            # 處理新增操作
+            # 處理新增集
             for path_A, _ in operations["A"]:
                 path_A = os_path.join(root_src, path_A)
                 if not is_parent_dir(current_dirname, path_A):
@@ -176,7 +176,7 @@ def __operations(
                 rename_src_path = os_path.join(root_src, path_R_src)
                 rename_dst_path = os_path.join(root_dst, path_R_dst)
 
-                # 若重命名後的目標路徑在當前目錄下，則加入保留集
+                # 若重命名後的目標路徑在當前目錄下，或屬於當前目錄的子目錄，則加入保留集
                 keep_renamed_path: str = os_path.normpath(
                     os_path.join(root_src, rename_dst_dir)
                 )
@@ -198,20 +198,21 @@ def __operations(
                 if not fn_filter([current_dirname], os_path.dirname(rename_src_path)):
                     continue
 
-                # 若重命名後的目標路徑在刪除操作中，則將其加入刪除集
-                if path_R_dst in (x[0] for x in operations["D"]):
+                # 若重命名後的目標路徑在刪除操作中，則將其來源加入刪除集
+                if path_R_dst in (x for x, _ in operations["D"]):
                     names_set: set = set(fn_filter(src_filenames, rename_src_file))
                     delete_set.update(names_set)
                     continue
 
-                ignore_set.add(rename_src_file)
+                delete_set.add(rename_src_file)
                 keep_set.discard(rename_src_file)
 
+                # 若為檔案直接處理即可
                 if os_path.isfile(rename_src_path):
                     copydata(rename_src_path, rename_dst_path)
                     continue
 
-                # 處理重命名操作，利用遞迴連帶處理需要被進行操作的子目錄
+                # 若為目錄，利用遞迴連帶處理需要被進行操作的子目錄
                 operations_for_rename: dict[str, set] = {
                     "R": set(),
                     "M": set(),
