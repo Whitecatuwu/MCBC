@@ -6,6 +6,7 @@ SHA1=$3
 
 echo $COMMIT_MSG_FILE
 MESSAGE=$(cat "$COMMIT_MSG_FILE")
+echo $MESSAGE
 
 git submodule foreach '
   if [ -n "$(git status --porcelain)" ]; then
