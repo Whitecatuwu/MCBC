@@ -1,3 +1,11 @@
+M:assets/minecraft/textures/gui/title/background/panorama_0.png, background
+M:assets/minecraft/textures/gui/title/background/panorama_1.png, background
+M:assets/minecraft/textures/gui/title/background/panorama_2.png, background
+M:assets/minecraft/textures/gui/title/background/panorama_3.png, background
+M:assets/minecraft/textures/gui/title/background/panorama_4.png, background
+M:assets/minecraft/textures/gui/title/background/panorama_5.png, background
+
+
 M:assets/minecraft/atlases/gui.json
 D:assets/minecraft/atlases/mob_effects.json
 A:assets/minecraft/blockstates/dried_ghast.json
