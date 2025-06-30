@@ -4,6 +4,9 @@ COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
 SHA1=$3
 
+echo $COMMIT_MSG_FILE
+MESSAGE=$(cat "$COMMIT_MSG_FILE")
+
 git submodule foreach '
   if [ -n "$(git status --porcelain)" ]; then
     echo "----$name----"
@@ -16,4 +19,3 @@ git submodule foreach '
 '
 echo ""
 exit 0
-
