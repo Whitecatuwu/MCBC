@@ -2,7 +2,6 @@
 
 git submodule foreach '
 	git -C $toplevel add $name
-	echo ""
 '
 echo ""
 exit 0
