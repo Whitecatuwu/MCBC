@@ -6,6 +6,7 @@ M:assets/minecraft/textures/gui/title/background/panorama_4.png, background
 M:assets/minecraft/textures/gui/title/background/panorama_5.png, background
 A:assets/minecraft/items/happy_ghast_spawn_egg.json, items
 A:assets/minecraft/textures/item/spawneggs/happy_ghast_spawn_egg.png
+A:assets/minecraft/models/item/happy_ghast_spawn_egg.json, models
 
 
 M:assets/minecraft/atlases/gui.json
@@ -200,7 +201,6 @@ A:assets/minecraft/models/item/brown_harness.json
 A:assets/minecraft/models/item/cyan_harness.json
 A:assets/minecraft/models/item/gray_harness.json
 A:assets/minecraft/models/item/green_harness.json
-A:assets/minecraft/models/item/happy_ghast_spawn_egg.json
 A:assets/minecraft/models/item/light_blue_harness.json
 A:assets/minecraft/models/item/light_gray_harness.json
 A:assets/minecraft/models/item/lime_harness.json
