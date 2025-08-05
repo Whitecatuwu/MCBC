@@ -4,6 +4,9 @@ M:assets/minecraft/textures/gui/title/background/panorama_2.png, background
 M:assets/minecraft/textures/gui/title/background/panorama_3.png, background
 M:assets/minecraft/textures/gui/title/background/panorama_4.png, background
 M:assets/minecraft/textures/gui/title/background/panorama_5.png, background
+A:assets/minecraft/items/happy_ghast_spawn_egg.json, items
+A:assets/minecraft/textures/item/spawneggs/happy_ghast_spawn_egg.png
+A:assets/minecraft/models/item/happy_ghast_spawn_egg.json, models
 
 
 M:assets/minecraft/atlases/gui.json
@@ -36,7 +39,7 @@ A:assets/minecraft/items/cyan_harness.json
 A:assets/minecraft/items/dried_ghast.json
 A:assets/minecraft/items/gray_harness.json
 A:assets/minecraft/items/green_harness.json
-A:assets/minecraft/items/happy_ghast_spawn_egg.json
+#A:assets/minecraft/items/happy_ghast_spawn_egg.json
 A:assets/minecraft/items/light_blue_harness.json
 A:assets/minecraft/items/light_gray_harness.json
 A:assets/minecraft/items/lime_harness.json
@@ -198,7 +201,6 @@ A:assets/minecraft/models/item/brown_harness.json
 A:assets/minecraft/models/item/cyan_harness.json
 A:assets/minecraft/models/item/gray_harness.json
 A:assets/minecraft/models/item/green_harness.json
-A:assets/minecraft/models/item/happy_ghast_spawn_egg.json
 A:assets/minecraft/models/item/light_blue_harness.json
 A:assets/minecraft/models/item/light_gray_harness.json
 A:assets/minecraft/models/item/lime_harness.json
@@ -1487,11 +1489,7 @@ M:assets/minecraft/textures/entity/enderdragon/dragon_exploding.png
 M:assets/minecraft/textures/entity/enderdragon/dragon_fireball.png
 M:assets/minecraft/textures/entity/enderman/enderman_eyes.png
 M:assets/minecraft/textures/entity/endermite.png
-M:assets/minecraft/textures/entity/equipment/__paths_list__.json
-M:assets/minecraft/textures/entity/equipment/__paths_list__.min.json
 M:assets/minecraft/textures/entity/equipment/camel_saddle/saddle.png
-A:assets/minecraft/textures/entity/equipment/happy_ghast_body/__paths_list__.json
-A:assets/minecraft/textures/entity/equipment/happy_ghast_body/__paths_list__.min.json
 A:assets/minecraft/textures/entity/equipment/happy_ghast_body/black_harness.png
 A:assets/minecraft/textures/entity/equipment/happy_ghast_body/blue_harness.png
 A:assets/minecraft/textures/entity/equipment/happy_ghast_body/brown_harness.png
@@ -2498,7 +2496,7 @@ A:assets/minecraft/textures/item/green_harness.png
 M:assets/minecraft/textures/item/gunpowder.png
 M:assets/minecraft/textures/item/guster_banner_pattern.png
 M:assets/minecraft/textures/item/guster_pottery_sherd.png
-A:assets/minecraft/textures/item/happy_ghast_spawn_egg.png
+#A:assets/minecraft/textures/item/happy_ghast_spawn_egg.png
 M:assets/minecraft/textures/item/heart_of_the_sea.png
 M:assets/minecraft/textures/item/heart_pottery_sherd.png
 M:assets/minecraft/textures/item/heartbreak_pottery_sherd.png
