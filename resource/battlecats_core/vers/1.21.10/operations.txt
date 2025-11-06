@@ -3,6 +3,10 @@
 #R092, assets/minecraft/models/block/chain.json, assets/minecraft/models/block/template_chain.json
 #R060, assets/minecraft/models/item/chain.json, assets/minecraft/models/item/iron_chain.json
 
+A:assets/minecraft/items/copper_golem_spawn_egg.json, items
+A:assets/minecraft/models/item/copper_golem_spawn_egg.json, models
+A:assets/minecraft/textures/item/spawneggs/copper_golem_spawn_egg.png
+
 M:assets/minecraft/atlases/armor_trims.json
 M:assets/minecraft/atlases/blocks.json
 A:assets/minecraft/blockstates/acacia_shelf.json
@@ -77,7 +81,6 @@ A:assets/minecraft/items/copper_boots.json
 A:assets/minecraft/items/copper_chain.json
 A:assets/minecraft/items/copper_chest.json
 A:assets/minecraft/items/copper_chestplate.json
-A:assets/minecraft/items/copper_golem_spawn_egg.json
 A:assets/minecraft/items/copper_golem_statue.json
 A:assets/minecraft/items/copper_helmet.json
 A:assets/minecraft/items/copper_hoe.json
@@ -469,7 +472,6 @@ A:assets/minecraft/models/item/copper_chestplate_netherite_trim.json
 A:assets/minecraft/models/item/copper_chestplate_quartz_trim.json
 A:assets/minecraft/models/item/copper_chestplate_redstone_trim.json
 A:assets/minecraft/models/item/copper_chestplate_resin_trim.json
-A:assets/minecraft/models/item/copper_golem_spawn_egg.json
 A:assets/minecraft/models/item/copper_helmet.json
 A:assets/minecraft/models/item/copper_helmet_amethyst_trim.json
 A:assets/minecraft/models/item/copper_helmet_copper_trim.json
@@ -843,7 +845,6 @@ A:assets/minecraft/textures/item/copper_axe.png
 A:assets/minecraft/textures/item/copper_boots.png
 A:assets/minecraft/textures/item/copper_chain.png
 A:assets/minecraft/textures/item/copper_chestplate.png
-A:assets/minecraft/textures/item/copper_golem_spawn_egg.png
 A:assets/minecraft/textures/item/copper_helmet.png
 A:assets/minecraft/textures/item/copper_hoe.png
 A:assets/minecraft/textures/item/copper_horse_armor.png
