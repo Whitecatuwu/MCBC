@@ -86,6 +86,10 @@
 	path = resource/battlecats_1.21.10
 	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
 	branch = 1.21.10
+[submodule "resource/battlecats_1.21.11"]
+	path = resource/battlecats_1.21.11
+	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
+	branch = 1.21.11
 [submodule "resource/battlecats_sound"]
 	path = resource/battlecats_sound
 	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
