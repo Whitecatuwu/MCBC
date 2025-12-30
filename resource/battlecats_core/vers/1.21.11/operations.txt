@@ -1,6 +1,19 @@
 M:assets/minecraft/shaders/core/rendertype_lines.vsh
 M:assets/minecraft/shaders/core/rendertype_lines.fsh
 
+A:assets/minecraft/items/camel_husk_spawn_egg.json, items
+A:assets/minecraft/items/nautilus_spawn_egg.json, items
+A:assets/minecraft/items/parched_spawn_egg.json, items
+A:assets/minecraft/items/zombie_nautilus_spawn_egg.json, items
+A:assets/minecraft/models/item/camel_husk_spawn_egg.json, models
+A:assets/minecraft/models/item/nautilus_spawn_egg.json, models
+A:assets/minecraft/models/item/parched_spawn_egg.json, models
+A:assets/minecraft/models/item/zombie_nautilus_spawn_egg.json, models
+A:assets/minecraft/textures/item/spawneggs/camel_husk_spawn_egg.png
+A:assets/minecraft/textures/item/spawneggs/nautilus_spawn_egg.png
+A:assets/minecraft/textures/item/spawneggs/parched_spawn_egg.png
+M:assets/minecraft/textures/item/spawneggs/zombie_horse_spawn_egg.png
+A:assets/minecraft/textures/item/spawneggs/zombie_nautilus_spawn_egg.png
 
 M:assets/minecraft/atlases/blocks.json
 A:assets/minecraft/atlases/celestials.json
@@ -15,7 +28,7 @@ M:assets/minecraft/equipment/saddle.json
 M:assets/minecraft/font/unifont.zip
 M:assets/minecraft/font/unifont_jp.zip
 M:assets/minecraft/font/unifont_pua.zip
-A:assets/minecraft/items/camel_husk_spawn_egg.json
+#A:assets/minecraft/items/camel_husk_spawn_egg.json
 A:assets/minecraft/items/copper_nautilus_armor.json
 A:assets/minecraft/items/copper_spear.json
 A:assets/minecraft/items/diamond_nautilus_armor.json
@@ -24,14 +37,14 @@ A:assets/minecraft/items/golden_nautilus_armor.json
 A:assets/minecraft/items/golden_spear.json
 A:assets/minecraft/items/iron_nautilus_armor.json
 A:assets/minecraft/items/iron_spear.json
-A:assets/minecraft/items/nautilus_spawn_egg.json
+#A:assets/minecraft/items/nautilus_spawn_egg.json
 A:assets/minecraft/items/netherite_horse_armor.json
 A:assets/minecraft/items/netherite_nautilus_armor.json
 A:assets/minecraft/items/netherite_spear.json
-A:assets/minecraft/items/parched_spawn_egg.json
+#A:assets/minecraft/items/parched_spawn_egg.json
 A:assets/minecraft/items/stone_spear.json
 A:assets/minecraft/items/wooden_spear.json
-A:assets/minecraft/items/zombie_nautilus_spawn_egg.json
+#A:assets/minecraft/items/zombie_nautilus_spawn_egg.json
 M:assets/minecraft/lang/af_za.json
 M:assets/minecraft/lang/ar_sa.json
 M:assets/minecraft/lang/ast_es.json
@@ -170,7 +183,7 @@ M:assets/minecraft/lang/zh_cn.json
 M:assets/minecraft/lang/zh_hk.json
 M:assets/minecraft/lang/zh_tw.json
 M:assets/minecraft/lang/zlm_arab.json
-A:assets/minecraft/models/item/camel_husk_spawn_egg.json
+#A:assets/minecraft/models/item/camel_husk_spawn_egg.json
 A:assets/minecraft/models/item/copper_nautilus_armor.json
 A:assets/minecraft/models/item/copper_spear.json
 A:assets/minecraft/models/item/copper_spear_in_hand.json
@@ -185,18 +198,18 @@ A:assets/minecraft/models/item/iron_nautilus_armor.json
 A:assets/minecraft/models/item/iron_spear.json
 A:assets/minecraft/models/item/iron_spear_in_hand.json
 M:assets/minecraft/models/item/leather_horse_armor.json
-A:assets/minecraft/models/item/nautilus_spawn_egg.json
+#A:assets/minecraft/models/item/nautilus_spawn_egg.json
 A:assets/minecraft/models/item/netherite_horse_armor.json
 A:assets/minecraft/models/item/netherite_nautilus_armor.json
 A:assets/minecraft/models/item/netherite_spear.json
 A:assets/minecraft/models/item/netherite_spear_in_hand.json
-A:assets/minecraft/models/item/parched_spawn_egg.json
+#A:assets/minecraft/models/item/parched_spawn_egg.json
 A:assets/minecraft/models/item/spear_in_hand.json
 A:assets/minecraft/models/item/stone_spear.json
 A:assets/minecraft/models/item/stone_spear_in_hand.json
 A:assets/minecraft/models/item/wooden_spear.json
 A:assets/minecraft/models/item/wooden_spear_in_hand.json
-A:assets/minecraft/models/item/zombie_nautilus_spawn_egg.json
+#A:assets/minecraft/models/item/zombie_nautilus_spawn_egg.json
 M:assets/minecraft/resourcepacks/high_contrast.zip
 M:assets/minecraft/resourcepacks/programmer_art.zip
 M:assets/minecraft/shaders/core/__paths_list__.json
@@ -506,7 +519,7 @@ D:assets/minecraft/textures/gui/sprites/container/inventory/effect_background_la
 A:assets/minecraft/textures/gui/sprites/container/slot/nautilus_armor.png
 A:assets/minecraft/textures/gui/sprites/container/slot/nautilus_armor_inventory.png
 A:assets/minecraft/textures/gui/sprites/container/slot/spear.png
-A:assets/minecraft/textures/item/camel_husk_spawn_egg.png
+#A:assets/minecraft/textures/item/camel_husk_spawn_egg.png
 A:assets/minecraft/textures/item/copper_nautilus_armor.png
 A:assets/minecraft/textures/item/copper_spear.png
 A:assets/minecraft/textures/item/copper_spear_in_hand.png
@@ -521,16 +534,16 @@ A:assets/minecraft/textures/item/iron_spear.png
 A:assets/minecraft/textures/item/iron_spear_in_hand.png
 M:assets/minecraft/textures/item/leather_horse_armor.png
 A:assets/minecraft/textures/item/leather_horse_armor_overlay.png
-A:assets/minecraft/textures/item/nautilus_spawn_egg.png
+#A:assets/minecraft/textures/item/nautilus_spawn_egg.png
 A:assets/minecraft/textures/item/netherite_horse_armor.png
 A:assets/minecraft/textures/item/netherite_nautilus_armor.png
 A:assets/minecraft/textures/item/netherite_spear.png
 A:assets/minecraft/textures/item/netherite_spear_in_hand.png
-A:assets/minecraft/textures/item/parched_spawn_egg.png
+#A:assets/minecraft/textures/item/parched_spawn_egg.png
 A:assets/minecraft/textures/item/stone_spear.png
 A:assets/minecraft/textures/item/stone_spear_in_hand.png
 A:assets/minecraft/textures/item/wooden_spear.png
 A:assets/minecraft/textures/item/wooden_spear_in_hand.png
-M:assets/minecraft/textures/item/zombie_horse_spawn_egg.png
-A:assets/minecraft/textures/item/zombie_nautilus_spawn_egg.png
+#M:assets/minecraft/textures/item/zombie_horse_spawn_egg.png
+#A:assets/minecraft/textures/item/zombie_nautilus_spawn_egg.png
 A:assets/minecraft/textures/mob_effect/breath_of_the_nautilus.png
