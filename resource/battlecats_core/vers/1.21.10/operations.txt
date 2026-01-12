@@ -4,7 +4,7 @@
 #R060, assets/minecraft/models/item/chain.json, assets/minecraft/models/item/iron_chain.json
 
 A:assets/minecraft/items/copper_golem_spawn_egg.json, items
-A:assets/minecraft/models/item/copper_golem_spawn_egg.json, models
+A:assets/minecraft/models/item/spawn_egg/copper_golem_spawn_egg.json, spawn_egg
 A:assets/minecraft/textures/item/spawneggs/copper_golem_spawn_egg.png
 
 M:assets/minecraft/atlases/armor_trims.json

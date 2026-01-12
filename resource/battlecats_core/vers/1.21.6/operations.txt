@@ -6,7 +6,7 @@ M:assets/minecraft/textures/gui/title/background/panorama_4.png, background
 M:assets/minecraft/textures/gui/title/background/panorama_5.png, background
 A:assets/minecraft/items/happy_ghast_spawn_egg.json, items
 A:assets/minecraft/textures/item/spawneggs/happy_ghast_spawn_egg.png
-A:assets/minecraft/models/item/happy_ghast_spawn_egg.json, models
+A:assets/minecraft/models/item/spawn_egg/happy_ghast_spawn_egg.json, spawn_egg
 
 
 M:assets/minecraft/atlases/gui.json

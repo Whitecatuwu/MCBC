@@ -1,6 +1,5 @@
 R:assets/minecraft/shaders/core/battlecat_anime_lines.fsh, assets/minecraft/shaders/core/rendertype_lines.fsh
 R:assets/minecraft/shaders/core/battlecat_anime_lines.vsh, assets/minecraft/shaders/core/rendertype_lines.vsh
-D:assets/minecraft/items/*_spawn_egg.json
 
 #R096, assets/minecraft/sounds/mob/wolf/bark1.ogg, assets/minecraft/sounds/mob/wolf/classic/bark1.ogg
 #R088, assets/minecraft/sounds/mob/wolf/bark2.ogg, assets/minecraft/sounds/mob/wolf/classic/bark2.ogg

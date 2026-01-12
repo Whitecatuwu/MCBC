@@ -5,10 +5,10 @@ A:assets/minecraft/items/camel_husk_spawn_egg.json, items
 A:assets/minecraft/items/nautilus_spawn_egg.json, items
 A:assets/minecraft/items/parched_spawn_egg.json, items
 A:assets/minecraft/items/zombie_nautilus_spawn_egg.json, items
-A:assets/minecraft/models/item/camel_husk_spawn_egg.json, models
-A:assets/minecraft/models/item/nautilus_spawn_egg.json, models
-A:assets/minecraft/models/item/parched_spawn_egg.json, models
-A:assets/minecraft/models/item/zombie_nautilus_spawn_egg.json, models
+A:assets/minecraft/models/item/spawn_egg/camel_husk_spawn_egg.json, spawn_egg
+A:assets/minecraft/models/item/spawn_egg/nautilus_spawn_egg.json, spawn_egg
+A:assets/minecraft/models/item/spawn_egg/parched_spawn_egg.json, spawn_egg
+A:assets/minecraft/models/item/spawn_egg/zombie_nautilus_spawn_egg.json, spawn_egg
 A:assets/minecraft/textures/item/spawneggs/camel_husk_spawn_egg.png
 A:assets/minecraft/textures/item/spawneggs/nautilus_spawn_egg.png
 A:assets/minecraft/textures/item/spawneggs/parched_spawn_egg.png
