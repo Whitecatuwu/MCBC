@@ -1,7 +1,7 @@
 from os import path as os_path, makedirs
 from .path_utils import is_valid_pathname
-from .gui.ansi import Yellow
 from .Pipe import Pipe
+from loguru import logger
 
 
 class ResPack:
@@ -48,10 +48,10 @@ class ResPack:
             if len(paths) < 2:
                 paths.append("")
             if key == "R" and any(map(lambda x: not is_valid_pathname(x), paths)):
-                print(Yellow(f"Warning: Invalid path(s): {paths}"))
+                logger.warning(f"Warning: Invalid path(s): {paths}")
                 continue
             if key in ("M", "A") and not is_valid_pathname(paths[0]):
-                print(Yellow(f"Warning: Invalid path(s): {paths[0]}"))
+                logger.warning(f"Warning: Invalid path(s): {paths[0]}")
                 continue
 
             elem = (
@@ -77,10 +77,9 @@ class ResPack:
         return output
 
     def __write_operations(self, docs) -> None:
-        WARNING_MSG: str = (
-            f"Warning: {self.DOCS_NAME} in {self.operations_path} does not exist, it will be created."
+        logger.info(
+            f"{self.DOCS_NAME} in {self.operations_path} does not exist, it will be created."
         )
-        print(Yellow(WARNING_MSG))
 
         if not os_path.exists(os_path.dirname(docs)):
             makedirs(os_path.dirname(docs))

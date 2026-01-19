@@ -1,12 +1,14 @@
-from func.init import init
+from src.init import init
 from time import time as current_time
 from os import chdir, path as os_path
+from src.setup_logger import setup_logging
 
 CURRENT_DIR = os_path.dirname(os_path.abspath(__file__))
 
 
 if __name__ == "__main__":
     chdir(CURRENT_DIR)
+    setup_logging()
     update_older: callable
     update_newer: callable
     update_older, update_newer = init(CURRENT_DIR)

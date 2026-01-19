@@ -1,7 +1,7 @@
-from func.update import update
-from func.ResPack import ResPack
-from func.gui.ansi import Strong
-from os import chdir, path as os_path
+from src.update import update
+from src.ResPack import ResPack
+from src.gui.ansi import Strong
+from os import path as os_path
 import configparser
 
 PACK_PATH = "PackPath"

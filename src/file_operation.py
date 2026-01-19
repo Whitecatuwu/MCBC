@@ -1,9 +1,10 @@
 from shutil import copy2, copytree, rmtree
 from os import scandir, remove, makedirs, path as os_path
 from fnmatch import filter as fn_filter
-from .gui.ansi import *
-from .path_utils import *
+from .gui.ansi import Green, Purple
+from .path_utils import is_parent_dir, get_top_dirname
 from .Pipe import Pipe
+from loguru import logger
 import glob
 
 
@@ -49,9 +50,10 @@ def filtercopy(ignore_old: bool = True) -> callable:
         try:
             copy2(src, dst)
         except Exception as e:
-            print(Red(f"Update failed: {dst} \nBecause: {e}\n"))
+            logger.error(f"Copy failed: {src} to {dst} \nBecause: {e}\n")
         else:
-            print(Green(f"Update: {dst}"))
+            logger.info(Green(f"Update: {dst}"))
+            # print(Green(f"Update: {dst}"))
 
     return _filter
 
@@ -67,9 +69,9 @@ def delete(pathname: str) -> None:
             else:
                 remove(matched)
         except Exception as e:
-            print(Red(f"Delete failed: {matched}\nReason: {e}\n"))
+            logger.error(f"Delete failed: {matched} \nReason: {e}\n")
         else:
-            print(Purple(f"Delete: {matched}"))
+            logger.info(Purple(f"Delete: {matched}"))
 
 
 def copydata(
@@ -82,11 +84,11 @@ def copydata(
     ignore_old: bool = True,
 ) -> None:
     if not os_path.exists(src):
-        print(Red(f'Update failed: {dst} \nBecause: "{src}" does not exist.\n'))
+        logger.error(f'Update failed: {dst} \nBecause: "{src}" does not exist.\n')
         return
     if os_path.isdir(src):
-        root_src = src if root_src == None else root_src
-        root_dst = dst if root_dst == None else root_dst
+        root_src = src if root_src is None else root_src
+        root_dst = dst if root_dst is None else root_dst
         copytree(
             src,
             dst,
@@ -99,10 +101,8 @@ def copydata(
         filtercopy(ignore_old=ignore_old)(src, dst)
         return
     else:
-        print(
-            Red(
-                f'Update failed: {dst} \nBecause: "{src}" is not a directory or a file.\n'
-            )
+        logger.error(
+            f'Update failed: {dst} \nBecause: "{src}" is not a directory or a file.\n'
         )
 
 
@@ -258,14 +258,7 @@ def __operations(
                     root_src=rename_src_path,
                     root_dst=rename_dst_path,
                 )
-                """print(
-                    Orange(
-                        'Rename: "{}" \n -> "{}"\n'.format(
-                            path.relpath(rename_src_path, current),
-                            path.relpath(rename_dst_path, current),
-                        )
-                    )
-                )"""
+                logger.trace(f"Rename: {rename_src_path} -> {rename_dst_path}")
 
             ignore_set = ignore_set | delete_set | modify_set
             keep_set = keep_set | modify_set | add_set
@@ -281,20 +274,12 @@ def __operations(
         ):
             mirror_cleanup(current_dirname, path_dst, keep_set)
 
-        """for dele in delete_set:
-            print(
-                Grey(
-                    f"Ignore src: {path.relpath(path.join(current_dirname,dele),current)}"
-                )
-            )
+        for dele in delete_set:
+            logger.trace(f"Ignore src: {os_path.join(current_dirname, dele)}")
         for mod in modify_set:
-            print(
-                Cyan(
-                    f"Skip src: {path.relpath(path.join(current_dirname,mod),current)}"
-                )
-            )
+            logger.trace(f"Skip src: {os_path.join(current_dirname, mod)}")
         for add in add_set:
-            print(Blue(f"Keep: {path.relpath(path.join(path_dst,add),current)}"))"""
+            logger.trace(f"Keep: {os_path.join(path_dst, add)}")
 
         return ignore_set
 
