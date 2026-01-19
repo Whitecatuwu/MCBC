@@ -1,7 +1,7 @@
 from os import path as os_path
-from .gui.ansi import *
 from .file_operation import copydata, delete
 from .ResPack import ResPack
+from loguru import logger
 
 
 def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
@@ -10,10 +10,10 @@ def update(pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
     operations: dict[str, list] = ver.get_operations()
 
     if not os_path.exists(src):
-        print(Yellow(f'Warning : "{src}" is does not exist.'))
+        logger.warning(f'Warning : "{src}" is does not exist.')
         return
     if not os_path.exists(dst):
-        print(Yellow(f'Warning : "{dst}" is does not exist.'))
+        logger.warning(f'Warning : "{dst}" is does not exist.')
         return
 
     copydata(
