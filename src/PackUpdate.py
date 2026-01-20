@@ -209,55 +209,7 @@ class PackUpdate:
 
                     delete_set.add(rename_src_file)
                     keep_set.discard(rename_src_file)
-
-                    # 若為檔案直接處理即可
-                    if os_path.isfile(rename_src_path):
-                        self.rename_oper.append(
-                            (rename_src_path, rename_dst_path, None)
-                        )
-                        continue
-
-                    # 若為目錄，利用遞迴連帶處理需要被進行操作的子目錄
-                    operations_for_rename: dict[str, set] = {
-                        "R": set(),
-                        "M": set(),
-                        "D": set(),
-                        "A": set(),
-                    }
-
-                    operations_for_rename["R"] = set(
-                        (rel_src, rel_dst)
-                        for (x, y) in operations["R"]
-                        if is_parent_dir(path_R_src, x)
-                        and is_parent_dir(path_R_dst, y)
-                        and (rel_src := os_path.relpath(x, path_R_src)) != "."
-                        and (rel_dst := os_path.relpath(y, path_R_dst)) != "."
-                    )
-
-                    operations_for_rename["M"] = set(
-                        (rel, "")
-                        for (x, _) in operations["M"]
-                        if is_parent_dir(path_R_dst, x)
-                        and (rel := os_path.relpath(x, path_R_dst)) != "."
-                    )
-
-                    operations_for_rename["D"] = set(
-                        (rel, "")
-                        for (x, _) in operations["D"]
-                        if is_parent_dir(path_R_dst, x)
-                        and (rel := os_path.relpath(x, path_R_dst)) != "."
-                    )
-
-                    operations_for_rename["A"] = set(
-                        (rel, "")
-                        for (x, _) in operations["A"]
-                        if is_parent_dir(path_R_dst, x)
-                        and (rel := os_path.relpath(x, path_R_dst)) != "."
-                    )
-
-                    self.rename_oper.append(
-                        (rename_src_path, rename_dst_path, operations_for_rename)
-                    )
+                    self.__rename(root_src, root_dst, path_R_src, path_R_dst)
 
                 ignore_set = ignore_set | delete_set | modify_set
                 keep_set = keep_set | modify_set | add_set
@@ -287,9 +239,17 @@ class PackUpdate:
 
         return __ignore
 
-    def __rename(self, path_R_src: str, path_R_dst: str, mirror=True) -> None:
-        rename_src_path = ""
-        rename_dst_path = ""
+    def __rename(
+        self,
+        root_src: str,
+        root_dst: str,
+        path_R_src: str,
+        path_R_dst: str,
+        mirror=True,
+    ) -> None:
+        rename_src_path = os_path.join(root_src, path_R_src)
+        rename_dst_path = os_path.join(root_dst, path_R_dst)
+
         # 若為檔案直接處理即可
         if os_path.isfile(rename_src_path):
             self.rename_oper.append((rename_src_path, rename_dst_path, None))
