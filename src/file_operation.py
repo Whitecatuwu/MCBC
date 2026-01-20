@@ -1,6 +1,6 @@
 from shutil import copy2, rmtree
 from os import scandir, remove, makedirs, path as os_path
-from .gui.ansi import Green, Purple
+from .gui.ansi import Purple
 from loguru import logger
 import glob
 
@@ -28,31 +28,21 @@ def mirror_cleanup(
         delete(d.path)
 
 
-def filtercopy(ignore_old: bool = True) -> callable:
-    def _filter(src: str, dst: str) -> None:
-        if not os_path.isfile(src):
-            raise TypeError(f"{src} must be a file.")
-        if os_path.isdir(dst):
-            raise TypeError(f"{dst} must be a file.")
+def copyfile(src: str, dst: str) -> None:
+    if not os_path.isfile(src):
+        raise TypeError(f"{src} must be a file.")
+    if os_path.isdir(dst):
+        raise TypeError(f"{dst} must be a file.")
 
-        dst_is_newer: bool = (os_path.exists(dst)) and (
-            os_path.getmtime(src) <= os_path.getmtime(dst)
-        )
-        if ignore_old and dst_is_newer:
-            return
-
-        dst_dir = os_path.dirname(dst)
-        if not os_path.exists(dst_dir):
-            makedirs(dst_dir)
-        try:
-            copy2(src, dst)
-        except Exception as e:
-            logger.error(f"Copy failed: {src} to {dst} \nBecause: {e}\n")
-        else:
-            logger.info(Green(f"Update: {dst}"))
-            # print(Green(f"Update: {dst}"))
-
-    return _filter
+    dst_dir = os_path.dirname(dst)
+    if not os_path.exists(dst_dir):
+        makedirs(dst_dir)
+    try:
+        copy2(src, dst)
+    except Exception as e:
+        logger.error(f"Copy failed: {src} to {dst} \nBecause: {e}\n")
+    else:
+        logger.success(f"Update: {dst}")
 
 
 def delete(pathname: str) -> None:

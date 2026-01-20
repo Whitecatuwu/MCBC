@@ -1,7 +1,7 @@
 from shutil import copytree
 from os import path as os_path
 from fnmatch import filter as fn_filter
-from .file_operation import delete, mirror_cleanup, filtercopy
+from .file_operation import delete, mirror_cleanup, copyfile
 from .ResPack import ResPack
 from .path_utils import is_parent_dir, get_top_dirname
 from .Pipe import Pipe
@@ -12,11 +12,13 @@ class PackUpdate:
     def __init__(self, pre_ver: ResPack, ver: ResPack) -> None:
         self.pre_ver: ResPack = pre_ver
         self.ver: ResPack = ver
+        self.operations: dict[str, set] = self.ver.get_operations()
 
-    def update(self, mirror=True) -> None:
+        self.rename_oper: list[tuple[str, str, dict[str, set]]] = []
+
+    def update(self, mirror=True, ignore_old=True) -> None:
         src: str = self.pre_ver.path
         dst: str = self.ver.path
-        operations: dict[str, list] = self.ver.get_operations()
 
         if not os_path.exists(src):
             logger.warning(f'Warning : "{src}" is does not exist.')
@@ -28,15 +30,16 @@ class PackUpdate:
         self.copydata(
             os_path.join(src, "assets"),
             os_path.join(dst, "assets"),
-            operations=operations,
+            operations=self.operations,
             root_src=src,
             root_dst=dst,
             mirror=mirror,
+            ignore_old=ignore_old,
         )
 
-        if operations is None or operations == {}:
+        if self.operations is None or self.operations == {}:
             return
-        for MA, sub_dir in operations["M"] | operations["A"]:
+        for MA, sub_dir in self.operations["M"] | self.operations["A"]:
             temp = filter(
                 lambda x: x != ".",
                 [self.ver.operations_path, sub_dir, os_path.basename(MA)],
@@ -50,11 +53,18 @@ class PackUpdate:
                 mirror=mirror,
             )
 
-        for D, _ in operations["D"]:
+        for D, _ in self.operations["D"]:
             if os_path.split(D)[0] == "":
                 delete(os_path.join(dst, "**", D))
             else:
                 delete(os_path.join(dst, D))
+
+        for src, dst, oper in self.rename_oper:
+            if oper is None or oper == {}:
+                self.copydata(src, dst)
+            else:
+                self.copydata(src, dst, operations=oper, mirror=mirror)
+        logger.trace(f"Rename: {src} -> {dst}")
 
     def copydata(
         self,
@@ -77,11 +87,11 @@ class PackUpdate:
                 dst,
                 dirs_exist_ok=True,
                 ignore=self.__operations(operations, root_src, root_dst, mirror=mirror),
-                copy_function=filtercopy(ignore_old=ignore_old),
+                copy_function=self.__filtercopy(ignore_old=ignore_old),
             )
             return
         elif os_path.isfile(src):
-            filtercopy(ignore_old=ignore_old)(src, dst)
+            self.__filtercopy(ignore_old=ignore_old)(src, dst)
             return
         else:
             logger.error(
@@ -198,7 +208,9 @@ class PackUpdate:
 
                     # 若為檔案直接處理即可
                     if os_path.isfile(rename_src_path):
-                        self.copydata(rename_src_path, rename_dst_path)
+                        self.rename_oper.append(
+                            (rename_src_path, rename_dst_path, None)
+                        )
                         continue
 
                     # 若為目錄，利用遞迴連帶處理需要被進行操作的子目錄
@@ -239,15 +251,9 @@ class PackUpdate:
                         and (rel := os_path.relpath(x, path_R_dst)) != "."
                     )
 
-                    self.copydata(
-                        rename_src_path,
-                        rename_dst_path,
-                        operations=operations_for_rename,
-                        mirror=mirror,
-                        root_src=rename_src_path,
-                        root_dst=rename_dst_path,
+                    self.rename_oper.append(
+                        (rename_src_path, rename_dst_path, operations_for_rename)
                     )
-                    logger.trace(f"Rename: {rename_src_path} -> {rename_dst_path}")
 
                 ignore_set = ignore_set | delete_set | modify_set
                 keep_set = keep_set | modify_set | add_set
@@ -263,6 +269,7 @@ class PackUpdate:
             ):
                 mirror_cleanup(current_dirname, path_dst, keep_set)
 
+            # logger
             for dele in delete_set:
                 logger.trace(f"Ignore src: {os_path.join(current_dirname, dele)}")
             for mod in modify_set:
@@ -273,3 +280,23 @@ class PackUpdate:
             return ignore_set
 
         return __ignore
+
+    def __filtercopy(self, ignore_old: bool = True) -> callable:
+
+        def _filter(src: str, dst: str) -> None:
+            dst_is_newer: bool = (os_path.exists(dst)) and (
+                os_path.getmtime(src) <= os_path.getmtime(dst)
+            )
+            if dst_is_newer:
+                return
+            copyfile(src, dst)
+
+        return _filter
+
+    def __rename(self, src: str, dst: str, mirror=True) -> None:
+        for src, dst, oper in self.rename_oper:
+            if oper is None or oper == {}:
+                self.copydata(src, dst)
+            else:
+                self.copydata(src, dst, operations=oper, mirror=mirror)
+        logger.trace(f"Rename: {src} -> {dst}")
