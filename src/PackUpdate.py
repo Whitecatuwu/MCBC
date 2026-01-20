@@ -9,11 +9,14 @@ from loguru import logger
 
 
 class PackUpdate:
+    def __init__(self, pre_ver: ResPack, ver: ResPack) -> None:
+        self.pre_ver: ResPack = pre_ver
+        self.ver: ResPack = ver
 
-    def update(self, pre_ver: ResPack, ver: ResPack, mirror=True) -> None:
-        src: str = pre_ver.path
-        dst: str = ver.path
-        operations: dict[str, list] = ver.get_operations()
+    def update(self, mirror=True) -> None:
+        src: str = self.pre_ver.path
+        dst: str = self.ver.path
+        operations: dict[str, list] = self.ver.get_operations()
 
         if not os_path.exists(src):
             logger.warning(f'Warning : "{src}" is does not exist.')
@@ -36,7 +39,7 @@ class PackUpdate:
         for MA, sub_dir in operations["M"] | operations["A"]:
             temp = filter(
                 lambda x: x != ".",
-                [ver.operations_path, sub_dir, os_path.basename(MA)],
+                [self.ver.operations_path, sub_dir, os_path.basename(MA)],
             )
             src_update: str = os_path.join(*temp)
             dst_update: str = os_path.join(dst, MA)

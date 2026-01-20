@@ -39,12 +39,12 @@ def init(base_path: str) -> callable:
     def update_older() -> None:
         for i in range(1, len(older_ver_res_packs), 1):
             print(Strong(f"{older_ver_res_packs[i].version():-^50}"))
-            PackUpdate().update(older_ver_res_packs[i - 1], older_ver_res_packs[i])
+            PackUpdate(older_ver_res_packs[i - 1], older_ver_res_packs[i]).update()
 
     def update_newer() -> None:
         for i in range(1, len(ver_res_packs), 1):
             print(Strong(f"{ver_res_packs[i].version():-^50}"))
-            PackUpdate().update(ver_res_packs[i - 1], ver_res_packs[i])
+            PackUpdate(ver_res_packs[i - 1], ver_res_packs[i]).update()
 
     return update_older, update_newer
 
