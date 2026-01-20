@@ -34,18 +34,25 @@ def copyfile(src: str, dst: str) -> None:
     if os_path.isdir(dst):
         raise TypeError(f"{dst} must be a file.")
 
-    dst_dir = os_path.dirname(dst)
-    if not os_path.exists(dst_dir):
-        makedirs(dst_dir)
-    try:
-        copy2(src, dst)
-    except Exception as e:
-        logger.error(f"Copy failed: {src} to {dst} \nBecause: {e}\n")
-    else:
-        logger.success(f"Update: {dst}")
+    __copyfile(src, dst)
+
+
+def copyfile_ignore_old(src: str, dst: str) -> None:
+    if not os_path.isfile(src):
+        raise TypeError(f"{src} must be a file.")
+    if os_path.isdir(dst):
+        raise TypeError(f"{dst} must be a file.")
+
+    is_dst_newer: bool = (os_path.exists(dst)) and (
+        os_path.getmtime(src) <= os_path.getmtime(dst)
+    )
+    if is_dst_newer:
+        return
+    __copyfile(src, dst)
 
 
 def delete(pathname: str) -> None:
+
     matched_paths = glob.glob(pathname, recursive=True)
     if not matched_paths:
         return
@@ -59,3 +66,15 @@ def delete(pathname: str) -> None:
             logger.error(f"Delete failed: {matched} \nReason: {e}\n")
         else:
             logger.info(Purple(f"Delete: {matched}"))
+
+
+def __copyfile(src: str, dst: str) -> None:
+    dst_dir = os_path.dirname(dst)
+    if not os_path.exists(dst_dir):
+        makedirs(dst_dir)
+    try:
+        copy2(src, dst)
+    except Exception as e:
+        logger.error(f"Copy failed: {src} to {dst} \nBecause: {e}\n")
+    else:
+        logger.success(f"Update: {dst}")
