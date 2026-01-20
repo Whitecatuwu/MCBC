@@ -1,4 +1,4 @@
-from src.update import update
+from src.PackUpdate import PackUpdate
 from src.ResPack import ResPack
 from src.gui.ansi import Strong
 from os import path as os_path
@@ -39,12 +39,12 @@ def init(base_path: str) -> callable:
     def update_older() -> None:
         for i in range(1, len(older_ver_res_packs), 1):
             print(Strong(f"{older_ver_res_packs[i].version():-^50}"))
-            update(older_ver_res_packs[i - 1], older_ver_res_packs[i])
+            PackUpdate().update(older_ver_res_packs[i - 1], older_ver_res_packs[i])
 
     def update_newer() -> None:
         for i in range(1, len(ver_res_packs), 1):
             print(Strong(f"{ver_res_packs[i].version():-^50}"))
-            update(ver_res_packs[i - 1], ver_res_packs[i])
+            PackUpdate().update(ver_res_packs[i - 1], ver_res_packs[i])
 
     return update_older, update_newer
 
