@@ -48,10 +48,10 @@ class ResPack:
             if len(paths) < 2:
                 paths.append("")
             if key == "R" and any(map(lambda x: not is_valid_pathname(x), paths)):
-                logger.warning(f"Warning: Invalid path(s): {paths}")
+                logger.warning(f"Invalid path(s): {paths}")
                 continue
             if key in ("M", "A") and not is_valid_pathname(paths[0]):
-                logger.warning(f"Warning: Invalid path(s): {paths[0]}")
+                logger.warning(f"Invalid path(s): {paths[0]}")
                 continue
 
             elem = (
