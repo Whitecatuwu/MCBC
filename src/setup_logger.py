@@ -13,8 +13,9 @@ def setup_logging():
     logger.add(
         stdout,
         level="INFO",
-        backtrace=True,  # 更完整 traceback（開發很有用）
+        backtrace=False,
         diagnose=False,  # 避免過度顯示敏感資料；需要時再開
+        format="<level>{level}</level> | <level>{message}</level>",
     )
 
     logger.add(
