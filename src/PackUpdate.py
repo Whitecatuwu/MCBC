@@ -165,17 +165,11 @@ class PackUpdate:
             else:
                 # 處理刪除集
                 for path_D in operations.delete:
-                    dirname, filename = os_path.split(os_path.join(root_src, path_D))
-                    is_global_ignore: bool = os_path.normpath(
-                        dirname
-                    ) == os_path.normpath(root_src)
-                    if (
-                        not fn_filter([current_dirname], dirname)
-                        and not is_global_ignore
-                    ):
-                        continue
-                    names_set: set = set(fn_filter(src_filenames, filename))
-                    delete_set.update(names_set)
+                    dirname, filename = os_path.split(path_D)
+                    is_global_ignore: bool = dirname == ""
+
+                    if is_global_ignore or fn_filter([rel_src_dir], dirname):
+                        delete_set.update(set(fn_filter(src_filenames, filename)))
 
                 # 處理修改集
                 modify_set = entry_names_set & operations.modify_index.get(
