@@ -84,6 +84,11 @@ def get_top_dirname(path: str) -> str:
     return "" if not parts or parts[0] == "." else parts[0]
 
 
+def path_split(path: str) -> list:
+    p = Path(normpath(path))
+    return list(p.parts)
+
+
 """def is_same_path(path1, path2):
     return Path(path1).resolve(strict=False) == Path(path2).resolve(strict=False)"""
 
