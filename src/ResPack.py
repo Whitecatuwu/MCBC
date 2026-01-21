@@ -41,7 +41,7 @@ class ResPack:
                 .to(list)
             )
         for key, paths in lines.get():
-            paths: tuple[str, str] = paths.split(",")
+            paths: list[str] = paths.split(",")
             if key == "R" and any(map(lambda x: not is_valid_pathname(x), paths)):
                 logger.warning(f"Invalid path(s): {paths}")
                 continue
