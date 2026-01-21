@@ -1,3 +1,4 @@
+from __future__ import annotations
 from os import path as os_path, makedirs
 from .path_utils import is_valid_pathname
 from .Pipe import Pipe
@@ -20,7 +21,7 @@ class ResPack:
         return self.ver
 
     def get_operations(self) -> Operation:
-        KEYS: set = ("R", "M", "D", "A")
+        KEYS: set[str] = {"R", "M", "D", "A"}
         if self.operations_path is None:
             return None
 
@@ -35,7 +36,7 @@ class ResPack:
             lines = (
                 Pipe(r.readlines())
                 .do(filter, lambda x: not x.startswith("#"), ...)
-                .do(map, lambda x: x.strip().replace("/", "\\").split(":", 1), ...)
+                .do(map, lambda x: x.strip().split(":", 1), ...)
                 .do(filter, lambda x: x[0] in KEYS, ...)
                 .to(list)
             )
@@ -55,8 +56,6 @@ class ResPack:
                 .get()
             )
 
-            has_sub_dir: bool = len(elem) == 2
-
             match key:
                 case "R":
                     output.rename.add(elem)
@@ -66,23 +65,23 @@ class ResPack:
                 # Check if path exist : "operations_path/sub_dir/file_name"
                 # or "operations_path/file_name" if sub_dir is empty
                 case "M":
+                    has_subdir: bool = len(elem) == 2 and elem[1] != "."
                     temp = (
                         [self.operations_path, elem[1], os_path.basename(elem[0])]
-                        if has_sub_dir
+                        if has_subdir
                         else [self.operations_path, os_path.basename(elem[0])]
                     )
                     if os_path.exists(os_path.join(*temp)):
-                        output.modify.add(elem if has_sub_dir else (elem[0], None))
-
+                        output.modify.add(elem if has_subdir else (elem[0], None))
                 case "A":
-                    has_sub_dir = len(elem) == 2
+                    has_subdir: bool = len(elem) == 2 and elem[1] != "."
                     temp = (
                         [self.operations_path, elem[1], os_path.basename(elem[0])]
-                        if has_sub_dir
+                        if has_subdir
                         else [self.operations_path, os_path.basename(elem[0])]
                     )
                     if os_path.exists(os_path.join(*temp)):
-                        output.apply.add(elem if has_sub_dir else (elem[0], None))
+                        output.apply.add(elem if has_subdir else (elem[0], None))
         return output
 
     def __write_operations(self, docs) -> None:
