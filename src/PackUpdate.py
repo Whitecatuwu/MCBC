@@ -183,12 +183,9 @@ class PackUpdate:
                 )
 
                 # 處理新增集
-                for path_A, _ in operations.apply:
-                    if not is_parent_dir(rel_src_dir, path_A):
-                        continue
-                    filename = get_top_dirname(os_path.relpath(path_A, rel_src_dir))
-                    if filename not in src_filenames:
-                        add_set.add(filename)
+                add_set = (
+                    operations.apply_index.get(rel_src_dir, set()) - entry_names_set
+                )
 
                 # 處理重命名操作
                 for path_R_src, path_R_dst in operations.rename:
