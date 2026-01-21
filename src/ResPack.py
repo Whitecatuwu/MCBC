@@ -82,6 +82,9 @@ class ResPack:
                     )
                     if os_path.exists(os_path.join(*temp)):
                         output.apply.add(elem if has_subdir else (elem[0], None))
+
+        output.build_modify_index()
+        output.build_apply_index()
         return output
 
     def __write_operations(self, docs) -> None:
