@@ -1,6 +1,7 @@
 from os import path as os_path, makedirs
 from .path_utils import is_valid_pathname
 from .Pipe import Pipe
+from .Operation import Operation
 from loguru import logger
 
 
@@ -18,8 +19,8 @@ class ResPack:
     def version(self) -> str:
         return self.ver
 
-    def get_operations(self) -> dict[str, set]:
-        # R:rename, #M:modify, D:delete, A:add
+    def get_operations(self) -> Operation:
+        KEYS: set = ("R", "M", "D", "A")
         if self.operations_path is None:
             return None
 
@@ -29,24 +30,17 @@ class ResPack:
             self.__write_operations(docs)
             return None
 
-        output: dict[str, set] = {
-            "R": set(),
-            "M": set(),
-            "D": set(),
-            "A": set(),
-        }
+        output: Operation = Operation()
         with open(docs, "r") as r:
             lines = (
                 Pipe(r.readlines())
                 .do(filter, lambda x: not x.startswith("#"), ...)
                 .do(map, lambda x: x.strip().replace("/", "\\").split(":", 1), ...)
-                .do(filter, lambda x: x[0] in output.keys(), ...)
+                .do(filter, lambda x: x[0] in KEYS, ...)
                 .to(list)
             )
         for key, paths in lines.get():
-            paths: list = paths.split(",")
-            if len(paths) < 2:
-                paths.append("")
+            paths: tuple[str, str] = paths.split(",")
             if key == "R" and any(map(lambda x: not is_valid_pathname(x), paths)):
                 logger.warning(f"Invalid path(s): {paths}")
                 continue
@@ -54,26 +48,41 @@ class ResPack:
                 logger.warning(f"Invalid path(s): {paths[0]}")
                 continue
 
-            elem = (
+            elem: tuple = (
                 Pipe(paths)
                 .do(map, lambda x: os_path.normpath(x.strip().strip("\\")), ...)
                 .to(tuple)
                 .get()
             )
 
+            has_sub_dir: bool = len(elem) == 2
+
             match key:
-                case "D" | "R":
-                    output[key].add(elem)
-                case "M" | "A":
-                    # elem : [file_name, sub_dir]
-                    # Check if path exist : "operations_path/sub_dir/file_name"
-                    # or "operations_path/file_name" if sub_dir is empty
-                    temp = filter(
-                        lambda x: x != ".",
-                        [self.operations_path, elem[1], os_path.basename(elem[0])],
+                case "R":
+                    output.rename.add(elem)
+                case "D":
+                    output.delete.add(elem[0])
+                # elem : [file_name, sub_dir]
+                # Check if path exist : "operations_path/sub_dir/file_name"
+                # or "operations_path/file_name" if sub_dir is empty
+                case "M":
+                    temp = (
+                        [self.operations_path, elem[1], os_path.basename(elem[0])]
+                        if has_sub_dir
+                        else [self.operations_path, os_path.basename(elem[0])]
                     )
                     if os_path.exists(os_path.join(*temp)):
-                        output[key].add(elem)
+                        output.modify.add(elem if has_sub_dir else (elem[0], None))
+
+                case "A":
+                    has_sub_dir = len(elem) == 2
+                    temp = (
+                        [self.operations_path, elem[1], os_path.basename(elem[0])]
+                        if has_sub_dir
+                        else [self.operations_path, os_path.basename(elem[0])]
+                    )
+                    if os_path.exists(os_path.join(*temp)):
+                        output.apply.add(elem if has_sub_dir else (elem[0], None))
         return output
 
     def __write_operations(self, docs) -> None:
