@@ -5,6 +5,7 @@ from .file_operation import delete, mirror_cleanup, copyfile, copyfile_ignore_ol
 from .ResPack import ResPack
 from .path_utils import is_parent_dir, get_top_dirname
 from .Pipe import Pipe
+from .Operation import Operation
 from loguru import logger
 
 
@@ -12,10 +13,13 @@ class PackUpdate:
     def __init__(self, pre_ver: ResPack, ver: ResPack) -> None:
         self.pre_ver: ResPack = pre_ver
         self.ver: ResPack = ver
-        self.operations: dict[str, set] = self.ver.get_operations()
+        self.operations: Operation = self.ver.get_operations()
         self.root_src: str = self.pre_ver.path
         self.root_dst: str = self.ver.path
-        self.rename_oper: list[tuple[str, str, dict[str, set]]] = []
+
+        self.rename_oper: list[tuple[str, str, Operation]] = []
+        self.delete_oper: set[str] = set()
+        self.mirror_cleanup_needed: set[str] = set()
 
     def update(self, mirror=True, ignore_old=True) -> None:
         src: str = self.root_src
@@ -38,11 +42,11 @@ class PackUpdate:
             ignore_old=ignore_old,
         )
 
-        if self.operations is None or self.operations == {}:
+        if self.operations is None:
             return
-        for MA, sub_dir in self.operations["M"] | self.operations["A"]:
+        for MA, sub_dir in self.operations.modify | self.operations.apply:
             temp = filter(
-                lambda x: x != ".",
+                lambda x: x is not None,
                 [self.ver.operations_path, sub_dir, os_path.basename(MA)],
             )
             src_update: str = os_path.join(*temp)
@@ -54,24 +58,26 @@ class PackUpdate:
                 mirror=mirror,
             )
 
-        for D, _ in self.operations["D"]:
+        for D in self.operations.delete:
             if os_path.split(D)[0] == "":
                 delete(os_path.join(dst, "**", D))
             else:
                 delete(os_path.join(dst, D))
 
         for src, dst, oper in self.rename_oper:
-            if oper is None or oper == {}:
+            if oper is None:
                 self.copydata(src, dst)
             else:
                 self.copydata(src, dst, operations=oper, mirror=mirror)
             logger.trace(f"Rename: {src} -> {dst}")
 
+        self.rename_oper.clear()
+
     def copydata(
         self,
         src: str,
         dst: str,
-        operations: dict[str, set] = None,
+        operations: Operation = None,
         root_src: str = None,
         root_dst: str = None,
         mirror: bool = False,
@@ -104,7 +110,7 @@ class PackUpdate:
 
     def __operations(
         self,
-        operations: dict[str, set],
+        operations: Operation,
         root_src: str,
         root_dst: str,
         mirror: bool = False,
@@ -122,8 +128,6 @@ class PackUpdate:
             callable: 用於過濾的函數。
         """
 
-        operations_is_empty = operations is None or operations == {}
-
         def __ignore(current_dirname: str, src_filenames: list) -> set:
             # 保留集:避免文件在鏡像模式下被刪除
             keep_set: set[str] = set(src_filenames)
@@ -136,11 +140,11 @@ class PackUpdate:
             # 忽略集:不需要處理的文件，包含修改集和刪除集的文件
             ignore_set: set[str] = set()
 
-            if operations_is_empty:
+            if operations is None:
                 pass
             else:
                 # 處理刪除集
-                for path_D, _ in operations["D"]:
+                for path_D in operations.delete:
                     dirname, filename = os_path.split(os_path.join(root_src, path_D))
                     is_global_ignore: bool = os_path.normpath(
                         dirname
@@ -154,7 +158,7 @@ class PackUpdate:
                     delete_set.update(names_set)
 
                 # 處理修改集
-                for path_M, _ in operations["M"]:
+                for path_M, _ in operations.modify:
                     dirname, filename = os_path.split(os_path.join(root_src, path_M))
                     if not fn_filter([current_dirname], dirname):
                         continue
@@ -162,7 +166,7 @@ class PackUpdate:
                     modify_set.update(names_set)
 
                 # 處理新增集
-                for path_A, _ in operations["A"]:
+                for path_A, _ in operations.apply:
                     path_A = os_path.join(root_src, path_A)
                     if not is_parent_dir(current_dirname, path_A):
                         continue
@@ -171,11 +175,17 @@ class PackUpdate:
                         add_set.add(filename)
 
                 # 處理重命名操作
-                for path_R_src, path_R_dst in operations["R"]:
+                for path_R_src, path_R_dst in operations.rename:
                     rename_src_dir, rename_src_file = os_path.split(path_R_src)
                     rename_dst_dir, rename_dst_file = os_path.split(path_R_dst)
                     rename_src_path = os_path.join(root_src, path_R_src)
                     rename_dst_path = os_path.join(root_dst, path_R_dst)
+
+                    # 來源不存在則不進行重命名操作
+                    if not os_path.exists(rename_src_path):
+                        if mirror:
+                            self.delete_oper.add(rename_dst_path)
+                        continue
 
                     # 若重命名後的目標路徑在當前目錄下，或屬於當前目錄的子目錄，則加入保留集
                     keep_renamed_path: str = os_path.normpath(
@@ -189,12 +199,6 @@ class PackUpdate:
                         )
                         keep_set.add(filename)
 
-                    # 來源不存在則不進行重命名操作
-                    if not os_path.exists(rename_src_path):
-                        if mirror:
-                            delete(rename_dst_path)
-                        continue
-
                     # 若當前路徑不匹配來源路徑的父目錄，則跳過
                     if not fn_filter(
                         [current_dirname], os_path.dirname(rename_src_path)
@@ -202,14 +206,14 @@ class PackUpdate:
                         continue
 
                     # 若重命名後的目標路徑在刪除操作中，則將其來源加入刪除集
-                    if path_R_dst in (x for x, _ in operations["D"]):
+                    if path_R_dst in (x for x in operations.delete):
                         names_set: set = set(fn_filter(src_filenames, rename_src_file))
                         delete_set.update(names_set)
                         continue
 
                     delete_set.add(rename_src_file)
                     keep_set.discard(rename_src_file)
-                    self.__rename(root_src, root_dst, path_R_src, path_R_dst)
+                    self.__set_rename_oper(root_src, root_dst, path_R_src, path_R_dst)
 
                 ignore_set = ignore_set | delete_set | modify_set
                 keep_set = keep_set | modify_set | add_set
@@ -224,8 +228,6 @@ class PackUpdate:
                 .get()
             ):
                 mirror_cleanup(current_dirname, path_dst, keep_set)
-            else:
-                return ignore_set
 
             # logger
             for dele in delete_set:
@@ -239,13 +241,12 @@ class PackUpdate:
 
         return __ignore
 
-    def __rename(
+    def __set_rename_oper(
         self,
         root_src: str,
         root_dst: str,
         path_R_src: str,
         path_R_dst: str,
-        mirror=True,
     ) -> None:
         rename_src_path = os_path.join(root_src, path_R_src)
         rename_dst_path = os_path.join(root_dst, path_R_dst)
@@ -256,39 +257,34 @@ class PackUpdate:
             return
 
         # 若為目錄，利用遞迴連帶處理需要被進行操作的子目錄
-        operations_for_rename: dict[str, set] = {
-            "R": set(),
-            "M": set(),
-            "D": set(),
-            "A": set(),
-        }
+        operations_for_rename: Operation = Operation()
 
-        operations_for_rename["R"] = set(
+        operations_for_rename.rename = set(
             (rel_src, rel_dst)
-            for (x, y) in self.operations["R"]
+            for (x, y) in self.operations.rename
             if is_parent_dir(path_R_src, x)
             and is_parent_dir(path_R_dst, y)
             and (rel_src := os_path.relpath(x, path_R_src)) != "."
             and (rel_dst := os_path.relpath(y, path_R_dst)) != "."
         )
 
-        operations_for_rename["M"] = set(
-            (rel, "")
-            for (x, _) in self.operations["M"]
+        operations_for_rename.modify = set(
+            (rel, subdir)
+            for (x, subdir) in self.operations.modify
             if is_parent_dir(path_R_dst, x)
             and (rel := os_path.relpath(x, path_R_dst)) != "."
         )
 
-        operations_for_rename["D"] = set(
-            (rel, "")
-            for (x, _) in self.operations["D"]
+        operations_for_rename.delete = set(
+            rel
+            for x in self.operations.delete
             if is_parent_dir(path_R_dst, x)
             and (rel := os_path.relpath(x, path_R_dst)) != "."
         )
 
-        operations_for_rename["A"] = set(
-            (rel, "")
-            for (x, _) in self.operations["A"]
+        operations_for_rename.apply = set(
+            (rel, subdir)
+            for (x, subdir) in self.operations.apply
             if is_parent_dir(path_R_dst, x)
             and (rel := os_path.relpath(x, path_R_dst)) != "."
         )
