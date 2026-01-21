@@ -8,6 +8,7 @@ from .path_utils import is_parent_dir, get_top_dirname
 from .Pipe import Pipe
 from .Operation import Operation
 from loguru import logger
+from collections import deque
 
 
 class PackUpdate:
@@ -18,7 +19,7 @@ class PackUpdate:
         self.root_src: str = self.pre_ver.path
         self.root_dst: str = self.ver.path
 
-        self.rename_oper: list[tuple[str, str, Operation]] = []
+        self.rename_oper: deque[tuple[str, str, Operation]] = deque()
         self.delete_path: set[str] = set()
         self.mirror_oper: list[tuple[str, str, set[str]]] = []
 
@@ -77,7 +78,8 @@ class PackUpdate:
             mirror_cleanup(current_dirname, path_dst, keep_set)
 
         # Handle rename operations
-        for src, dst, oper in self.rename_oper:
+        while self.rename_oper:
+            src, dst, oper = self.rename_oper.popleft()
             if oper is None:
                 self.copydata(src, dst)
             else:
@@ -201,14 +203,14 @@ class PackUpdate:
                             self.delete_path.add(rename_dst_path)
                         continue
 
-                    # 若重命名後的目標路徑在當前目錄下，或屬於當前目錄的子目錄，則加入保留集
+                    # 若重命名後的目標路徑屬於當前目錄的子/孫樹，則加入保留集
                     if is_parent_dir(rel_src_dir, path_R_dst):
                         filename: str = get_top_dirname(
                             os_path.relpath(path_R_dst, rel_src_dir)
                         )
                         keep_set.add(filename)
 
-                    # 若當前路徑不匹配來源路徑的父目錄，則跳過
+                    # 若當前路徑尚未匹配來源路徑的父目錄，則跳過
                     if not fn_filter(
                         [current_dirname], os_path.dirname(rename_src_path)
                     ):
