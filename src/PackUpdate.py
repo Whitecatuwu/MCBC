@@ -73,18 +73,18 @@ class PackUpdate:
         for delete_path in self.delete_path:
             delete(delete_path)
 
-        # Handle mirror operations
-        for current_dirname, path_dst, keep_set in self.mirror_oper:
-            mirror_cleanup(current_dirname, path_dst, keep_set)
-
         # Handle rename operations
         while self.rename_oper:
             src, dst, oper = self.rename_oper.popleft()
             if oper is None:
-                self.copydata(src, dst)
+                self.copydata(src, dst, mirror=mirror)
             else:
                 self.copydata(src, dst, operations=oper, mirror=mirror)
             logger.trace(f"Rename: {src} -> {dst}")
+
+        # Handle mirror operations
+        for current_dirname, path_dst, keep_set in self.mirror_oper:
+            mirror_cleanup(current_dirname, path_dst, keep_set)
 
         self.rename_oper.clear()
         self.delete_path.clear()
@@ -194,10 +194,15 @@ class PackUpdate:
                             self.delete_path.add(rename_dst_path)
                         continue
 
-                    # 若重命名後的目標路徑屬於當前目錄的子/孫樹，則加入保留集
-                    if is_parent_dir(rel_src_dir, path_R_dst):
+                    # 保留重命名操作的目標路徑
+                    keep_renamed_path: str = os_path.normpath(
+                        os_path.join(root_src, rename_dst_dir)
+                    )
+                    if fn_filter([current_dirname], keep_renamed_path):
+                        keep_set.add(rename_dst_file)
+                    elif is_parent_dir(current_dirname, keep_renamed_path):
                         filename: str = get_top_dirname(
-                            os_path.relpath(path_R_dst, rel_src_dir)
+                            os_path.relpath(keep_renamed_path, current_dirname)
                         )
                         keep_set.add(filename)
 
@@ -227,8 +232,7 @@ class PackUpdate:
                 delete_set -= inter
 
             path_dst: str = (
-                Pipe(current_dirname)
-                .do(os_path.relpath, ..., root_src)
+                Pipe(rel_src_dir)
                 .do(os_path.join, root_dst, ...)
                 .to(os_path.normpath)
                 .get()
