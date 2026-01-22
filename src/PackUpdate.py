@@ -40,7 +40,6 @@ class PackUpdate:
             operations=self.operations,
             root_src=src,
             root_dst=dst,
-            mirror=mirror,
             ignore_old=ignore_old,
         )
 
@@ -59,7 +58,6 @@ class PackUpdate:
                 src_update,
                 dst_update,
                 operations=None,
-                mirror=mirror,
             )
 
         # Handle delete operations
@@ -77,14 +75,15 @@ class PackUpdate:
         while self.rename_oper:
             src, dst, oper = self.rename_oper.popleft()
             if oper is None:
-                self.copydata(src, dst, mirror=mirror)
+                self.copydata(src, dst)
             else:
-                self.copydata(src, dst, operations=oper, mirror=mirror)
+                self.copydata(src, dst, operations=oper)
             logger.trace(f"Rename: {src} -> {dst}")
 
         # Handle mirror operations
-        for current_dirname, path_dst, keep_set in self.mirror_oper:
-            mirror_cleanup(current_dirname, path_dst, keep_set)
+        if mirror:
+            for current_dirname, path_dst, keep_set in self.mirror_oper:
+                mirror_cleanup(current_dirname, path_dst, keep_set)
 
         self.rename_oper.clear()
         self.delete_path.clear()
@@ -97,7 +96,6 @@ class PackUpdate:
         operations: Operation = None,
         root_src: str = None,
         root_dst: str = None,
-        mirror: bool = False,
         ignore_old: bool = True,
     ) -> None:
         if not os_path.exists(src):
@@ -110,7 +108,7 @@ class PackUpdate:
                 src,
                 dst,
                 dirs_exist_ok=True,
-                ignore=self.__operations(operations, root_src, root_dst, mirror=mirror),
+                ignore=self.__operations(operations, root_src, root_dst),
                 copy_function=copyfile_ignore_old if ignore_old else copyfile,
             )
             return
@@ -126,11 +124,7 @@ class PackUpdate:
             )
 
     def __operations(
-        self,
-        operations: Operation,
-        root_src: str,
-        root_dst: str,
-        mirror: bool = False,
+        self, operations: Operation, root_src: str, root_dst: str
     ) -> callable:
         """
         根據操作集生成忽略規則，用於複製目錄時的過濾。
@@ -190,8 +184,7 @@ class PackUpdate:
 
                     # 來源不存在則不進行重命名操作
                     if not os_path.exists(rename_src_path):
-                        if mirror:
-                            self.delete_path.add(rename_dst_path)
+                        self.delete_path.add(rename_dst_path)
                         continue
 
                     # 保留重命名操作的目標路徑
@@ -239,7 +232,7 @@ class PackUpdate:
             )
 
             # 鏡像模式下清理目標目錄中不在源目錄中的文件
-            if mirror and os_path.exists(path_dst):
+            if os_path.exists(path_dst):
                 self.mirror_oper.append((current_dirname, path_dst, keep_set))
 
             # logger
