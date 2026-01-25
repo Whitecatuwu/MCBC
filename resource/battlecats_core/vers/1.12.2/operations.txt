@@ -5157,17 +5157,17 @@ D:assets/minecraft/textures/item/chorus_fruit.png
 #D:assets/minecraft/textures/item/clay_ball.png
 D:assets/minecraft/textures/item/coal.png
 D:assets/minecraft/textures/item/cocoa_beans.png
-D:assets/minecraft/textures/item/cod.png
+#D:assets/minecraft/textures/item/cod.png
 D:assets/minecraft/textures/item/cod_bucket.png
 D:assets/minecraft/textures/item/command_block_minecart.png
 D:assets/minecraft/textures/item/comparator.png
 D:assets/minecraft/textures/item/cooked_beef.png
 ##D:assets/minecraft/textures/item/cooked_chicken.png
-D:assets/minecraft/textures/item/cooked_cod.png
+#D:assets/minecraft/textures/item/cooked_cod.png
 D:assets/minecraft/textures/item/cooked_mutton.png
 D:assets/minecraft/textures/item/cooked_porkchop.png
 D:assets/minecraft/textures/item/cooked_rabbit.png
-D:assets/minecraft/textures/item/cooked_salmon.png
+#D:assets/minecraft/textures/item/cooked_salmon.png
 D:assets/minecraft/textures/item/cookie.png
 D:assets/minecraft/textures/item/creeper_banner_pattern.png
 D:assets/minecraft/textures/item/crossbow_arrow.png
@@ -5179,7 +5179,7 @@ D:assets/minecraft/textures/item/crossbow_standby.png
 #D:assets/minecraft/textures/item/cyan_dye.png
 D:assets/minecraft/textures/item/dark_oak_boat.png
 D:assets/minecraft/textures/item/dark_oak_sign.png
-D:assets/minecraft/textures/item/diamond.png
+#D:assets/minecraft/textures/item/diamond.png
 #D:assets/minecraft/textures/item/diamond_axe.png
 D:assets/minecraft/textures/item/diamond_boots.png
 D:assets/minecraft/textures/item/diamond_chestplate.png
@@ -5238,18 +5238,18 @@ D:assets/minecraft/textures/item/heart_of_the_sea.png
 D:assets/minecraft/textures/item/hopper.png
 D:assets/minecraft/textures/item/hopper_minecart.png
 D:assets/minecraft/textures/item/ink_sac.png
-D:assets/minecraft/textures/item/iron_axe.png
+#D:assets/minecraft/textures/item/iron_axe.png
 D:assets/minecraft/textures/item/iron_boots.png
 D:assets/minecraft/textures/item/iron_chestplate.png
 D:assets/minecraft/textures/item/iron_helmet.png
-D:assets/minecraft/textures/item/iron_hoe.png
+#D:assets/minecraft/textures/item/iron_hoe.png
 D:assets/minecraft/textures/item/iron_horse_armor.png
 #D:assets/minecraft/textures/item/iron_ingot.png
 D:assets/minecraft/textures/item/iron_leggings.png
 D:assets/minecraft/textures/item/iron_nugget.png
-D:assets/minecraft/textures/item/iron_pickaxe.png
-D:assets/minecraft/textures/item/iron_shovel.png
-D:assets/minecraft/textures/item/iron_sword.png
+#D:assets/minecraft/textures/item/iron_pickaxe.png
+#D:assets/minecraft/textures/item/iron_shovel.png
+#D:assets/minecraft/textures/item/iron_sword.png
 D:assets/minecraft/textures/item/item_frame.png
 D:assets/minecraft/textures/item/jungle_boat.png
 D:assets/minecraft/textures/item/jungle_sign.png
@@ -5286,7 +5286,7 @@ D:assets/minecraft/textures/item/mutton.png
 D:assets/minecraft/textures/item/name_tag.png
 D:assets/minecraft/textures/item/nautilus_shell.png
 ##D:assets/minecraft/textures/item/nether_brick.png
-D:assets/minecraft/textures/item/nether_star.png
+#D:assets/minecraft/textures/item/nether_star.png
 D:assets/minecraft/textures/item/oak_boat.png
 D:assets/minecraft/textures/item/oak_sign.png
 ##D:assets/minecraft/textures/item/orange_dye.png
@@ -5316,7 +5316,7 @@ D:assets/minecraft/textures/item/redstone.png
 D:assets/minecraft/textures/item/repeater.png
 D:assets/minecraft/textures/item/rotten_flesh.png
 D:assets/minecraft/textures/item/saddle.png
-D:assets/minecraft/textures/item/salmon.png
+#D:assets/minecraft/textures/item/salmon.png
 D:assets/minecraft/textures/item/salmon_bucket.png
 D:assets/minecraft/textures/item/scute.png
 D:assets/minecraft/textures/item/sea_pickle.png
@@ -5508,7 +5508,7 @@ A:assets/minecraft/textures/items/comparator.png
 #R:assets/minecraft/textures/item/compass_31.png, assets/minecraft/textures/items/compass_31.png
 A:assets/minecraft/textures/items/cookie.png
 A:assets/minecraft/textures/items/dark_oak_boat.png
-A:assets/minecraft/textures/items/diamond.png
+#A:assets/minecraft/textures/items/diamond.png
 #A:assets/minecraft/textures/items/diamond_axe.png
 A:assets/minecraft/textures/items/diamond_boots.png
 A:assets/minecraft/textures/items/diamond_chestplate.png
@@ -5628,7 +5628,7 @@ A:assets/minecraft/textures/items/minecart_tnt.png
 A:assets/minecraft/textures/items/mutton_cooked.png
 A:assets/minecraft/textures/items/mutton_raw.png
 A:assets/minecraft/textures/items/name_tag.png
-A:assets/minecraft/textures/items/nether_star.png
+#A:assets/minecraft/textures/items/nether_star.png
 #R:assets/minecraft/textures/item/nether_wart.png, assets/minecraft/textures/items/nether_wart.png
 ##A:assets/minecraft/textures/items/netherbrick.png
 A:assets/minecraft/textures/items/oak_boat.png

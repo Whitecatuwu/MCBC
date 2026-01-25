@@ -1,5 +1,5 @@
-D:assets/minecraft/shaders/core/gui.vsh
-#D:assets/minecraft/shaders/core/rendertype_gui.fsh
+D:assets/minecraft/shaders/core/rendertype_gui.vsh
+D:assets/minecraft/shaders/core/rendertype_gui.fsh
 M:assets/minecraft/shaders/core/battlecat_anime_lines.fsh
 M:assets/minecraft/shaders/core/battlecat_anime_lines.vsh
 
@@ -452,8 +452,8 @@ M:assets/minecraft/resourcepacks/high_contrast.zip
 M:assets/minecraft/resourcepacks/programmer_art.zip
 M:assets/minecraft/shaders/core/blit_screen.fsh
 M:assets/minecraft/shaders/core/blit_screen.json
-R:assets/minecraft/shaders/core/rendertype_gui.fsh, assets/minecraft/shaders/core/gui.fsh
-R:assets/minecraft/shaders/core/rendertype_gui.vsh, assets/minecraft/shaders/core/gui.vsh
+#R:assets/minecraft/shaders/core/rendertype_gui.fsh, assets/minecraft/shaders/core/gui.fsh
+#R:assets/minecraft/shaders/core/rendertype_gui.vsh, assets/minecraft/shaders/core/gui.vsh
 A:assets/minecraft/shaders/core/lightmap.fsh
 A:assets/minecraft/shaders/core/lightmap.json
 M:assets/minecraft/shaders/core/particle.fsh
