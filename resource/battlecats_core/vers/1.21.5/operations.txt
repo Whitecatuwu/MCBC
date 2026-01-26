@@ -1,8 +1,13 @@
 R:assets/minecraft/shaders/core/battlecat_anime_lines.fsh, assets/minecraft/shaders/core/rendertype_lines.fsh
 R:assets/minecraft/shaders/core/battlecat_anime_lines.vsh, assets/minecraft/shaders/core/rendertype_lines.vsh
-A:assets/minecraft/textures/item/axolotl_bucket
+
+A:assets/minecraft/textures/item/axolotl_bucket, texture
 A:assets/minecraft/items/axolotl_bucket.json, items
 A:assets/minecraft/models/item/axolotl_bucket, models
+
+A:assets/minecraft/textures/item/suspicious_stew, texture
+A:assets/minecraft/items/suspicious_stew.json, items
+A:assets/minecraft/models/item/suspicious_stew, models
 
 #R096, assets/minecraft/sounds/mob/wolf/bark1.ogg, assets/minecraft/sounds/mob/wolf/classic/bark1.ogg
 #R088, assets/minecraft/sounds/mob/wolf/bark2.ogg, assets/minecraft/sounds/mob/wolf/classic/bark2.ogg
