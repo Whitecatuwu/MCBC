@@ -1,6 +1,6 @@
 from shutil import copy2, rmtree
 from os import scandir, remove, makedirs, path as os_path
-from .gui.ansi import Purple
+from ..gui.ansi import Purple
 from loguru import logger
 import glob
 

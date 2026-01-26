@@ -1,7 +1,7 @@
 from __future__ import annotations
 from os import path as os_path, makedirs
-from .path_utils import is_valid_pathname, has_matching_part, get_top_dirname
-from .Pipe import Pipe
+from .tools.path_utils import is_valid_pathname, has_matching_part, get_top_dirname
+from .tools.Pipe import Pipe
 from .Operation import Operation
 from loguru import logger
 from fnmatch import filter as fn_filter

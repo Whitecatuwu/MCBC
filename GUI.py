@@ -3,7 +3,7 @@ import threading
 import asyncio
 import sys
 
-from src.init import init
+from src.app_init import init
 from src.gui.TextRedirector import TextRedirector
 from os import path as os_path
 from time import time as current_time

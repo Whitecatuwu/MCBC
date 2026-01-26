@@ -1,7 +1,7 @@
-from src.init import init
+from src.app_init import init
 from time import time as current_time
 from os import chdir, path as os_path
-from src.setup_logger import setup_logging
+from src.config.setup_logger import setup_logging
 
 CURRENT_DIR = os_path.dirname(os_path.abspath(__file__))
 

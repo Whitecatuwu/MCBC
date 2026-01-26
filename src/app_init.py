@@ -1,8 +1,8 @@
 from .PackUpdate import PackUpdate
 from .ResPack import ResPack
 from .gui.ansi import Strong
-from .path_utils import path_merge
-from .config import PACK_PATH, OPERATION_PATH, read_config
+from .tools.path_utils import path_merge
+from .config.config import PACK_PATH, OPERATION_PATH, read_config
 
 
 OLDER_VERS = ["1.16.5", "1.16.1", "1.14.4", "1.12.2", "1.10.2", "1.8.9"]

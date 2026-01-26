@@ -2,9 +2,9 @@ from __future__ import annotations
 from shutil import copytree
 from os import path as os_path
 from fnmatch import filter as fn_filter, fnmatch
-from .file_operation import delete, copyfile, copyfile_ignore_old, mirror_cleanup
+from .tools.file_operation import delete, copyfile, copyfile_ignore_old, mirror_cleanup
 from .ResPack import ResPack
-from .path_utils import (
+from .tools.path_utils import (
     is_parent_dir,
     get_top_dirname,
     is_path_match,
