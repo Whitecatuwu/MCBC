@@ -97,7 +97,7 @@ class ResPack:
 
     def __set_path(self, path: str) -> None:
         # p = os_path.normpath(os_path.abspath(path))
-        p = Pipe(path).to(os_path.abspath).to(os_path.normpath).get()
+        p = os_path.normpath(path)
         if os_path.exists(p):
             self.path = p
         else:
@@ -107,7 +107,7 @@ class ResPack:
         if path is None:
             return
         # p = os_path.normpath(os_path.abspath(path))
-        p = Pipe(path).to(os_path.abspath).to(os_path.normpath).get()
+        p = os_path.normpath(path)
         if os_path.exists(p):
             self.operations_path = p
         else:
