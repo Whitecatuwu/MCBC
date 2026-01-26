@@ -14,11 +14,10 @@ def mirror_cleanup(
     dst_dirname: 目標目錄路徑，必須存在且為目錄。
     keep_filenames: 保留的文件名集合，這些文件不會被刪除。
     """
-
     if not os_path.isdir(src_dirname):
-        raise TypeError(f"{src_dirname} must be a directory.")
+        raise TypeError(f'" {src_dirname} " must be a directory.')
     if not os_path.isdir(dst_dirname):
-        raise TypeError(f"{dst_dirname} must be a directory.")
+        raise TypeError(f'" {dst_dirname} " must be a directory.')
     if os_path.samefile(src_dirname, dst_dirname):
         raise ValueError("Source and destination directories must be different.")
     if not keep_filenames:
