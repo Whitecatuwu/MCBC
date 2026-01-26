@@ -249,6 +249,10 @@ class PackUpdate:
         rename_src_path = path_merge(root_src, path_R_src)
         rename_dst_path = path_merge(root_dst, path_R_dst)
 
+        if operations is None:
+            self.rename_oper.append((rename_src_path, rename_dst_path, None))
+            return
+
         # 若為檔案直接處理即可
         if os_path.isfile(rename_src_path):
             self.rename_oper.append((rename_src_path, rename_dst_path, None))
