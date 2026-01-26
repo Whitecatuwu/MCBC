@@ -96,7 +96,6 @@ class ResPack:
             w.write("#   assets/minecraft/textures/item\n")
 
     def __set_path(self, path: str) -> None:
-        # p = os_path.normpath(os_path.abspath(path))
         p = os_path.normpath(path)
         if os_path.exists(p):
             self.path = p
@@ -106,7 +105,6 @@ class ResPack:
     def __set_operations_path(self, path: str = None) -> None:
         if path is None:
             return
-        # p = os_path.normpath(os_path.abspath(path))
         p = os_path.normpath(path)
         if os_path.exists(p):
             self.operations_path = p

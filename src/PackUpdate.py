@@ -34,7 +34,7 @@ class PackUpdate:
         try:
             self.__update(mirror, ignore_old)
         except Exception as e:
-            logger.error(f"Pack update failed because {e}")
+            logger.error(f"Pack update failed because: {e}")
         finally:
             self.rename_oper.clear()
             self.mirror_oper.clear()
