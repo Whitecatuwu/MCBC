@@ -18,11 +18,12 @@ from collections import deque
 
 class PackUpdate:
     def __init__(self, pre_ver: ResPack, ver: ResPack) -> None:
-        self.base_back: ResPack = pre_ver
+
+        self.base_pack: ResPack = pre_ver
         self.pack_for_update: ResPack = ver
 
         self.operations: Operation
-        self.root_src: str = self.base_back.path
+        self.root_src: str = self.base_pack.path
         self.root_dst: str = self.pack_for_update.path
         self.mirror: bool = True
 
@@ -30,6 +31,15 @@ class PackUpdate:
         self.mirror_oper: list[tuple[str, str, set[str]]] = []
 
     def update(self, mirror=True, ignore_old=True) -> None:
+        try:
+            self.__update(mirror, ignore_old)
+        except Exception as e:
+            logger.error(f"Pack update failed because {e}")
+        finally:
+            self.rename_oper.clear()
+            self.mirror_oper.clear()
+
+    def __update(self, mirror=True, ignore_old=True) -> None:
         src: str = self.root_src
         dst: str = self.root_dst
         self.mirror = mirror
@@ -42,9 +52,9 @@ class PackUpdate:
             logger.warning(f'Warning : "{dst}" is does not exist.')
             return
 
-        self.copydata(
-            os_path.join(src, "assets"),
-            os_path.join(dst, "assets"),
+        self.__copydata(
+            path_merge(src, "assets"),
+            path_merge(dst, "assets"),
             operations=self.operations,
             root_src=src,
             root_dst=dst,
@@ -57,8 +67,8 @@ class PackUpdate:
         # Handle modify operations
         for M in self.operations.modify:
             src_update: str = self.operations.modify_extract_path[M]
-            dst_update: str = os_path.join(dst, M)
-            self.copydata(
+            dst_update: str = path_merge(dst, M)
+            self.__copydata(
                 src_update,
                 dst_update,
                 operations=None,
@@ -67,8 +77,8 @@ class PackUpdate:
         # Handle apply operations
         for A in self.operations.apply:
             src_update: str = self.operations.apply_extract_path[A]
-            dst_update: str = os_path.join(dst, A)
-            self.copydata(
+            dst_update: str = path_merge(dst, A)
+            self.__copydata(
                 src_update,
                 dst_update,
                 operations=None,
@@ -76,14 +86,14 @@ class PackUpdate:
 
         # Handle delete operations
         for D in self.operations.delete | self.operations.delete_pattern:
-            delete(os_path.join(dst, D))
+            delete(path_merge(dst, D))
         for D in self.operations.delete_pattern_global:
-            delete(os_path.join(dst, "**", D))
+            delete(path_merge(dst, "**", D))
 
         # Handle rename operations
         while self.rename_oper:
             src, dst, oper = self.rename_oper.popleft()
-            self.copydata(src, dst, operations=oper)
+            self.__copydata(src, dst, operations=oper)
             logger.trace(f"Rename: {src} -> {dst}")
 
         # Handle mirror operations
@@ -91,10 +101,7 @@ class PackUpdate:
             for curr_src_dir, curr_dst_dir, keep_set in self.mirror_oper:
                 mirror_cleanup(curr_src_dir, curr_dst_dir, keep_set)
 
-        self.rename_oper.clear()
-        self.mirror_oper.clear()
-
-    def copydata(
+    def __copydata(
         self,
         src: str,
         dst: str,
@@ -204,7 +211,7 @@ class PackUpdate:
                 # 保留重命名操作的目的路徑
                 if not curr_dst_dir_exists:
                     pass
-                elif fnmatch(curr_dst_dir, os_path.dirname(rename_dst_path)):
+                elif curr_dst_dir == os_path.dirname(rename_dst_path):
                     keep_set.add(re_dst_file)
                 elif is_parent_dir(curr_dst_dir, rename_dst_path):
                     filename: str = get_top_dirname(
@@ -213,7 +220,7 @@ class PackUpdate:
                     keep_set.add(filename)
 
                 # 來源加入刪除集
-                if fnmatch(curr_src_dir, os_path.dirname(rename_src_path)):
+                if curr_src_dir == os_path.dirname(rename_src_path):
                     delete_set.add(re_src_file)
                     self.__set_rename_oper(
                         root_src, root_dst, path_R_src, path_R_dst, operations
@@ -228,11 +235,11 @@ class PackUpdate:
 
             # logger
             for dele in delete_set:
-                logger.trace(f"Ignore src: {os_path.join(curr_src_dir, dele)}")
+                logger.trace(f"Ignore src: {path_merge(curr_src_dir, dele)}")
             for mod in modify_set:
-                logger.trace(f"Skip src: {os_path.join(curr_src_dir, mod)}")
+                logger.trace(f"Skip src: {path_merge(curr_src_dir, mod)}")
             for add in add_set:
-                logger.trace(f"Keep: {os_path.join(curr_dst_dir, add)}")
+                logger.trace(f"Keep: {path_merge(curr_dst_dir, add)}")
 
             return ignore_set
 
