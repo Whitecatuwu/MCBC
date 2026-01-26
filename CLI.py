@@ -11,7 +11,7 @@ if __name__ == "__main__":
     setup_logging()
     update_older: callable
     update_newer: callable
-    update_older, update_newer = init(CURRENT_DIR)
+    update_older, update_newer = init(".")
     while True:
         start_time = current_time()
         update_older()
