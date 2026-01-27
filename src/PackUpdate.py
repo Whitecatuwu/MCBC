@@ -14,6 +14,7 @@ from .tools.path_utils import (
 from .Operation import Operation
 from loguru import logger
 from collections import deque
+from typing import Callable
 
 
 class PackUpdate:
@@ -137,7 +138,7 @@ class PackUpdate:
 
     def __operations(
         self, operations: Operation, root_src: str, root_dst: str
-    ) -> callable:
+    ) -> Callable[[str, list], set]:
         """
         根據操作集生成忽略規則，用於複製目錄時的過濾。
 
