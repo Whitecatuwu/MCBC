@@ -4,7 +4,7 @@ from .tools.path_utils import (
     path_merge,
 )
 from .Operation import Operation
-from .OperationService import OperationService
+from .OperationBuilder import OperationBuilder
 from loguru import logger
 
 
@@ -22,7 +22,7 @@ class ResPack:
     def version(self) -> str:
         return self.ver
 
-    def get_operations(self) -> Operation:
+    def get_operation(self) -> Operation:
         if self.operations_path is None:
             return None
 
@@ -34,10 +34,10 @@ class ResPack:
         with open(docs_path, "r") as r:
             docs = r.readlines()
 
-        oper_service = OperationService(
+        oper_builder = OperationBuilder(
             docs, self.path, self.operations_path, os_path.exists
         )
-        output, warning_msg = oper_service.run()
+        output, warning_msg = oper_builder.build()
 
         for msg in warning_msg:
             logger.warning(msg)

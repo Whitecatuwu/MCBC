@@ -6,7 +6,7 @@ from fnmatch import filter as fn_filter
 from typing import Callable
 
 
-class OperationService:
+class OperationBuilder:
     def __init__(
         self,
         docs: str,
@@ -20,7 +20,7 @@ class OperationService:
         self.warning_msg: list[str] = []
         self.exists: Callable[[str], bool] = exists
 
-    def run(self) -> tuple[Operation, list[str]]:
+    def build(self) -> tuple[Operation, list[str]]:
         output: Operation = Operation()
         for key, command in self.__parse(self.docs):
             if command == "":

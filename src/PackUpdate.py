@@ -44,7 +44,7 @@ class PackUpdate:
         src: str = self.root_src
         dst: str = self.root_dst
         self.mirror = mirror
-        self.operations = self.pack_for_update.get_operations()
+        self.operations = self.pack_for_update.get_operation()
 
         if not os_path.exists(src):
             logger.warning(f'Warning : "{src}" is does not exist.')
