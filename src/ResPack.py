@@ -12,32 +12,29 @@ class ResPack:
 
     def __init__(self, path: str, ver: str, operations_path: str = None):
         self.DOCS_NAME: str = "operations.txt"
-        self.path: str = None
         self.ver: str = ver
-        self.operations_path: str = None
-
-        self.__set_path(path)
-        self.__set_operations_path(operations_path)
+        self.path: str = self.__set_path(path)
+        self.operations_path: str = self.__set_operation_path(operations_path)
+        self.docs_path: str = self.__set_docs_path(self.operations_path, self.DOCS_NAME)
 
     def version(self) -> str:
         return self.ver
 
     def get_operation(self) -> Operation:
-        if self.operations_path is None:
+        if self.docs_path is None:
             return None
 
-        docs_path: str = path_merge(self.operations_path, self.DOCS_NAME)
-        if not os_path.exists(docs_path):
-            self.__write_operations(docs_path)
+        if not os_path.exists(self.docs_path):
+            self.__write_operations(self.docs_path)
             return None
 
-        with open(docs_path, "r") as r:
+        with open(self.docs_path, "r") as r:
             docs = r.readlines()
 
-        oper_builder = OperationBuilder(
+        oper_service = OperationBuilder(
             docs, self.path, self.operations_path, os_path.exists
         )
-        output, warning_msg = oper_builder.build()
+        output, warning_msg = oper_service.build()
 
         for msg in warning_msg:
             logger.warning(msg)
@@ -81,18 +78,23 @@ class ResPack:
             w.write("# Instead, start from inside the resource pack, like:\n")
             w.write("#   assets/minecraft/textures/item\n")
 
-    def __set_path(self, path: str) -> None:
+    def __set_path(self, path: str) -> str:
         p = os_path.normpath(path)
         if os_path.exists(p):
-            self.path = p
+            return p
         else:
             raise ValueError(f"Invalid path: {p}")
 
-    def __set_operations_path(self, path: str = None) -> None:
+    def __set_operation_path(self, path: str = None) -> str:
         if path is None:
-            return
+            return None
         p = os_path.normpath(path)
         if os_path.exists(p):
-            self.operations_path = p
+            return p
         else:
             raise ValueError(f"Invalid path: {p}")
+
+    def __set_docs_path(self, path: str, name: str) -> str:
+        if path is None or name is None:
+            return None
+        return path_merge(path, name)
