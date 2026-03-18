@@ -712,13 +712,13 @@ A:assets/minecraft/textures/map/decorations/yellow_banner.png
 D:assets/minecraft/textures/map/map_icons.png
 A:assets/minecraft/textures/misc/credits_vignette.png
 A:assets/minecraft/textures/misc/credits_vignette.png.mcmeta
-A:assets/minecraft/textures/mob_effect/bad_omen_121.png
-A:assets/minecraft/textures/mob_effect/infested.png
-A:assets/minecraft/textures/mob_effect/oozing.png
-A:assets/minecraft/textures/mob_effect/raid_omen.png
-A:assets/minecraft/textures/mob_effect/trial_omen.png
-A:assets/minecraft/textures/mob_effect/weaving.png
-A:assets/minecraft/textures/mob_effect/wind_charged.png
+A:assets/minecraft/textures/mob_effect/bad_omen_121.png, mob_effect
+A:assets/minecraft/textures/mob_effect/infested.png, mob_effect
+A:assets/minecraft/textures/mob_effect/oozing.png, mob_effect
+A:assets/minecraft/textures/mob_effect/raid_omen.png, mob_effect
+A:assets/minecraft/textures/mob_effect/trial_omen.png, mob_effect
+A:assets/minecraft/textures/mob_effect/weaving.png, mob_effect
+A:assets/minecraft/textures/mob_effect/wind_charged.png, mob_effect
 A:assets/minecraft/textures/particle/infested.png
 A:assets/minecraft/textures/particle/ominous_spawning.png
 A:assets/minecraft/textures/particle/raid_omen.png

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from os import path as os_path
-from .path_utils import path_split, is_valid_pathname
+from .tools.path_utils import path_split, is_valid_pathname
 
 
 @dataclass

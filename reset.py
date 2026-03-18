@@ -1,5 +1,5 @@
-from src.config import PACK_PATH, OPERATION_PATH, read_config
-from src.file_operation import delete
+from src.config.config import PACK_PATH, OPERATION_PATH, read_config
+from src.tools.file_operation import delete
 from os import scandir, path as os_path
 
 

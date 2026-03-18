@@ -2,9 +2,9 @@ from __future__ import annotations
 from shutil import copytree
 from os import path as os_path
 from fnmatch import filter as fn_filter, fnmatch
-from .file_operation import delete, copyfile, copyfile_ignore_old, mirror_cleanup
+from .tools.file_operation import delete, copyfile, copyfile_ignore_old, mirror_cleanup
 from .ResPack import ResPack
-from .path_utils import (
+from .tools.path_utils import (
     is_parent_dir,
     get_top_dirname,
     is_path_match,
@@ -14,6 +14,7 @@ from .path_utils import (
 from .Operation import Operation
 from loguru import logger
 from collections import deque
+from typing import Callable
 
 
 class PackUpdate:
@@ -43,7 +44,7 @@ class PackUpdate:
         src: str = self.root_src
         dst: str = self.root_dst
         self.mirror = mirror
-        self.operations = self.pack_for_update.get_operations()
+        self.operations = self.pack_for_update.get_operation()
 
         if not os_path.exists(src):
             logger.warning(f'Warning : "{src}" is does not exist.')
@@ -137,7 +138,7 @@ class PackUpdate:
 
     def __operations(
         self, operations: Operation, root_src: str, root_dst: str
-    ) -> callable:
+    ) -> Callable[[str, list], set]:
         """
         根據操作集生成忽略規則，用於複製目錄時的過濾。
 

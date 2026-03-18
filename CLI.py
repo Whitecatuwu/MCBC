@@ -1,7 +1,8 @@
-from src.init import init
+from src.app_init import init
 from time import time as current_time
 from os import chdir, path as os_path
-from src.setup_logger import setup_logging
+from src.config.setup_logger import setup_logging
+from typing import Callable
 
 CURRENT_DIR = os_path.dirname(os_path.abspath(__file__))
 
@@ -9,8 +10,8 @@ CURRENT_DIR = os_path.dirname(os_path.abspath(__file__))
 if __name__ == "__main__":
     chdir(CURRENT_DIR)
     setup_logging()
-    update_older: callable
-    update_newer: callable
+    update_older: Callable
+    update_newer: Callable
     update_older, update_newer = init(".")
     while True:
         start_time = current_time()
