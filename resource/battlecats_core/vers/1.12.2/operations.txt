@@ -5276,7 +5276,7 @@ D:assets/minecraft/textures/item/leather_leggings_overlay.png
 ##D:assets/minecraft/textures/item/lime_dye.png
 ##D:assets/minecraft/textures/item/lingering_potion.png
 ##D:assets/minecraft/textures/item/magenta_dye.png
-D:assets/minecraft/textures/item/magma_cream.png
+#D:assets/minecraft/textures/item/magma_cream.png
 ##D:assets/minecraft/textures/item/map.png
 D:assets/minecraft/textures/item/melon_slice.png
 ##D:assets/minecraft/textures/item/milk_bucket.png
@@ -5614,7 +5614,7 @@ A:assets/minecraft/textures/items/leather_helmet.png
 A:assets/minecraft/textures/items/leather_helmet_overlay.png
 A:assets/minecraft/textures/items/leather_leggings.png
 A:assets/minecraft/textures/items/leather_leggings_overlay.png
-A:assets/minecraft/textures/items/magma_cream.png
+#A:assets/minecraft/textures/items/magma_cream.png
 ##A:assets/minecraft/textures/items/map_empty.png
 ##A:assets/minecraft/textures/items/map_filled.png
 R:assets/minecraft/textures/item/filled_map_markings.png, assets/minecraft/textures/items/map_filled_markings.png
