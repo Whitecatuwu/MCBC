@@ -30,6 +30,7 @@ class PackUpdate:
 
         self.rename_oper: deque[tuple[str, str, Operation]] = deque()
         self.mirror_oper: list[tuple[str, str, set[str]]] = []
+        self.delete_oper: set[str] = set()
 
     def update(self, mirror=True, ignore_old=True) -> None:
         try:
@@ -39,6 +40,7 @@ class PackUpdate:
         finally:
             self.rename_oper.clear()
             self.mirror_oper.clear()
+            self.delete_oper.clear()
 
     def __update(self, mirror=True, ignore_old=True) -> None:
         src: str = self.root_src
@@ -90,6 +92,8 @@ class PackUpdate:
             delete(path_merge(dst, D))
         for D in self.operations.delete_pattern_global:
             delete(path_merge(dst, "**", D))
+        for D in self.delete_oper:
+            delete(D)
 
         # Handle rename operations
         while self.rename_oper:
@@ -220,9 +224,10 @@ class PackUpdate:
                     )
                     keep_set.add(filename)
 
-                # 來源加入刪除集
+                # 來源加入刪除集，目標目錄不該有來源文件
                 if curr_src_dir == os_path.dirname(rename_src_path):
                     delete_set.add(re_src_file)
+                    self.delete_oper.add(path_merge(root_dst, path_R_src))
                     self.__set_rename_oper(
                         root_src, root_dst, path_R_src, path_R_dst, operations
                     )

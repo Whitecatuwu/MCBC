@@ -53,7 +53,6 @@ R:assets/minecraft/textures/item/wooden_sword.png, assets/minecraft/textures/ite
 R:assets/minecraft/textures/item/totem_of_undying.png, assets/minecraft/textures/items/totem.png
 R:assets/minecraft/textures/item/totem_of_undying.png.mcmeta, assets/minecraft/textures/items/totem.png.mcmeta
 R:assets/minecraft/textures/item/fishing_rod.png, assets/minecraft/textures/items/fishing_rod_uncast.png
-R:assets/minecraft/textures/item/fishing_rod_cast.png, assets/minecraft/textures/items/fishing_rod_cast.png
 R:assets/minecraft/textures/item/slime_ball.png, assets/minecraft/textures/items/slimeball.png
 R:assets/minecraft/textures/item/map.png, assets/minecraft/textures/items/map_empty.png
 R:assets/minecraft/textures/item/filled_map.png, assets/minecraft/textures/items/map_filled.png
