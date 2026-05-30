@@ -1,0 +1,632 @@
+#R083, assets/minecraft/shaders/core/rendertype_entity_decal.fsh, assets/minecraft/shaders/core/item.fsh
+#R081, assets/minecraft/shaders/core/rendertype_item_entity_translucent_cull.vsh, assets/minecraft/shaders/core/item.vsh
+
+M:assets/minecraft/atlases/banner_patterns.json
+M:assets/minecraft/atlases/blocks.json
+M:assets/minecraft/atlases/shield_patterns.json
+A:assets/minecraft/blockstates/golden_dandelion.json
+A:assets/minecraft/blockstates/potted_golden_dandelion.json
+M:assets/minecraft/equipment/chainmail.json
+M:assets/minecraft/equipment/copper.json
+M:assets/minecraft/equipment/diamond.json
+M:assets/minecraft/equipment/gold.json
+M:assets/minecraft/equipment/iron.json
+M:assets/minecraft/equipment/leather.json
+M:assets/minecraft/equipment/netherite.json
+A:assets/minecraft/equipment/trader_llama_baby.json
+M:assets/minecraft/equipment/turtle_scute.json
+M:assets/minecraft/items/black_banner.json
+M:assets/minecraft/items/black_bed.json
+M:assets/minecraft/items/black_shulker_box.json
+M:assets/minecraft/items/blue_banner.json
+M:assets/minecraft/items/blue_bed.json
+M:assets/minecraft/items/blue_shulker_box.json
+M:assets/minecraft/items/brown_banner.json
+M:assets/minecraft/items/brown_bed.json
+M:assets/minecraft/items/brown_shulker_box.json
+M:assets/minecraft/items/conduit.json
+M:assets/minecraft/items/copper_golem_statue.json
+M:assets/minecraft/items/creeper_head.json
+M:assets/minecraft/items/cyan_banner.json
+M:assets/minecraft/items/cyan_bed.json
+M:assets/minecraft/items/cyan_shulker_box.json
+M:assets/minecraft/items/dragon_head.json
+M:assets/minecraft/items/exposed_copper_golem_statue.json
+A:assets/minecraft/items/golden_dandelion.json
+M:assets/minecraft/items/gray_banner.json
+M:assets/minecraft/items/gray_bed.json
+M:assets/minecraft/items/gray_shulker_box.json
+M:assets/minecraft/items/green_banner.json
+M:assets/minecraft/items/green_bed.json
+M:assets/minecraft/items/green_shulker_box.json
+M:assets/minecraft/items/light_blue_banner.json
+M:assets/minecraft/items/light_blue_bed.json
+M:assets/minecraft/items/light_blue_shulker_box.json
+M:assets/minecraft/items/light_gray_banner.json
+M:assets/minecraft/items/light_gray_bed.json
+M:assets/minecraft/items/light_gray_shulker_box.json
+M:assets/minecraft/items/lime_banner.json
+M:assets/minecraft/items/lime_bed.json
+M:assets/minecraft/items/lime_shulker_box.json
+M:assets/minecraft/items/magenta_banner.json
+M:assets/minecraft/items/magenta_bed.json
+M:assets/minecraft/items/magenta_shulker_box.json
+M:assets/minecraft/items/orange_banner.json
+M:assets/minecraft/items/orange_bed.json
+M:assets/minecraft/items/orange_shulker_box.json
+M:assets/minecraft/items/oxidized_copper_golem_statue.json
+M:assets/minecraft/items/piglin_head.json
+M:assets/minecraft/items/pink_banner.json
+M:assets/minecraft/items/pink_bed.json
+M:assets/minecraft/items/pink_shulker_box.json
+M:assets/minecraft/items/player_head.json
+M:assets/minecraft/items/purple_banner.json
+M:assets/minecraft/items/purple_bed.json
+M:assets/minecraft/items/purple_shulker_box.json
+M:assets/minecraft/items/red_banner.json
+M:assets/minecraft/items/red_bed.json
+M:assets/minecraft/items/red_shulker_box.json
+M:assets/minecraft/items/shield.json
+M:assets/minecraft/items/shulker_box.json
+M:assets/minecraft/items/skeleton_skull.json
+M:assets/minecraft/items/trident.json
+M:assets/minecraft/items/waxed_copper_golem_statue.json
+M:assets/minecraft/items/waxed_exposed_copper_golem_statue.json
+M:assets/minecraft/items/waxed_oxidized_copper_golem_statue.json
+M:assets/minecraft/items/waxed_weathered_copper_golem_statue.json
+M:assets/minecraft/items/weathered_copper_golem_statue.json
+M:assets/minecraft/items/white_banner.json
+M:assets/minecraft/items/white_bed.json
+M:assets/minecraft/items/white_shulker_box.json
+M:assets/minecraft/items/wither_skeleton_skull.json
+M:assets/minecraft/items/yellow_banner.json
+M:assets/minecraft/items/yellow_bed.json
+M:assets/minecraft/items/yellow_shulker_box.json
+M:assets/minecraft/items/zombie_head.json
+M:assets/minecraft/lang/af_za.json
+M:assets/minecraft/lang/ar_sa.json
+M:assets/minecraft/lang/ast_es.json
+M:assets/minecraft/lang/az_az.json
+M:assets/minecraft/lang/ba_ru.json
+M:assets/minecraft/lang/bar.json
+M:assets/minecraft/lang/be_by.json
+M:assets/minecraft/lang/be_latn.json
+M:assets/minecraft/lang/bg_bg.json
+M:assets/minecraft/lang/br_fr.json
+M:assets/minecraft/lang/brb.json
+M:assets/minecraft/lang/bs_ba.json
+M:assets/minecraft/lang/ca_es.json
+M:assets/minecraft/lang/cs_cz.json
+M:assets/minecraft/lang/cy_gb.json
+M:assets/minecraft/lang/da_dk.json
+M:assets/minecraft/lang/de_at.json
+M:assets/minecraft/lang/de_ch.json
+M:assets/minecraft/lang/de_de.json
+M:assets/minecraft/lang/deprecated.json
+M:assets/minecraft/lang/el_gr.json
+M:assets/minecraft/lang/en_au.json
+M:assets/minecraft/lang/en_ca.json
+M:assets/minecraft/lang/en_gb.json
+M:assets/minecraft/lang/en_nz.json
+M:assets/minecraft/lang/en_pt.json
+M:assets/minecraft/lang/en_ud.json
+M:assets/minecraft/lang/en_us.json
+M:assets/minecraft/lang/enp.json
+M:assets/minecraft/lang/enws.json
+M:assets/minecraft/lang/eo_uy.json
+M:assets/minecraft/lang/es_ar.json
+M:assets/minecraft/lang/es_cl.json
+M:assets/minecraft/lang/es_ec.json
+M:assets/minecraft/lang/es_es.json
+M:assets/minecraft/lang/es_mx.json
+M:assets/minecraft/lang/es_uy.json
+M:assets/minecraft/lang/es_ve.json
+M:assets/minecraft/lang/esan.json
+M:assets/minecraft/lang/et_ee.json
+M:assets/minecraft/lang/eu_es.json
+M:assets/minecraft/lang/fa_ir.json
+M:assets/minecraft/lang/fi_fi.json
+M:assets/minecraft/lang/fil_ph.json
+M:assets/minecraft/lang/fo_fo.json
+M:assets/minecraft/lang/fr_ca.json
+M:assets/minecraft/lang/fr_fr.json
+M:assets/minecraft/lang/fra_de.json
+M:assets/minecraft/lang/fur_it.json
+M:assets/minecraft/lang/fy_nl.json
+M:assets/minecraft/lang/ga_ie.json
+M:assets/minecraft/lang/gd_gb.json
+M:assets/minecraft/lang/gl_es.json
+M:assets/minecraft/lang/hal_ua.json
+M:assets/minecraft/lang/haw_us.json
+M:assets/minecraft/lang/he_il.json
+M:assets/minecraft/lang/hi_in.json
+M:assets/minecraft/lang/hn_no.json
+M:assets/minecraft/lang/hr_hr.json
+M:assets/minecraft/lang/hu_hu.json
+M:assets/minecraft/lang/hy_am.json
+M:assets/minecraft/lang/id_id.json
+M:assets/minecraft/lang/ig_ng.json
+M:assets/minecraft/lang/io_en.json
+M:assets/minecraft/lang/is_is.json
+M:assets/minecraft/lang/isv.json
+M:assets/minecraft/lang/it_it.json
+M:assets/minecraft/lang/ja_jp.json
+M:assets/minecraft/lang/jbo_en.json
+M:assets/minecraft/lang/ka_ge.json
+M:assets/minecraft/lang/kk_kz.json
+M:assets/minecraft/lang/kn_in.json
+M:assets/minecraft/lang/ko_kr.json
+M:assets/minecraft/lang/ksh.json
+M:assets/minecraft/lang/kw_gb.json
+M:assets/minecraft/lang/ky_kg.json
+M:assets/minecraft/lang/la_la.json
+M:assets/minecraft/lang/lb_lu.json
+M:assets/minecraft/lang/li_li.json
+M:assets/minecraft/lang/lmo.json
+M:assets/minecraft/lang/lo_la.json
+M:assets/minecraft/lang/lol_us.json
+M:assets/minecraft/lang/lt_lt.json
+M:assets/minecraft/lang/lv_lv.json
+M:assets/minecraft/lang/lzh.json
+M:assets/minecraft/lang/mk_mk.json
+M:assets/minecraft/lang/mn_mn.json
+M:assets/minecraft/lang/ms_my.json
+M:assets/minecraft/lang/mt_mt.json
+M:assets/minecraft/lang/nah.json
+M:assets/minecraft/lang/nds_de.json
+M:assets/minecraft/lang/nl_be.json
+M:assets/minecraft/lang/nl_nl.json
+M:assets/minecraft/lang/nn_no.json
+M:assets/minecraft/lang/no_no.json
+M:assets/minecraft/lang/oc_fr.json
+M:assets/minecraft/lang/ovd.json
+M:assets/minecraft/lang/pl_pl.json
+M:assets/minecraft/lang/pls.json
+M:assets/minecraft/lang/pt_br.json
+M:assets/minecraft/lang/pt_pt.json
+M:assets/minecraft/lang/qcb_es.json
+M:assets/minecraft/lang/qid.json
+M:assets/minecraft/lang/qya_aa.json
+M:assets/minecraft/lang/ro_ro.json
+M:assets/minecraft/lang/rpr.json
+M:assets/minecraft/lang/ru_ru.json
+M:assets/minecraft/lang/ry_ua.json
+M:assets/minecraft/lang/sah_sah.json
+M:assets/minecraft/lang/se_no.json
+M:assets/minecraft/lang/sk_sk.json
+M:assets/minecraft/lang/sl_si.json
+M:assets/minecraft/lang/so_so.json
+M:assets/minecraft/lang/sq_al.json
+M:assets/minecraft/lang/sr_cs.json
+M:assets/minecraft/lang/sr_sp.json
+M:assets/minecraft/lang/sv_se.json
+M:assets/minecraft/lang/sxu.json
+M:assets/minecraft/lang/szl.json
+M:assets/minecraft/lang/ta_in.json
+M:assets/minecraft/lang/th_th.json
+M:assets/minecraft/lang/tl_ph.json
+M:assets/minecraft/lang/tlh_aa.json
+M:assets/minecraft/lang/tok.json
+M:assets/minecraft/lang/tr_tr.json
+M:assets/minecraft/lang/tt_ru.json
+M:assets/minecraft/lang/tzo_mx.json
+M:assets/minecraft/lang/uk_ua.json
+M:assets/minecraft/lang/val_es.json
+M:assets/minecraft/lang/vec_it.json
+M:assets/minecraft/lang/vi_vn.json
+M:assets/minecraft/lang/vp_vl.json
+M:assets/minecraft/lang/yi_de.json
+M:assets/minecraft/lang/yo_ng.json
+M:assets/minecraft/lang/zh_cn.json
+M:assets/minecraft/lang/zh_hk.json
+M:assets/minecraft/lang/zh_tw.json
+M:assets/minecraft/lang/zlm_arab.json
+M:assets/minecraft/models/block/black_stained_glass.json
+M:assets/minecraft/models/block/black_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/black_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/black_stained_glass_pane_post.json
+M:assets/minecraft/models/block/black_stained_glass_pane_side.json
+M:assets/minecraft/models/block/black_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/blue_stained_glass.json
+M:assets/minecraft/models/block/blue_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/blue_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/blue_stained_glass_pane_post.json
+M:assets/minecraft/models/block/blue_stained_glass_pane_side.json
+M:assets/minecraft/models/block/blue_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/brown_stained_glass.json
+M:assets/minecraft/models/block/brown_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/brown_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/brown_stained_glass_pane_post.json
+M:assets/minecraft/models/block/brown_stained_glass_pane_side.json
+M:assets/minecraft/models/block/brown_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/cyan_stained_glass.json
+M:assets/minecraft/models/block/cyan_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/cyan_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/cyan_stained_glass_pane_post.json
+M:assets/minecraft/models/block/cyan_stained_glass_pane_side.json
+M:assets/minecraft/models/block/cyan_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/glass.json
+M:assets/minecraft/models/block/glass_pane_noside.json
+M:assets/minecraft/models/block/glass_pane_noside_alt.json
+M:assets/minecraft/models/block/glass_pane_post.json
+M:assets/minecraft/models/block/glass_pane_side.json
+M:assets/minecraft/models/block/glass_pane_side_alt.json
+A:assets/minecraft/models/block/golden_dandelion.json
+M:assets/minecraft/models/block/gray_stained_glass.json
+M:assets/minecraft/models/block/gray_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/gray_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/gray_stained_glass_pane_post.json
+M:assets/minecraft/models/block/gray_stained_glass_pane_side.json
+M:assets/minecraft/models/block/gray_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/green_stained_glass.json
+M:assets/minecraft/models/block/green_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/green_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/green_stained_glass_pane_post.json
+M:assets/minecraft/models/block/green_stained_glass_pane_side.json
+M:assets/minecraft/models/block/green_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/light_blue_stained_glass.json
+M:assets/minecraft/models/block/light_blue_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/light_blue_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/light_blue_stained_glass_pane_post.json
+M:assets/minecraft/models/block/light_blue_stained_glass_pane_side.json
+M:assets/minecraft/models/block/light_blue_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/light_gray_stained_glass.json
+M:assets/minecraft/models/block/light_gray_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/light_gray_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/light_gray_stained_glass_pane_post.json
+M:assets/minecraft/models/block/light_gray_stained_glass_pane_side.json
+M:assets/minecraft/models/block/light_gray_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/lime_stained_glass.json
+M:assets/minecraft/models/block/lime_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/lime_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/lime_stained_glass_pane_post.json
+M:assets/minecraft/models/block/lime_stained_glass_pane_side.json
+M:assets/minecraft/models/block/lime_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/magenta_stained_glass.json
+M:assets/minecraft/models/block/magenta_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/magenta_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/magenta_stained_glass_pane_post.json
+M:assets/minecraft/models/block/magenta_stained_glass_pane_side.json
+M:assets/minecraft/models/block/magenta_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/orange_stained_glass.json
+M:assets/minecraft/models/block/orange_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/orange_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/orange_stained_glass_pane_post.json
+M:assets/minecraft/models/block/orange_stained_glass_pane_side.json
+M:assets/minecraft/models/block/orange_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/pink_stained_glass.json
+M:assets/minecraft/models/block/pink_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/pink_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/pink_stained_glass_pane_post.json
+M:assets/minecraft/models/block/pink_stained_glass_pane_side.json
+M:assets/minecraft/models/block/pink_stained_glass_pane_side_alt.json
+A:assets/minecraft/models/block/potted_golden_dandelion.json
+M:assets/minecraft/models/block/purple_stained_glass.json
+M:assets/minecraft/models/block/purple_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/purple_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/purple_stained_glass_pane_post.json
+M:assets/minecraft/models/block/purple_stained_glass_pane_side.json
+M:assets/minecraft/models/block/purple_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/red_stained_glass.json
+M:assets/minecraft/models/block/red_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/red_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/red_stained_glass_pane_post.json
+M:assets/minecraft/models/block/red_stained_glass_pane_side.json
+M:assets/minecraft/models/block/red_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/redstone_dust_dot.json
+M:assets/minecraft/models/block/redstone_dust_side.json
+M:assets/minecraft/models/block/redstone_dust_side0.json
+M:assets/minecraft/models/block/redstone_dust_side1.json
+M:assets/minecraft/models/block/redstone_dust_side_alt.json
+M:assets/minecraft/models/block/redstone_dust_side_alt0.json
+M:assets/minecraft/models/block/redstone_dust_side_alt1.json
+M:assets/minecraft/models/block/redstone_dust_up.json
+M:assets/minecraft/models/block/tripwire_attached_n.json
+M:assets/minecraft/models/block/tripwire_attached_ne.json
+M:assets/minecraft/models/block/tripwire_attached_ns.json
+M:assets/minecraft/models/block/tripwire_attached_nse.json
+M:assets/minecraft/models/block/tripwire_attached_nsew.json
+M:assets/minecraft/models/block/tripwire_n.json
+M:assets/minecraft/models/block/tripwire_ne.json
+M:assets/minecraft/models/block/tripwire_ns.json
+M:assets/minecraft/models/block/tripwire_nse.json
+M:assets/minecraft/models/block/tripwire_nsew.json
+M:assets/minecraft/models/block/white_stained_glass.json
+M:assets/minecraft/models/block/white_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/white_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/white_stained_glass_pane_post.json
+M:assets/minecraft/models/block/white_stained_glass_pane_side.json
+M:assets/minecraft/models/block/white_stained_glass_pane_side_alt.json
+M:assets/minecraft/models/block/yellow_stained_glass.json
+M:assets/minecraft/models/block/yellow_stained_glass_pane_noside.json
+M:assets/minecraft/models/block/yellow_stained_glass_pane_noside_alt.json
+M:assets/minecraft/models/block/yellow_stained_glass_pane_post.json
+M:assets/minecraft/models/block/yellow_stained_glass_pane_side.json
+M:assets/minecraft/models/block/yellow_stained_glass_pane_side_alt.json
+A:assets/minecraft/models/item/golden_dandelion.json
+M:assets/minecraft/models/item/shield.json
+M:assets/minecraft/models/item/shield_blocking.json
+A:assets/minecraft/particles/pause_mob_growth.json
+A:assets/minecraft/particles/reset_mob_growth.json
+M:assets/minecraft/resourcepacks/high_contrast.zip
+M:assets/minecraft/resourcepacks/programmer_art.zip
+M:assets/minecraft/shaders/core/block.vsh
+M:assets/minecraft/shaders/core/entity.fsh
+M:assets/minecraft/shaders/core/entity.vsh
+M:assets/minecraft/shaders/core/lightmap.fsh
+M:assets/minecraft/shaders/core/particle.vsh
+M:assets/minecraft/shaders/core/rendertype_crumbling.fsh
+M:assets/minecraft/shaders/core/rendertype_crumbling.vsh
+D:assets/minecraft/shaders/core/rendertype_entity_alpha.fsh
+D:assets/minecraft/shaders/core/rendertype_entity_alpha.vsh
+D:assets/minecraft/shaders/core/rendertype_entity_decal.vsh
+D:assets/minecraft/shaders/core/rendertype_item_entity_translucent_cull.fsh
+M:assets/minecraft/shaders/core/rendertype_leash.vsh
+M:assets/minecraft/shaders/core/rendertype_text.vsh
+M:assets/minecraft/shaders/core/rendertype_text_background.fsh
+M:assets/minecraft/shaders/core/rendertype_text_background.vsh
+M:assets/minecraft/shaders/core/rendertype_text_intensity.vsh
+D:assets/minecraft/shaders/core/rendertype_translucent_moving_block.fsh
+D:assets/minecraft/shaders/core/rendertype_translucent_moving_block.vsh
+M:assets/minecraft/shaders/core/terrain.fsh
+M:assets/minecraft/shaders/core/terrain.vsh
+A:assets/minecraft/shaders/include/sample_lightmap.glsl
+M:assets/minecraft/texts/splashes.txt
+A:assets/minecraft/textures/block/cactus_side.png.mcmeta
+A:assets/minecraft/textures/block/cactus_top.png.mcmeta
+M:assets/minecraft/textures/block/crimson_roots_pot.png
+M:assets/minecraft/textures/block/frogspawn.png
+A:assets/minecraft/textures/block/golden_dandelion.png
+M:assets/minecraft/textures/block/pink_petals.png
+M:assets/minecraft/textures/block/respawn_anchor_top.png
+M:assets/minecraft/textures/block/stripped_spruce_log_top.png
+A:assets/minecraft/textures/block/tripwire.png.mcmeta
+R:assets/minecraft/textures/entity/armadillo.png, assets/minecraft/textures/entity/armadillo/armadillo.png
+A:assets/minecraft/textures/entity/armadillo/armadillo_baby.png
+R:assets/minecraft/textures/entity/armorstand/wood.png, assets/minecraft/textures/entity/armorstand/armorstand.png
+A:assets/minecraft/textures/entity/axolotl/axolotl_blue_baby.png
+A:assets/minecraft/textures/entity/axolotl/axolotl_cyan_baby.png
+A:assets/minecraft/textures/entity/axolotl/axolotl_gold_baby.png
+A:assets/minecraft/textures/entity/axolotl/axolotl_lucy_baby.png
+A:assets/minecraft/textures/entity/axolotl/axolotl_wild_baby.png
+R:assets/minecraft/textures/entity/banner_base.png, assets/minecraft/textures/entity/banner/banner_base.png
+R:assets/minecraft/textures/entity/bat.png, assets/minecraft/textures/entity/bat/bat.png
+R:assets/minecraft/textures/entity/beacon_beam.png, assets/minecraft/textures/entity/beacon/beacon_beam.png
+A:assets/minecraft/textures/entity/bear/polarbear_baby.png
+A:assets/minecraft/textures/entity/bee/bee_angry_baby.png
+A:assets/minecraft/textures/entity/bee/bee_angry_nectar_baby.png
+A:assets/minecraft/textures/entity/bee/bee_baby.png
+A:assets/minecraft/textures/entity/bee/bee_nectar_baby.png
+R:assets/minecraft/textures/entity/blaze.png, assets/minecraft/textures/entity/blaze/blaze.png
+A:assets/minecraft/textures/entity/camel/camel_baby.png
+R:assets/minecraft/textures/entity/cat/all_black.png, assets/minecraft/textures/entity/cat/cat_all_black.png
+A:assets/minecraft/textures/entity/cat/cat_all_black_baby.png
+R:assets/minecraft/textures/entity/cat/black.png, assets/minecraft/textures/entity/cat/cat_black.png
+A:assets/minecraft/textures/entity/cat/cat_black_baby.png
+R:assets/minecraft/textures/entity/cat/british_shorthair.png, assets/minecraft/textures/entity/cat/cat_british_shorthair.png
+A:assets/minecraft/textures/entity/cat/cat_british_shorthair_baby.png
+R:assets/minecraft/textures/entity/cat/calico.png, assets/minecraft/textures/entity/cat/cat_calico.png
+A:assets/minecraft/textures/entity/cat/cat_calico_baby.png
+A:assets/minecraft/textures/entity/cat/cat_collar_baby.png
+R:assets/minecraft/textures/entity/cat/jellie.png, assets/minecraft/textures/entity/cat/cat_jellie.png
+A:assets/minecraft/textures/entity/cat/cat_jellie_baby.png
+R:assets/minecraft/textures/entity/cat/persian.png, assets/minecraft/textures/entity/cat/cat_persian.png
+A:assets/minecraft/textures/entity/cat/cat_persian_baby.png
+R:assets/minecraft/textures/entity/cat/ragdoll.png, assets/minecraft/textures/entity/cat/cat_ragdoll.png
+A:assets/minecraft/textures/entity/cat/cat_ragdoll_baby.png
+R:assets/minecraft/textures/entity/cat/red.png, assets/minecraft/textures/entity/cat/cat_red.png
+A:assets/minecraft/textures/entity/cat/cat_red_baby.png
+R:assets/minecraft/textures/entity/cat/siamese.png, assets/minecraft/textures/entity/cat/cat_siamese.png
+A:assets/minecraft/textures/entity/cat/cat_siamese_baby.png
+R:assets/minecraft/textures/entity/cat/tabby.png, assets/minecraft/textures/entity/cat/cat_tabby.png
+A:assets/minecraft/textures/entity/cat/cat_tabby_baby.png
+R:assets/minecraft/textures/entity/cat/white.png, assets/minecraft/textures/entity/cat/cat_white.png
+A:assets/minecraft/textures/entity/cat/cat_white_baby.png
+A:assets/minecraft/textures/entity/cat/ocelot_baby.png
+R:assets/minecraft/textures/entity/chicken/cold_chicken.png, assets/minecraft/textures/entity/chicken/chicken_cold.png
+A:assets/minecraft/textures/entity/chicken/chicken_cold_baby.png
+R:assets/minecraft/textures/entity/chicken/temperate_chicken.png, assets/minecraft/textures/entity/chicken/chicken_temperate.png
+A:assets/minecraft/textures/entity/chicken/chicken_temperate_baby.png
+R:assets/minecraft/textures/entity/chicken/warm_chicken.png, assets/minecraft/textures/entity/chicken/chicken_warm.png
+A:assets/minecraft/textures/entity/chicken/chicken_warm_baby.png
+R:assets/minecraft/textures/entity/copper_golem/exposed_copper_golem.png, assets/minecraft/textures/entity/copper_golem/copper_golem_exposed.png
+R:assets/minecraft/textures/entity/copper_golem/exposed_copper_golem_eyes.png, assets/minecraft/textures/entity/copper_golem/copper_golem_eyes_exposed.png
+R:assets/minecraft/textures/entity/copper_golem/oxidized_copper_golem_eyes.png, assets/minecraft/textures/entity/copper_golem/copper_golem_eyes_oxidized.png
+R:assets/minecraft/textures/entity/copper_golem/weathered_copper_golem_eyes.png, assets/minecraft/textures/entity/copper_golem/copper_golem_eyes_weathered.png
+R:assets/minecraft/textures/entity/copper_golem/oxidized_copper_golem.png, assets/minecraft/textures/entity/copper_golem/copper_golem_oxidized.png
+R:assets/minecraft/textures/entity/copper_golem/weathered_copper_golem.png, assets/minecraft/textures/entity/copper_golem/copper_golem_weathered.png
+R:assets/minecraft/textures/entity/cow/cold_cow.png, assets/minecraft/textures/entity/cow/cow_cold.png
+A:assets/minecraft/textures/entity/cow/cow_cold_baby.png
+R:assets/minecraft/textures/entity/cow/temperate_cow.png, assets/minecraft/textures/entity/cow/cow_temperate.png
+A:assets/minecraft/textures/entity/cow/cow_temperate_baby.png
+R:assets/minecraft/textures/entity/cow/warm_cow.png, assets/minecraft/textures/entity/cow/cow_warm.png
+A:assets/minecraft/textures/entity/cow/cow_warm_baby.png
+R:assets/minecraft/textures/entity/cow/brown_mooshroom.png, assets/minecraft/textures/entity/cow/mooshroom_brown.png
+A:assets/minecraft/textures/entity/cow/mooshroom_brown_baby.png
+R:assets/minecraft/textures/entity/cow/red_mooshroom.png, assets/minecraft/textures/entity/cow/mooshroom_red.png
+A:assets/minecraft/textures/entity/cow/mooshroom_red_baby.png
+R:assets/minecraft/textures/entity/dolphin.png, assets/minecraft/textures/entity/dolphin/dolphin.png
+A:assets/minecraft/textures/entity/dolphin/dolphin_baby.png
+R:assets/minecraft/textures/entity/enchanting_table_book.png, assets/minecraft/textures/entity/enchantment/enchanting_table_book.png
+R:assets/minecraft/textures/entity/end_gateway_beam.png, assets/minecraft/textures/entity/end_portal/end_gateway_beam.png
+R:assets/minecraft/textures/entity/end_portal.png, assets/minecraft/textures/entity/end_portal/end_portal.png
+R:assets/minecraft/textures/entity/endermite.png, assets/minecraft/textures/entity/endermite/endermite.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/chainmail.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/copper.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/diamond.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/gold.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/iron.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/leather.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/leather_overlay.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/netherite.png
+A:assets/minecraft/textures/entity/equipment/humanoid_baby/turtle_scute.png
+A:assets/minecraft/textures/entity/equipment/llama_body/trader_llama_baby.png
+R:assets/minecraft/textures/entity/experience_orb.png, assets/minecraft/textures/entity/experience/experience_orb.png
+R:assets/minecraft/textures/entity/fishing_hook.png, assets/minecraft/textures/entity/fishing/fishing_hook.png
+A:assets/minecraft/textures/entity/fox/fox_baby.png
+A:assets/minecraft/textures/entity/fox/fox_sleep_baby.png
+R:assets/minecraft/textures/entity/fox/snow_fox.png, assets/minecraft/textures/entity/fox/fox_snow.png
+A:assets/minecraft/textures/entity/fox/fox_snow_baby.png
+R:assets/minecraft/textures/entity/fox/snow_fox_sleep.png, assets/minecraft/textures/entity/fox/fox_snow_sleep.png
+A:assets/minecraft/textures/entity/fox/fox_snow_sleep_baby.png
+R:assets/minecraft/textures/entity/frog/cold_frog.png, assets/minecraft/textures/entity/frog/frog_cold.png
+R:assets/minecraft/textures/entity/frog/temperate_frog.png, assets/minecraft/textures/entity/frog/frog_temperate.png
+R:assets/minecraft/textures/entity/frog/warm_frog.png, assets/minecraft/textures/entity/frog/frog_warm.png
+A:assets/minecraft/textures/entity/goat/goat_baby.png
+R:assets/minecraft/textures/entity/guardian.png, assets/minecraft/textures/entity/guardian/guardian.png
+R:assets/minecraft/textures/entity/guardian_beam.png, assets/minecraft/textures/entity/guardian/guardian_beam.png
+R:assets/minecraft/textures/entity/guardian_elder.png, assets/minecraft/textures/entity/guardian/guardian_elder.png
+A:assets/minecraft/textures/entity/hoglin/hoglin_baby.png
+A:assets/minecraft/textures/entity/hoglin/zoglin_baby.png
+A:assets/minecraft/textures/entity/horse/donkey_baby.png
+A:assets/minecraft/textures/entity/horse/horse_black_baby.png
+A:assets/minecraft/textures/entity/horse/horse_brown_baby.png
+A:assets/minecraft/textures/entity/horse/horse_chestnut_baby.png
+A:assets/minecraft/textures/entity/horse/horse_creamy_baby.png
+A:assets/minecraft/textures/entity/horse/horse_darkbrown_baby.png
+A:assets/minecraft/textures/entity/horse/horse_gray_baby.png
+M:assets/minecraft/textures/entity/horse/horse_markings_blackdots.png
+A:assets/minecraft/textures/entity/horse/horse_markings_blackdots_baby.png
+A:assets/minecraft/textures/entity/horse/horse_markings_white_baby.png
+A:assets/minecraft/textures/entity/horse/horse_markings_whitedots_baby.png
+A:assets/minecraft/textures/entity/horse/horse_markings_whitefield_baby.png
+A:assets/minecraft/textures/entity/horse/horse_skeleton_baby.png
+A:assets/minecraft/textures/entity/horse/horse_white_baby.png
+A:assets/minecraft/textures/entity/horse/horse_zombie_baby.png
+A:assets/minecraft/textures/entity/horse/mule_baby.png
+R:assets/minecraft/textures/entity/lead_knot.png, assets/minecraft/textures/entity/lead_knot/lead_knot.png
+R:assets/minecraft/textures/entity/llama/brown.png, assets/minecraft/textures/entity/llama/llama_brown.png
+A:assets/minecraft/textures/entity/llama/llama_brown_baby.png
+R:assets/minecraft/textures/entity/llama/creamy.png, assets/minecraft/textures/entity/llama/llama_creamy.png
+A:assets/minecraft/textures/entity/llama/llama_creamy_baby.png
+R:assets/minecraft/textures/entity/llama/gray.png, assets/minecraft/textures/entity/llama/llama_gray.png
+A:assets/minecraft/textures/entity/llama/llama_gray_baby.png
+R:assets/minecraft/textures/entity/llama/spit.png, assets/minecraft/textures/entity/llama/llama_spit.png
+R:assets/minecraft/textures/entity/llama/white.png, assets/minecraft/textures/entity/llama/llama_white.png
+A:assets/minecraft/textures/entity/llama/llama_white_baby.png
+R:assets/minecraft/textures/entity/minecart.png, assets/minecraft/textures/entity/minecart/minecart.png
+M:assets/minecraft/textures/entity/nautilus/nautilus.png
+M:assets/minecraft/textures/entity/nautilus/zombie_nautilus.png
+M:assets/minecraft/textures/entity/nautilus/zombie_nautilus_coral.png
+A:assets/minecraft/textures/entity/panda/aggressive_panda_baby.png
+A:assets/minecraft/textures/entity/panda/brown_panda_baby.png
+A:assets/minecraft/textures/entity/panda/lazy_panda_baby.png
+R:assets/minecraft/textures/entity/panda/aggressive_panda.png, assets/minecraft/textures/entity/panda/panda_aggressive.png
+A:assets/minecraft/textures/entity/panda/panda_baby.png
+R:assets/minecraft/textures/entity/panda/brown_panda.png, assets/minecraft/textures/entity/panda/panda_brown.png
+R:assets/minecraft/textures/entity/panda/lazy_panda.png, assets/minecraft/textures/entity/panda/panda_lazy.png
+R:assets/minecraft/textures/entity/panda/playful_panda.png, assets/minecraft/textures/entity/panda/panda_playful.png
+R:assets/minecraft/textures/entity/panda/weak_panda.png, assets/minecraft/textures/entity/panda/panda_weak.png
+R:assets/minecraft/textures/entity/panda/worried_panda.png, assets/minecraft/textures/entity/panda/panda_worried.png
+A:assets/minecraft/textures/entity/panda/playful_panda_baby.png
+A:assets/minecraft/textures/entity/panda/weak_panda_baby.png
+A:assets/minecraft/textures/entity/panda/worried_panda_baby.png
+R:assets/minecraft/textures/entity/phantom.png, assets/minecraft/textures/entity/phantom/phantom.png
+R:assets/minecraft/textures/entity/phantom_eyes.png, assets/minecraft/textures/entity/phantom/phantom_eyes.png
+R:assets/minecraft/textures/entity/pig/cold_pig.png, assets/minecraft/textures/entity/pig/pig_cold.png
+A:assets/minecraft/textures/entity/pig/pig_cold_baby.png
+R:assets/minecraft/textures/entity/pig/temperate_pig.png, assets/minecraft/textures/entity/pig/pig_temperate.png
+A:assets/minecraft/textures/entity/pig/pig_temperate_baby.png
+R:assets/minecraft/textures/entity/pig/warm_pig.png, assets/minecraft/textures/entity/pig/pig_warm.png
+A:assets/minecraft/textures/entity/pig/pig_warm_baby.png
+A:assets/minecraft/textures/entity/piglin/piglin_baby.png
+A:assets/minecraft/textures/entity/piglin/zombified_piglin_baby.png
+R:assets/minecraft/textures/entity/projectiles/spectral_arrow.png, assets/minecraft/textures/entity/projectiles/arrow_spectral.png
+R:assets/minecraft/textures/entity/projectiles/tipped_arrow.png, assets/minecraft/textures/entity/projectiles/arrow_tipped.png
+D:assets/minecraft/textures/entity/rabbit/black.png
+D:assets/minecraft/textures/entity/rabbit/brown.png
+D:assets/minecraft/textures/entity/rabbit/caerbannog.png
+D:assets/minecraft/textures/entity/rabbit/gold.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_black.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_black_baby.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_brown.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_brown_baby.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_caerbannog.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_caerbannog_baby.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_gold.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_gold_baby.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_salt.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_salt_baby.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_toast.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_toast_baby.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_white.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_white_baby.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_white_splotched.png
+A:assets/minecraft/textures/entity/rabbit/rabbit_white_splotched_baby.png
+D:assets/minecraft/textures/entity/rabbit/salt.png
+D:assets/minecraft/textures/entity/rabbit/toast.png
+D:assets/minecraft/textures/entity/rabbit/white.png
+D:assets/minecraft/textures/entity/rabbit/white_splotched.png
+A:assets/minecraft/textures/entity/sheep/sheep_baby.png
+A:assets/minecraft/textures/entity/sheep/sheep_wool_baby.png
+R:assets/minecraft/textures/entity/shield_base.png, assets/minecraft/textures/entity/shield/shield_base.png
+R:assets/minecraft/textures/entity/shield_base_nopattern.png, assets/minecraft/textures/entity/shield/shield_base_nopattern.png
+R:assets/minecraft/textures/entity/silverfish.png, assets/minecraft/textures/entity/silverfish/silverfish.png
+A:assets/minecraft/textures/entity/sniffer/snifflet.png
+R:assets/minecraft/textures/entity/snow_golem.png, assets/minecraft/textures/entity/snow_golem/snow_golem.png
+R:assets/minecraft/textures/entity/spider_eyes.png, assets/minecraft/textures/entity/spider/spider_eyes.png
+A:assets/minecraft/textures/entity/squid/glow_squid_baby.png
+A:assets/minecraft/textures/entity/squid/squid_baby.png
+A:assets/minecraft/textures/entity/strider/strider_baby.png
+A:assets/minecraft/textures/entity/strider/strider_cold_baby.png
+R:assets/minecraft/textures/entity/trident.png, assets/minecraft/textures/entity/trident/trident.png
+R:assets/minecraft/textures/entity/trident_riptide.png, assets/minecraft/textures/entity/trident/trident_riptide.png
+R:assets/minecraft/textures/entity/turtle/big_sea_turtle.png, assets/minecraft/textures/entity/turtle/turtle.png
+A:assets/minecraft/textures/entity/turtle/turtle_baby.png
+A:assets/minecraft/textures/entity/villager/baby/desert.png
+A:assets/minecraft/textures/entity/villager/baby/jungle.png
+A:assets/minecraft/textures/entity/villager/baby/plains.png
+A:assets/minecraft/textures/entity/villager/baby/savanna.png
+A:assets/minecraft/textures/entity/villager/baby/snow.png
+A:assets/minecraft/textures/entity/villager/baby/swamp.png
+A:assets/minecraft/textures/entity/villager/baby/taiga.png
+A:assets/minecraft/textures/entity/villager/villager_baby.png
+R:assets/minecraft/textures/entity/wandering_trader.png, assets/minecraft/textures/entity/wandering_trader/wandering_trader.png
+R:assets/minecraft/textures/entity/witch.png, assets/minecraft/textures/entity/witch/witch.png
+A:assets/minecraft/textures/entity/wolf/wolf_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_ashen_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_ashen_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_ashen_tame_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_black_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_black_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_black_tame_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_chestnut_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_chestnut_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_chestnut_tame_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_collar_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_rusty_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_rusty_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_rusty_tame_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_snowy_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_snowy_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_snowy_tame_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_spotted_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_spotted_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_spotted_tame_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_striped_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_striped_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_striped_tame_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_tame_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_woods_angry_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_woods_baby.png
+A:assets/minecraft/textures/entity/wolf/wolf_woods_tame_baby.png
+A:assets/minecraft/textures/entity/zombie/drowned_baby.png
+A:assets/minecraft/textures/entity/zombie/drowned_outer_layer_baby.png
+A:assets/minecraft/textures/entity/zombie/husk_baby.png
+A:assets/minecraft/textures/entity/zombie/zombie_baby.png
+A:assets/minecraft/textures/entity/zombie_villager/baby/desert.png
+A:assets/minecraft/textures/entity/zombie_villager/baby/jungle.png
+A:assets/minecraft/textures/entity/zombie_villager/baby/plains.png
+A:assets/minecraft/textures/entity/zombie_villager/baby/savanna.png
+A:assets/minecraft/textures/entity/zombie_villager/baby/snow.png
+A:assets/minecraft/textures/entity/zombie_villager/baby/swamp.png
+A:assets/minecraft/textures/entity/zombie_villager/baby/taiga.png
+A:assets/minecraft/textures/entity/zombie_villager/zombie_villager_baby.png
+D:assets/minecraft/textures/gui/demo_background.png
+A:assets/minecraft/textures/gui/sprites/widget/preedit.png
+A:assets/minecraft/textures/gui/sprites/widget/preedit.png.mcmeta
+M:assets/minecraft/textures/item/pink_petals.png
+M:assets/pack.mcmeta
+M:assets_index.json
+M:assets_index.min.json
