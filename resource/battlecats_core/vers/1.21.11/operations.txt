@@ -510,7 +510,7 @@ A:assets/minecraft/textures/environment/celestial/moon/waxing_crescent.png
 A:assets/minecraft/textures/environment/celestial/moon/waxing_gibbous.png
 R:assets/minecraft/textures/environment/sun.png, assets/minecraft/textures/environment/celestial/sun.png
 D:assets/minecraft/textures/environment/moon_phases.png
-A:assets/minecraft/textures/gui/container/nautilus.png
+A:assets/minecraft/textures/gui/container/nautilus.png, gui/container
 R:assets/minecraft/textures/gui/sprites/container/inventory/effect_background_small.png, assets/minecraft/textures/gui/sprites/container/inventory/effect_background.png
 A:assets/minecraft/textures/gui/sprites/container/inventory/effect_background.png.mcmeta
 A:assets/minecraft/textures/gui/sprites/container/inventory/effect_background_ambient.png
