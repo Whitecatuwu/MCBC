@@ -13,6 +13,10 @@ A:assets/minecraft/textures/item/enchanted_book, texture
 A:assets/minecraft/items/enchanted_book.json, items
 A:assets/minecraft/models/item/enchanted_book, models
 
+A:assets/minecraft/textures/item/ominous_bottle, texture
+A:assets/minecraft/items/ominous_bottle.json, items
+A:assets/minecraft/models/item/ominous_bottle, models
+
 #R096, assets/minecraft/sounds/mob/wolf/bark1.ogg, assets/minecraft/sounds/mob/wolf/classic/bark1.ogg
 #R088, assets/minecraft/sounds/mob/wolf/bark2.ogg, assets/minecraft/sounds/mob/wolf/classic/bark2.ogg
 #R096, assets/minecraft/sounds/mob/wolf/bark3.ogg, assets/minecraft/sounds/mob/wolf/classic/bark3.ogg
