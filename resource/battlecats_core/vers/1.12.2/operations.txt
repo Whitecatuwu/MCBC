@@ -63,6 +63,9 @@ R:assets/minecraft/textures/item/lava_bucket.png, assets/minecraft/textures/item
 R:assets/minecraft/textures/item/milk_bucket.png, assets/minecraft/textures/items/bucket_milk.png
 R:assets/minecraft/textures/item/bucket.png, assets/minecraft/textures/items/bucket_empty.png
 R:assets/minecraft/textures/item/water_bucket.png, assets/minecraft/textures/items/bucket_water.png
+R:assets/minecraft/textures/item/cooked_porkchop.png, assets/minecraft/textures/items/porkchop_cooked.png
+R:assets/minecraft/textures/item/porkchop.png, assets/minecraft/textures/items/porkchop_raw.png
+ 
 D:assets/minecraft/textures/items/crossbow_arrow.png
 D:assets/minecraft/textures/items/crossbow_firework.png
 D:assets/minecraft/textures/items/crossbow_pulling_0.png
@@ -5166,7 +5169,7 @@ D:assets/minecraft/textures/item/cooked_beef.png
 ##D:assets/minecraft/textures/item/cooked_chicken.png
 #D:assets/minecraft/textures/item/cooked_cod.png
 D:assets/minecraft/textures/item/cooked_mutton.png
-D:assets/minecraft/textures/item/cooked_porkchop.png
+#D:assets/minecraft/textures/item/cooked_porkchop.png
 D:assets/minecraft/textures/item/cooked_rabbit.png
 #D:assets/minecraft/textures/item/cooked_salmon.png
 D:assets/minecraft/textures/item/cookie.png
@@ -5297,7 +5300,7 @@ D:assets/minecraft/textures/item/phantom_membrane.png
 ##D:assets/minecraft/textures/item/pink_dye.png
 D:assets/minecraft/textures/item/poisonous_potato.png
 D:assets/minecraft/textures/item/popped_chorus_fruit.png
-D:assets/minecraft/textures/item/porkchop.png
+#D:assets/minecraft/textures/item/porkchop.png
 D:assets/minecraft/textures/item/potato.png
 ##D:assets/minecraft/textures/item/potion.png
 #D:assets/minecraft/textures/item/potion_overlay.png
@@ -5635,8 +5638,8 @@ A:assets/minecraft/textures/items/name_tag.png
 A:assets/minecraft/textures/items/oak_boat.png
 A:assets/minecraft/textures/items/painting.png
 #A:assets/minecraft/textures/items/paper.png
-A:assets/minecraft/textures/items/porkchop_cooked.png
-A:assets/minecraft/textures/items/porkchop_raw.png
+#A:assets/minecraft/textures/items/porkchop_cooked.png
+#A:assets/minecraft/textures/items/porkchop_raw.png
 A:assets/minecraft/textures/items/potato.png
 A:assets/minecraft/textures/items/potato_baked.png
 A:assets/minecraft/textures/items/potato_poisonous.png
