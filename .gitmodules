@@ -102,3 +102,7 @@
 	path = resource/battlecats_26.1.2
 	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
 	branch = 26.1.2
+[submodule "resource/battlecats_26.2"]
+	path = resource/battlecats_26.2
+	url = https://github.com/Whitecatuwu/TheBattleCat-Resource-Pack
+	branch = 26.2
