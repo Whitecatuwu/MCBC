@@ -815,10 +815,6 @@ A:assets/minecraft/textures/block/yellow_bed_foot_west.png
 A:assets/minecraft/textures/block/yellow_bed_head_east.png
 A:assets/minecraft/textures/block/yellow_bed_head_up.png
 A:assets/minecraft/textures/block/yellow_bed_head_west.png
-M:assets/minecraft/textures/entity/__paths_list__.json
-M:assets/minecraft/textures/entity/__paths_list__.min.json
-D:assets/minecraft/textures/entity/bed/__paths_list__.json
-D:assets/minecraft/textures/entity/bed/__paths_list__.min.json
 D:assets/minecraft/textures/entity/bed/black.png
 D:assets/minecraft/textures/entity/bed/blue.png
 D:assets/minecraft/textures/entity/bed/brown.png
@@ -837,8 +833,6 @@ D:assets/minecraft/textures/entity/bed/white.png
 D:assets/minecraft/textures/entity/bed/yellow.png
 M:assets/minecraft/textures/entity/fox/fox_snow_sleep_baby.png
 M:assets/minecraft/textures/entity/hoglin/zoglin_baby.png
-D:assets/minecraft/textures/entity/signs/__paths_list__.json
-D:assets/minecraft/textures/entity/signs/__paths_list__.min.json
 D:assets/minecraft/textures/entity/signs/acacia.png
 D:assets/minecraft/textures/entity/signs/bamboo.png
 D:assets/minecraft/textures/entity/signs/birch.png
